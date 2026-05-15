@@ -36,6 +36,15 @@ COPY forms-terraform ./forms-terraform
 RUN cd platform-forms-client \
   && YARN_ENABLE_IMMUTABLE_INSTALLS=false node .yarn/releases/yarn-4.14.0.cjs install
 
+RUN cd platform-forms-client \
+  && YARN_ENABLE_IMMUTABLE_INSTALLS=false \
+    DATABASE_URL=dummy_placeholder_url_for_build \
+    COGNITO_APP_CLIENT_ID=local \
+    COGNITO_USER_POOL_ID=local \
+    COGNITO_ACCESS_KEY=test \
+    COGNITO_SECRET_KEY=test \
+    node .yarn/releases/yarn-4.14.0.cjs build
+
 RUN cd forms-api \
   && corepack pnpm install
 
