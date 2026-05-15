@@ -119,6 +119,16 @@ Use this form as the first integration point from `../gcs-ssc` and the
 - Private API key file in the container:
   `/data/local-secrets/local-claims-service-account-private.pem`
 
+### API Credential Source
+
+Hosted GCForms normally lets a form owner create and view/download a private API
+key through the form settings UI. This local bundle instead seeds the claims API
+credential during bootstrap so integration tests can run immediately.
+
+The seeded credential behaves like a hosted GCForms API key when calling the
+Forms API, but the local UI is not the source of truth for retrieving it. Use the
+helper command below to print the exact credential JSON for this deployment.
+
 Print the exact `GCS_GCFORMS_CREDENTIALS_JSON` value for GCS-SSC:
 
 ```bash
@@ -128,6 +138,10 @@ docker compose exec -T omnibus \
 
 That command outputs JSON keyed by `local-claims-gcforms`. Use the whole output
 as the GCS-SSC environment variable value.
+
+The generated private key is tied to the current Docker volume. If you remove
+the `gcforms-omnibus-data` volume and reseed the stack, print the credential
+again because the key may change.
 
 The seeded claims submission contains these GCForms question IDs:
 
