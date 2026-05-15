@@ -55,6 +55,6 @@ RUN chmod +x ./scripts/*.sh ./scripts/*.mjs ./omnibus/bin/*.sh
 
 VOLUME ["/data"]
 
-EXPOSE 3000 3001 4566 5432 6379
+EXPOSE 3000 3001 4566 5432 6379 8080
 
 ENTRYPOINT ["/opt/gcforms/omnibus/bin/entrypoint.sh"]

@@ -7,6 +7,22 @@ PUBLIC_API_URL="${GC_FORMS_PUBLIC_API_URL:-http://localhost:3001}"
 DATABASE_URL="${GC_FORMS_DATABASE_URL:-postgres://localstack_postgres:chummy@127.0.0.1:5432/forms?connect_timeout=30&pool_timeout=30}"
 REDIS_URL="${GC_FORMS_REDIS_URL:-redis://127.0.0.1:6379}"
 LOCAL_AWS_ENDPOINT="${GC_FORMS_LOCAL_AWS_ENDPOINT:-http://127.0.0.1:4566}"
+LOCAL_SECRETS_DIR="${GC_FORMS_LOCAL_SECRETS_DIR:-/data/local-secrets}"
+FORMS_API_ZITADEL_PRIVATE_KEY="${LOCAL_SECRETS_DIR}/forms-api-zitadel-private.pem"
+FORMS_API_ZITADEL_PUBLIC_KEY="${LOCAL_SECRETS_DIR}/forms-api-zitadel-public.pem"
+
+mkdir -p "$LOCAL_SECRETS_DIR"
+chmod 700 "$LOCAL_SECRETS_DIR"
+
+if [[ ! -f "$FORMS_API_ZITADEL_PRIVATE_KEY" ]]; then
+  openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -out "$FORMS_API_ZITADEL_PRIVATE_KEY" >/dev/null 2>&1
+  chmod 600 "$FORMS_API_ZITADEL_PRIVATE_KEY"
+fi
+openssl rsa -pubout -in "$FORMS_API_ZITADEL_PRIVATE_KEY" -out "$FORMS_API_ZITADEL_PUBLIC_KEY" >/dev/null 2>&1
+chmod 644 "$FORMS_API_ZITADEL_PUBLIC_KEY"
+
+FORMS_API_ZITADEL_PRIVATE_KEY_ESCAPED="$(sed ':a;N;$!ba;s/\n/\\n/g' "$FORMS_API_ZITADEL_PRIVATE_KEY")"
+ZITADEL_APPLICATION_KEY_JSON="{\"keyId\":\"local-forms-api-introspection-key\",\"clientId\":\"local-forms-api-introspection-client\",\"key\":\"${FORMS_API_ZITADEL_PRIVATE_KEY_ESCAPED}\"}"
 
 cat >"${ROOT_DIR}/platform-forms-client/.env.yarn" <<EOF
 APP_ENV=development
@@ -48,7 +64,7 @@ EMAIL_ADDRESS_SUPPORT=support@example.test
 EMAIL_ADDRESS_CONTACT_US=contact@example.test
 
 NEXT_PUBLIC_ZITADEL_URL=http://localhost:8080
-ZITADEL_TRUSTED_DOMAIN=localhost
+ZITADEL_TRUSTED_DOMAIN=localhost:8080
 ZITADEL_CLIENT_ID=local
 ZITADEL_ADMINISTRATION_KEY={}
 NEXT_PUBLIC_API_URL=${PUBLIC_API_URL}
@@ -66,7 +82,7 @@ AWS_ACCESS_KEY_ID=test
 AWS_SECRET_ACCESS_KEY=test
 LOCAL_AWS_ENDPOINT=${LOCAL_AWS_ENDPOINT}
 AWS_ENDPOINT_URL=${LOCAL_AWS_ENDPOINT}
-LOCAL_AUTH_BYPASS=true
+LOCAL_AUTH_BYPASS=false
 
 DATABASE_URL=${DATABASE_URL}
 ENVIRONMENT_MODE=local
@@ -74,7 +90,7 @@ FRESHDESK_API_KEY=
 REDIS_URL=${REDIS_URL}
 VAULT_FILE_STORAGE_BUCKET_NAME=forms-local-vault-file-storage
 
-ZITADEL_URL=http://localhost:8080
-ZITADEL_TRUSTED_DOMAIN=localhost
-ZITADEL_APPLICATION_KEY={}
+ZITADEL_URL=http://127.0.0.1:8080
+ZITADEL_TRUSTED_DOMAIN=127.0.0.1:8080
+ZITADEL_APPLICATION_KEY='${ZITADEL_APPLICATION_KEY_JSON}'
 EOF
