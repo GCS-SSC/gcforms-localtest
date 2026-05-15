@@ -4,6 +4,23 @@
 identity provider, LocalStack, Postgres, Redis, seeded users, seeded forms, and
 sample submissions into one Docker Compose workflow for local integration tests.
 
+## Quick Access
+
+Seeded admin login:
+
+- Email: `local.admin@cds-snc.ca`
+- Password: any non-empty password, for example `password123`
+- MFA code: `12345`
+
+Other active seeded users:
+
+- `local.manager@cds-snc.ca`
+- `local.builder@cds-snc.ca`
+- `local.viewer@cds-snc.ca`
+
+The seeded claims form is published as form ID
+`clocalclaims0000000000000`.
+
 ## Not For Production
 
 This repository is only for local development, testing, modelling, and API
