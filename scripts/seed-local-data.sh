@@ -191,7 +191,7 @@ BEGIN
         "referrerUrlEn": "",
         "referrerUrlFr": ""
       },
-      "layout": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      "layout": [1, 2, 3, 4, 5, 6],
       "elements": [
         {
           "id": 1,
@@ -213,150 +213,159 @@ BEGIN
         },
         {
           "id": 2,
-          "type": "textField",
+          "type": "dropdown",
           "properties": {
-            "questionId": "agreement_title",
-            "tags": ["gcs", "claim", "agreement"],
+            "questionId": "fiscal_year",
+            "tags": ["gcs", "claim", "agreement-51"],
             "subElements": [],
-            "choices": [{ "en": "", "fr": "" }],
-            "titleEn": "Agreement title",
-            "titleFr": "Titre de l accord",
+            "choices": [
+              { "en": "", "fr": "" },
+              { "en": "2025-2026", "fr": "2025-2026" },
+              { "en": "2026-2027", "fr": "2026-2027" }
+            ],
+            "titleEn": "Fiscal year",
+            "titleFr": "Exercice financier",
             "validation": { "required": true },
-            "descriptionEn": "",
-            "descriptionFr": "",
-            "placeholderEn": "Health Canada Core Agreement 1",
-            "placeholderFr": "Health Canada Core Agreement 1"
+            "descriptionEn": "Limited to fiscal years seeded for the agency that owns GCS agreement 51.",
+            "descriptionFr": "Limite aux exercices financiers initialises pour l organisation de l accord GCS 51.",
+            "placeholderEn": "",
+            "placeholderFr": ""
           },
           "uuid": "00000000-0000-4000-8000-000000000002"
         },
         {
           "id": 3,
-          "type": "textField",
+          "type": "dropdown",
           "properties": {
-            "questionId": "claim_name",
+            "questionId": "claim_period_start_month",
             "tags": ["gcs", "claim"],
             "subElements": [],
-            "choices": [{ "en": "", "fr": "" }],
-            "titleEn": "Claim name",
-            "titleFr": "Nom de la demande",
+            "choices": [
+              { "en": "", "fr": "" },
+              { "en": "April", "fr": "Avril" },
+              { "en": "May", "fr": "Mai" },
+              { "en": "June", "fr": "Juin" },
+              { "en": "July", "fr": "Juillet" },
+              { "en": "August", "fr": "Aout" },
+              { "en": "September", "fr": "Septembre" },
+              { "en": "October", "fr": "Octobre" },
+              { "en": "November", "fr": "Novembre" },
+              { "en": "December", "fr": "Decembre" },
+              { "en": "January", "fr": "Janvier" },
+              { "en": "February", "fr": "Fevrier" },
+              { "en": "March", "fr": "Mars" }
+            ],
+            "titleEn": "Claim period start month",
+            "titleFr": "Mois de debut de la periode de demande",
             "validation": { "required": true },
-            "descriptionEn": "",
-            "descriptionFr": "",
-            "placeholderEn": "Claim 1",
-            "placeholderFr": "Demande 1"
+            "descriptionEn": "GCS stores April as 0 and March as 11.",
+            "descriptionFr": "GCS enregistre avril comme 0 et mars comme 11.",
+            "placeholderEn": "",
+            "placeholderFr": ""
           },
           "uuid": "00000000-0000-4000-8000-000000000003"
         },
         {
           "id": 4,
-          "type": "textField",
+          "type": "dropdown",
           "properties": {
-            "questionId": "fiscal_year",
+            "questionId": "claim_period_end_month",
             "tags": ["gcs", "claim"],
             "subElements": [],
-            "choices": [{ "en": "", "fr": "" }],
-            "titleEn": "Fiscal year",
-            "titleFr": "Exercice financier",
+            "choices": [
+              { "en": "", "fr": "" },
+              { "en": "April", "fr": "Avril" },
+              { "en": "May", "fr": "Mai" },
+              { "en": "June", "fr": "Juin" },
+              { "en": "July", "fr": "Juillet" },
+              { "en": "August", "fr": "Aout" },
+              { "en": "September", "fr": "Septembre" },
+              { "en": "October", "fr": "Octobre" },
+              { "en": "November", "fr": "Novembre" },
+              { "en": "December", "fr": "Decembre" },
+              { "en": "January", "fr": "Janvier" },
+              { "en": "February", "fr": "Fevrier" },
+              { "en": "March", "fr": "Mars" }
+            ],
+            "titleEn": "Claim period end month",
+            "titleFr": "Mois de fin de la periode de demande",
             "validation": { "required": true },
-            "descriptionEn": "",
-            "descriptionFr": "",
-            "placeholderEn": "2025-2026",
-            "placeholderFr": "2025-2026"
+            "descriptionEn": "GCS stores April as 0 and March as 11.",
+            "descriptionFr": "GCS enregistre avril comme 0 et mars comme 11.",
+            "placeholderEn": "",
+            "placeholderFr": ""
           },
           "uuid": "00000000-0000-4000-8000-000000000004"
         },
         {
           "id": 5,
-          "type": "textField",
+          "type": "dynamicRow",
           "properties": {
-            "questionId": "claim_period",
-            "tags": ["gcs", "claim"],
-            "subElements": [],
+            "questionId": "submitted_line_items",
+            "tags": ["gcs", "claim", "line_items"],
             "choices": [{ "en": "", "fr": "" }],
-            "titleEn": "Claim period",
-            "titleFr": "Periode de demande",
+            "titleEn": "Submitted claim items",
+            "titleFr": "Articles soumis pour la demande",
+            "dynamicRow": {
+              "rowTitleEn": "Claim item",
+              "rowTitleFr": "Article de demande",
+              "addButtonTextEn": "Add another item",
+              "addButtonTextFr": "Ajouter un autre article",
+              "removeButtonTextEn": "Remove item",
+              "removeButtonTextFr": "Supprimer l article"
+            },
             "validation": { "required": true },
-            "descriptionEn": "",
-            "descriptionFr": "",
-            "placeholderEn": "Apr-Jun",
-            "placeholderFr": "Avr-juin"
+            "descriptionEn": "Select budget items from GCS agreement 51 and enter submitted amounts.",
+            "descriptionFr": "Selectionnez les articles budgetaires de l accord GCS 51 et entrez les montants soumis.",
+            "subElements": [
+              {
+                "id": 501,
+                "type": "dropdown",
+                "properties": {
+                  "questionId": "submitted_item",
+                  "tags": ["gcs", "claim", "line_item"],
+                  "choices": [
+                    { "en": "", "fr": "" },
+                    {
+                      "en": "Operating Costs -> Administration -> Equipment",
+                      "fr": "Couts de fonctionnement -> Administration -> Equipement"
+                    },
+                    {
+                      "en": "Operating Costs -> Delivery -> Travel",
+                      "fr": "Couts de fonctionnement -> Prestation -> Deplacement"
+                    }
+                  ],
+                  "titleEn": "Submitted item",
+                  "titleFr": "Article soumis",
+                  "validation": { "required": true },
+                  "descriptionEn": "",
+                  "descriptionFr": "",
+                  "placeholderEn": "",
+                  "placeholderFr": ""
+                }
+              },
+              {
+                "id": 502,
+                "type": "textField",
+                "properties": {
+                  "questionId": "submitted_amount",
+                  "tags": ["gcs", "claim", "line_item", "money"],
+                  "choices": [{ "en": "", "fr": "" }],
+                  "titleEn": "Submitted amount",
+                  "titleFr": "Montant soumis",
+                  "validation": { "required": true },
+                  "descriptionEn": "Enter a number without a currency symbol.",
+                  "descriptionFr": "Entrez un nombre sans symbole de devise.",
+                  "placeholderEn": "10.00",
+                  "placeholderFr": "10.00"
+                }
+              }
+            ]
           },
           "uuid": "00000000-0000-4000-8000-000000000005"
         },
         {
           "id": 6,
-          "type": "textField",
-          "properties": {
-            "questionId": "equipment_submitted_amount",
-            "tags": ["gcs", "claim", "line_item", "equipment", "money"],
-            "subElements": [],
-            "choices": [{ "en": "", "fr": "" }],
-            "titleEn": "Equipment submitted amount",
-            "titleFr": "Montant soumis pour l equipement",
-            "validation": { "required": true },
-            "descriptionEn": "Enter a number without a currency symbol.",
-            "descriptionFr": "Entrez un nombre sans symbole de devise.",
-            "placeholderEn": "10.00",
-            "placeholderFr": "10.00"
-          },
-          "uuid": "00000000-0000-4000-8000-000000000006"
-        },
-        {
-          "id": 7,
-          "type": "textField",
-          "properties": {
-            "questionId": "travel_submitted_amount",
-            "tags": ["gcs", "claim", "line_item", "travel", "money"],
-            "subElements": [],
-            "choices": [{ "en": "", "fr": "" }],
-            "titleEn": "Travel submitted amount",
-            "titleFr": "Montant soumis pour les voyages",
-            "validation": { "required": true },
-            "descriptionEn": "Enter a number without a currency symbol.",
-            "descriptionFr": "Entrez un nombre sans symbole de devise.",
-            "placeholderEn": "25.00",
-            "placeholderFr": "25.00"
-          },
-          "uuid": "00000000-0000-4000-8000-000000000007"
-        },
-        {
-          "id": 8,
-          "type": "textField",
-          "properties": {
-            "questionId": "total_submitted_amount",
-            "tags": ["gcs", "claim", "money"],
-            "subElements": [],
-            "choices": [{ "en": "", "fr": "" }],
-            "titleEn": "Total submitted amount",
-            "titleFr": "Montant total soumis",
-            "validation": { "required": true },
-            "descriptionEn": "Enter a number without a currency symbol.",
-            "descriptionFr": "Entrez un nombre sans symbole de devise.",
-            "placeholderEn": "35.00",
-            "placeholderFr": "35.00"
-          },
-          "uuid": "00000000-0000-4000-8000-000000000008"
-        },
-        {
-          "id": 9,
-          "type": "textField",
-          "properties": {
-            "questionId": "claim_external_reference",
-            "tags": ["gcs", "claim", "reference"],
-            "subElements": [],
-            "choices": [{ "en": "", "fr": "" }],
-            "titleEn": "Claim external reference",
-            "titleFr": "Reference externe de la demande",
-            "validation": { "required": false },
-            "descriptionEn": "",
-            "descriptionFr": "",
-            "placeholderEn": "AGR-0001/Claim 1",
-            "placeholderFr": "AGR-0001/Demande 1"
-          },
-          "uuid": "00000000-0000-4000-8000-000000000009"
-        },
-        {
-          "id": 10,
           "type": "textArea",
           "properties": {
             "questionId": "claim_notes",
@@ -371,7 +380,7 @@ BEGIN
             "placeholderEn": "",
             "placeholderFr": ""
           },
-          "uuid": "00000000-0000-4000-8000-000000000010"
+          "uuid": "00000000-0000-4000-8000-000000000006"
         }
       ]
     }

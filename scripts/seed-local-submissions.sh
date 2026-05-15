@@ -6,6 +6,10 @@ LOCALSTACK_CONTAINER="${LOCALSTACK_CONTAINER:-gcforms-localstack}"
 SMOKE_FORM_ID="${SMOKE_FORM_ID:-clg17xha50008efkgfgxa8l4f}"
 SECOND_FORM_ID="${SECOND_FORM_ID:-clocalapi0000000000000000}"
 CLAIMS_FORM_ID="${CLAIMS_FORM_ID:-clocalclaims0000000000000}"
+SEED_STATE_DIR="${SEED_STATE_DIR:-${LOCAL_SECRETS_DIR:-/data/local-secrets}}"
+CLAIMS_SUBMISSION_MARKER="${CLAIMS_SUBMISSION_MARKER:-${SEED_STATE_DIR}/claims-submission-v2.seeded}"
+
+mkdir -p "$(dirname "$CLAIMS_SUBMISSION_MARKER")" 2>/dev/null || true
 
 aws_local() {
   if [[ "${LOCALSTACK_INSIDE_CONTAINER:-false}" == "true" ]]; then
@@ -47,9 +51,10 @@ invoke_submission() {
 
 wait_for_vault_submission() {
   local form_id="$1"
+  local min_count="${2:-1}"
 
   for _ in $(seq 1 30); do
-    if [[ "$(vault_submission_count "$form_id")" -gt 0 ]]; then
+    if [[ "$(vault_submission_count "$form_id")" -ge "$min_count" ]]; then
       return 0
     fi
     sleep 2
@@ -69,9 +74,11 @@ if [[ "$(vault_submission_count "$SECOND_FORM_ID")" -eq 0 ]]; then
   wait_for_vault_submission "$SECOND_FORM_ID"
 fi
 
-if [[ "$(vault_submission_count "$CLAIMS_FORM_ID")" -eq 0 ]]; then
-  invoke_submission "$CLAIMS_FORM_ID" "{\"formID\":\"${CLAIMS_FORM_ID}\",\"language\":\"en\",\"securityAttribute\":\"Protected A\",\"responses\":{\"agreement_number\":\"AGR-0001\",\"agreement_title\":\"Health Canada Core Agreement 1\",\"claim_name\":\"Claim 1\",\"fiscal_year\":\"2025-2026\",\"claim_period\":\"Apr-Jun\",\"equipment_submitted_amount\":\"10.00\",\"travel_submitted_amount\":\"25.00\",\"total_submitted_amount\":\"35.00\",\"claim_external_reference\":\"AGR-0001/Claim 1\",\"claim_notes\":\"Seeded local submission matching the GCS-SSC Claim 1 test screen.\"}}"
-  wait_for_vault_submission "$CLAIMS_FORM_ID"
+claims_submission_count="$(vault_submission_count "$CLAIMS_FORM_ID")"
+if [[ "$claims_submission_count" -eq 0 || ! -f "$CLAIMS_SUBMISSION_MARKER" ]]; then
+  invoke_submission "$CLAIMS_FORM_ID" "{\"formID\":\"${CLAIMS_FORM_ID}\",\"language\":\"en\",\"securityAttribute\":\"Protected A\",\"responses\":{\"agreement_number\":\"AGR-0051\",\"fiscal_year\":\"2025-2026\",\"claim_period_start_month\":\"April\",\"claim_period_end_month\":\"June\",\"submitted_line_items\":[{\"submitted_item\":\"Operating Costs -> Administration -> Equipment\",\"submitted_amount\":\"10.00\"},{\"submitted_item\":\"Operating Costs -> Delivery -> Travel\",\"submitted_amount\":\"25.00\"}],\"claim_notes\":\"Seeded local submission for GCS agreement 51 claim integration testing.\"}}"
+  wait_for_vault_submission "$CLAIMS_FORM_ID" "$((claims_submission_count + 1))"
+  touch "$CLAIMS_SUBMISSION_MARKER" 2>/dev/null || true
 fi
 
 echo "Local sample submissions are ready."

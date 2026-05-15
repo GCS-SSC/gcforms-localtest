@@ -28,6 +28,13 @@ password and MFA code `12345`.
 - IDP URL: `http://localhost:8080`
 - Project identifier: `284778202772022819`
 
+The seeded claim submission targets GCS agreement 51 by agreement number
+`AGR-0051`. The form asks for fiscal year, start month, end month, and repeating
+submitted line items. The line-item dropdown is limited to:
+
+- `Operating Costs -> Administration -> Equipment`
+- `Operating Costs -> Delivery -> Travel`
+
 Print the GCS-SSC credential JSON:
 
 ```bash

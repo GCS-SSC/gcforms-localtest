@@ -72,16 +72,23 @@ as the GCS-SSC environment variable value.
 
 The seeded claims submission contains these GCForms question IDs:
 
-- `agreement_number`: `AGR-0001`
-- `agreement_title`: `Health Canada Core Agreement 1`
-- `claim_name`: `Claim 1`
+- `agreement_number`: `AGR-0051`
 - `fiscal_year`: `2025-2026`
-- `claim_period`: `Apr-Jun`
-- `equipment_submitted_amount`: `10.00`
-- `travel_submitted_amount`: `25.00`
-- `total_submitted_amount`: `35.00`
-- `claim_external_reference`: `AGR-0001/Claim 1`
+- `claim_period_start_month`: `April`
+- `claim_period_end_month`: `June`
+- `submitted_line_items`: repeating rows with `submitted_item` and `submitted_amount`
 - `claim_notes`: local test note
+
+The form intentionally does not ask for agreement title, claim name, or external
+reference. Agreement lookup should come from `agreement_number`.
+
+The seeded fiscal year dropdown is limited to the two fiscal years seeded for
+the agency that owns GCS agreement 51: `2025-2026` and `2026-2027`.
+
+The seeded claim item dropdown is limited to agreement 51 budget rows:
+
+- `Operating Costs -> Administration -> Equipment`
+- `Operating Costs -> Delivery -> Travel`
 
 Run the decrypting API smoke test against that form:
 
@@ -118,14 +125,10 @@ If GCS-SSC itself runs inside Docker, use host-reachable URLs instead, usually
 Suggested initial mappings:
 
 - `agreement_number` -> `agreement.number` as `string`
-- `agreement_title` -> `agreement.title` as `string`
-- `claim_name` -> `claim.name` as `string`
 - `fiscal_year` -> `claim.fiscalYear` as `string`
-- `claim_period` -> `claim.period` as `string`
-- `equipment_submitted_amount` -> `claim_line_item.equipment.submittedAmount` as `money`
-- `travel_submitted_amount` -> `claim_line_item.travel.submittedAmount` as `money`
-- `total_submitted_amount` -> `claim.submittedTotal` as `money`
-- `claim_external_reference` -> `claim.externalReference` as `string`
+- `claim_period_start_month` -> `claim.periodStart` using an April-to-March month transform
+- `claim_period_end_month` -> `claim.periodEnd` using an April-to-March month transform
+- `submitted_line_items` -> `claim_line_item[]` as `json`, then expand rows by `submitted_item`
 - `claim_notes` -> `source_record.notes` as `string`
 
 Known extension work to check in GCS-SSC: the current
@@ -134,6 +137,12 @@ Known extension work to check in GCS-SSC: the current
 `extensions.gcs_gcforms_destination_links`. The claim entity tab reads from that
 link table, so the stream-level sync can work while the Claim tab still appears
 empty until the extension links imported submissions to the current claim owner.
+
+The extension also needs a small transform layer before this repeated claims
+form can hydrate native GCS claim fields end to end: translate month labels to
+GCS numeric months (`April = 0`, `March = 11`) and expand the
+`submitted_line_items` dynamic row into claim line item records by matching
+`submitted_item` against the concatenated budget label.
 
 ## Other Seeded API Forms
 
