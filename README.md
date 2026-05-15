@@ -34,6 +34,48 @@ The IDP implements the same client-facing flow as hosted GCForms for local use:
 your client signs a JWT with the private API key, exchanges it at
 `/oauth/v2/token`, then calls the Forms API with the returned bearer token.
 
+## Public Test Deployment
+
+This bundle can be exposed on a public test host, but it is still not production
+software. Put it behind whatever access control is appropriate for your test
+environment and do not collect real submissions.
+
+The app, API, and IDP need public URLs. Use either three hostnames behind a
+reverse proxy, or one host with three public ports:
+
+```bash
+GC_FORMS_PUBLIC_APP_URL=https://forms-test.example.com \
+GC_FORMS_PUBLIC_API_URL=https://forms-api-test.example.com \
+GC_FORMS_PUBLIC_IDP_URL=https://forms-idp-test.example.com \
+docker compose up -d --build --wait
+```
+
+For a simple port-based test host:
+
+```bash
+GC_FORMS_PUBLIC_APP_URL=https://example.com:3000 \
+GC_FORMS_PUBLIC_API_URL=https://example.com:3001 \
+GC_FORMS_PUBLIC_IDP_URL=https://example.com:8080 \
+docker compose up -d --build --wait
+```
+
+Sub-path hosting, such as `https://example.com/forms`, is not supported by this
+local bundle. Use separate hostnames or ports that forward to:
+
+- app -> container port `3000`
+- API -> container port `3001`
+- IDP -> container port `8080`
+
+The backing service ports are bound to `127.0.0.1` by default for public-host
+safety:
+
+- LocalStack -> `4566`
+- Postgres -> `4510`
+- Redis -> `6379`
+
+See [.env.public.example](.env.public.example) for the full set of public URL,
+bind IP, and host port variables.
+
 ## Seeded Login
 
 Local login accepts any non-empty password for active seeded users. The MFA code
@@ -121,6 +163,10 @@ Then configure the extension in GCS-SSC:
 
 If GCS-SSC itself runs inside Docker, use host-reachable URLs instead, usually
 `http://host.docker.internal:3001/v1` and `http://host.docker.internal:8080`.
+
+For public test deployment, use your public API and IDP URLs instead, for
+example `https://forms-api-test.example.com/v1` and
+`https://forms-idp-test.example.com`.
 
 Suggested initial mappings:
 

@@ -8,16 +8,18 @@ services:
       dockerfile: Dockerfile.omnibus
     container_name: gcforms-omnibus
     environment:
-      GC_FORMS_PUBLIC_APP_URL: http://localhost:3000
-      GC_FORMS_PUBLIC_API_URL: http://localhost:3001
+      GC_FORMS_PUBLIC_APP_URL: ${GC_FORMS_PUBLIC_APP_URL:-http://localhost:3000}
+      GC_FORMS_PUBLIC_API_URL: ${GC_FORMS_PUBLIC_API_URL:-http://localhost:3001}
+      GC_FORMS_PUBLIC_IDP_URL: ${GC_FORMS_PUBLIC_IDP_URL:-http://localhost:8080}
+      LOCAL_IDP_ISSUER: ${GC_FORMS_PUBLIC_IDP_URL:-http://localhost:8080}
       MAIN_DOCKER_NETWORK: gcforms_default
     ports:
-      - "3000:3000"
-      - "3001:3001"
-      - "8080:8080"
-      - "4566:4566"
-      - "4510:5432"
-      - "6379:6379"
+      - "${GC_FORMS_PUBLIC_BIND_IP:-0.0.0.0}:${GC_FORMS_APP_PORT:-3000}:3000"
+      - "${GC_FORMS_PUBLIC_BIND_IP:-0.0.0.0}:${GC_FORMS_API_PORT:-3001}:3001"
+      - "${GC_FORMS_PUBLIC_BIND_IP:-0.0.0.0}:${GC_FORMS_IDP_PORT:-8080}:8080"
+      - "${GC_FORMS_PRIVATE_BIND_IP:-127.0.0.1}:${GC_FORMS_LOCALSTACK_PORT:-4566}:4566"
+      - "${GC_FORMS_PRIVATE_BIND_IP:-127.0.0.1}:${GC_FORMS_POSTGRES_PORT:-4510}:5432"
+      - "${GC_FORMS_PRIVATE_BIND_IP:-127.0.0.1}:${GC_FORMS_REDIS_PORT:-6379}:6379"
     volumes:
       - gcforms-omnibus-data:/data
       - /var/run/docker.sock:/var/run/docker.sock

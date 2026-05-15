@@ -19,6 +19,17 @@ Local login users are `local.admin@cds-snc.ca`, `local.manager@cds-snc.ca`,
 `local.builder@cds-snc.ca`, and `local.viewer@cds-snc.ca`. Use any non-empty
 password and MFA code `12345`.
 
+For a public test host, set these before starting Compose:
+
+```bash
+GC_FORMS_PUBLIC_APP_URL=https://forms-test.example.com
+GC_FORMS_PUBLIC_API_URL=https://forms-api-test.example.com
+GC_FORMS_PUBLIC_IDP_URL=https://forms-idp-test.example.com
+```
+
+Use separate hostnames or ports for app, API, and IDP. Sub-path hosting is not
+supported. LocalStack, Postgres, and Redis bind to `127.0.0.1` by default.
+
 ## Claims Integration Seed
 
 - Public form: http://localhost:3000/en/id/clocalclaims0000000000000
