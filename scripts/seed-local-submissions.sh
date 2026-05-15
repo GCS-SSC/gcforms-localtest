@@ -7,7 +7,7 @@ SMOKE_FORM_ID="${SMOKE_FORM_ID:-clg17xha50008efkgfgxa8l4f}"
 SECOND_FORM_ID="${SECOND_FORM_ID:-clocalapi0000000000000000}"
 CLAIMS_FORM_ID="${CLAIMS_FORM_ID:-clocalclaims0000000000000}"
 SEED_STATE_DIR="${SEED_STATE_DIR:-${LOCAL_SECRETS_DIR:-/data/local-secrets}}"
-CLAIMS_SUBMISSION_MARKER="${CLAIMS_SUBMISSION_MARKER:-${SEED_STATE_DIR}/claims-submission-v2.seeded}"
+CLAIMS_SUBMISSION_MARKER="${CLAIMS_SUBMISSION_MARKER:-${SEED_STATE_DIR}/claims-submissions-v3.seeded}"
 
 mkdir -p "$(dirname "$CLAIMS_SUBMISSION_MARKER")" 2>/dev/null || true
 
@@ -49,6 +49,24 @@ invoke_submission() {
     "$output" >/dev/null
 }
 
+invoke_claims_submission() {
+  local agreement_number="$1"
+  local fiscal_year="$2"
+  local start_month="$3"
+  local end_month="$4"
+  local equipment_amount="$5"
+  local travel_amount="$6"
+  local notes="$7"
+  local payload
+
+  payload="$(cat <<JSON
+{"formID":"${CLAIMS_FORM_ID}","language":"en","securityAttribute":"Protected A","responses":{"agreement_number":"${agreement_number}","fiscal_year":"${fiscal_year}","claim_period_start_month":"${start_month}","claim_period_end_month":"${end_month}","submitted_line_items":[{"submitted_item":"Operating Costs -> Administration -> Equipment","submitted_amount":"${equipment_amount}"},{"submitted_item":"Operating Costs -> Delivery -> Travel","submitted_amount":"${travel_amount}"}],"claim_notes":"${notes}"}}
+JSON
+)"
+
+  invoke_submission "$CLAIMS_FORM_ID" "$payload"
+}
+
 wait_for_vault_submission() {
   local form_id="$1"
   local min_count="${2:-1}"
@@ -75,9 +93,14 @@ if [[ "$(vault_submission_count "$SECOND_FORM_ID")" -eq 0 ]]; then
 fi
 
 claims_submission_count="$(vault_submission_count "$CLAIMS_FORM_ID")"
-if [[ "$claims_submission_count" -eq 0 || ! -f "$CLAIMS_SUBMISSION_MARKER" ]]; then
-  invoke_submission "$CLAIMS_FORM_ID" "{\"formID\":\"${CLAIMS_FORM_ID}\",\"language\":\"en\",\"securityAttribute\":\"Protected A\",\"responses\":{\"agreement_number\":\"AGR-0051\",\"fiscal_year\":\"2025-2026\",\"claim_period_start_month\":\"April\",\"claim_period_end_month\":\"June\",\"submitted_line_items\":[{\"submitted_item\":\"Operating Costs -> Administration -> Equipment\",\"submitted_amount\":\"10.00\"},{\"submitted_item\":\"Operating Costs -> Delivery -> Travel\",\"submitted_amount\":\"25.00\"}],\"claim_notes\":\"Seeded local submission for GCS agreement 51 claim integration testing.\"}}"
-  wait_for_vault_submission "$CLAIMS_FORM_ID" "$((claims_submission_count + 1))"
+if [[ "$claims_submission_count" -lt 3 || ! -f "$CLAIMS_SUBMISSION_MARKER" ]]; then
+  invoke_claims_submission "AGR-0051" "2025-2026" "April" "June" "10.00" "25.00" \
+    "Seeded claim 1 for GCS agreement 51 claim integration testing."
+  invoke_claims_submission "AGR-0051" "2025-2026" "July" "September" "20.00" "50.00" \
+    "Seeded claim 2 for GCS agreement 51 claim integration testing."
+  invoke_claims_submission "AGR-0051" "2026-2027" "October" "March" "30.00" "75.00" \
+    "Seeded claim 3 for GCS agreement 51 claim integration testing."
+  wait_for_vault_submission "$CLAIMS_FORM_ID" "$((claims_submission_count + 3))"
   touch "$CLAIMS_SUBMISSION_MARKER" 2>/dev/null || true
 fi
 
