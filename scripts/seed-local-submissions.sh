@@ -94,11 +94,11 @@ fi
 
 claims_submission_count="$(vault_submission_count "$CLAIMS_FORM_ID")"
 if [[ "$claims_submission_count" -lt 3 || ! -f "$CLAIMS_SUBMISSION_MARKER" ]]; then
-  invoke_claims_submission "AGR-0051" "2025-2026" "April" "June" "10.00" "25.00" \
+  invoke_claims_submission "AGR-0001" "2025-2026" "April" "June" "10.00" "25.00" \
     "Seeded claim 1 for GCS agreement 51 claim integration testing."
-  invoke_claims_submission "AGR-0051" "2025-2026" "July" "September" "20.00" "50.00" \
+  invoke_claims_submission "AGR-0001" "2025-2026" "July" "September" "20.00" "50.00" \
     "Seeded claim 2 for GCS agreement 51 claim integration testing."
-  invoke_claims_submission "AGR-0051" "2026-2027" "October" "March" "30.00" "75.00" \
+  invoke_claims_submission "AGR-0001" "2026-2027" "October" "March" "30.00" "75.00" \
     "Seeded claim 3 for GCS agreement 51 claim integration testing."
   wait_for_vault_submission "$CLAIMS_FORM_ID" "$((claims_submission_count + 3))"
   touch "$CLAIMS_SUBMISSION_MARKER" 2>/dev/null || true

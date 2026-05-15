@@ -40,7 +40,7 @@ supported. LocalStack, Postgres, and Redis bind to `127.0.0.1` by default.
 - Project identifier: `284778202772022819`
 
 The seeded claim submission targets GCS agreement 51 by agreement number
-`AGR-0051`. The form asks for fiscal year, start month, end month, and repeating
+`AGR-0001`. The form asks for fiscal year, start month, end month, and repeating
 submitted line items. The line-item dropdown is limited to:
 
 - `Operating Costs -> Administration -> Equipment`
