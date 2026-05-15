@@ -137,7 +137,8 @@ docker compose exec -T omnibus \
 ```
 
 That command outputs JSON keyed by `local-claims-gcforms`. Use the whole output
-as the GCS-SSC environment variable value.
+as the GCS-SSC environment variable value. The credential `userId` is the local
+service account id, matching the shape of a hosted GCForms private API key.
 
 The generated private key is tied to the current Docker volume. If you remove
 the `gcforms-omnibus-data` volume and reseed the stack, print the credential

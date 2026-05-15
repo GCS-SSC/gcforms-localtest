@@ -54,6 +54,28 @@ const registryEntries = () => Object.values(loadRegistry());
 const findCredential = (keyId) =>
   registryEntries().find((entry) => entry?.keyId === keyId);
 
+const findCredentialByFormId = (formId) =>
+  registryEntries().find((entry) => entry?.formId === formId);
+
+const findCredentialsByServiceAccountId = (serviceAccountId) =>
+  registryEntries().filter((entry) => entry?.serviceAccountId === serviceAccountId);
+
+const bearerIsActive = (request) => {
+  const authorization = request.headers.authorization ?? "";
+  const token = authorization.replace(/^Bearer\s+/i, "");
+  const activeToken = issuedTokens.get(token);
+  return !!activeToken && activeToken.exp > Math.floor(Date.now() / 1000);
+};
+
+const requireManagementToken = (request, response) => {
+  if (bearerIsActive(request)) {
+    return true;
+  }
+
+  jsonResponse(response, 401, { code: 16, message: "unauthenticated" });
+  return false;
+};
+
 const validateAssertion = (assertion) => {
   const [encodedHeader, encodedPayload, encodedSignature] = assertion.split(".");
   if (!encodedHeader || !encodedPayload || !encodedSignature) {
@@ -148,6 +170,47 @@ const introspectionResponse = async (request, response) => {
   }
 };
 
+const organizationSearchResponse = async (request, response) => {
+  if (!requireManagementToken(request, response)) {
+    return;
+  }
+
+  await parseBody(request).catch(() => ({}));
+  jsonResponse(response, 200, { result: [{ id: "local-gcforms-organization" }] });
+};
+
+const userSearchResponse = async (request, response) => {
+  if (!requireManagementToken(request, response)) {
+    return;
+  }
+
+  const body = await parseBody(request).catch(() => ({}));
+  const loginName = body?.queries
+    ?.map((query) => query?.loginNameQuery?.loginName)
+    .find((value) => typeof value === "string");
+  const credential = loginName ? findCredentialByFormId(loginName) : undefined;
+
+  jsonResponse(response, 200, {
+    result: credential ? [{ userId: credential.serviceAccountId }] : [],
+  });
+};
+
+const keySearchResponse = async (request, response) => {
+  if (!requireManagementToken(request, response)) {
+    return;
+  }
+
+  const body = await parseBody(request).catch(() => ({}));
+  const userId = body?.filters
+    ?.map((filter) => filter?.userIdFilter?.id)
+    .find((value) => typeof value === "string");
+  const credentials = userId ? findCredentialsByServiceAccountId(userId) : [];
+
+  jsonResponse(response, 200, {
+    result: credentials.map((credential) => ({ id: credential.keyId })),
+  });
+};
+
 const server = createServer((request, response) => {
   if (request.method === "GET" && request.url === "/status") {
     jsonResponse(response, 200, {
@@ -166,6 +229,21 @@ const server = createServer((request, response) => {
 
   if (request.method === "POST" && request.url === "/oauth/v2/introspect") {
     void introspectionResponse(request, response);
+    return;
+  }
+
+  if (request.method === "POST" && request.url === "/v2/organizations/_search") {
+    void organizationSearchResponse(request, response);
+    return;
+  }
+
+  if (request.method === "POST" && request.url === "/v2/users") {
+    void userSearchResponse(request, response);
+    return;
+  }
+
+  if (request.method === "POST" && request.url === "/v2/users/keys/search") {
+    void keySearchResponse(request, response);
     return;
   }
 

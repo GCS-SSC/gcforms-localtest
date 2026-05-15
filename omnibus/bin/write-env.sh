@@ -12,6 +12,8 @@ LOCAL_AWS_ENDPOINT="${GC_FORMS_LOCAL_AWS_ENDPOINT:-http://127.0.0.1:4566}"
 LOCAL_SECRETS_DIR="${GC_FORMS_LOCAL_SECRETS_DIR:-/data/local-secrets}"
 FORMS_API_ZITADEL_PRIVATE_KEY="${LOCAL_SECRETS_DIR}/forms-api-zitadel-private.pem"
 FORMS_API_ZITADEL_PUBLIC_KEY="${LOCAL_SECRETS_DIR}/forms-api-zitadel-public.pem"
+LOCAL_ZITADEL_ADMIN_PRIVATE_KEY="${LOCAL_SECRETS_DIR}/local-zitadel-admin-private.pem"
+LOCAL_ZITADEL_ADMIN_PUBLIC_KEY="${LOCAL_SECRETS_DIR}/local-zitadel-admin-public.pem"
 
 mkdir -p "$LOCAL_SECRETS_DIR"
 chmod 700 "$LOCAL_SECRETS_DIR"
@@ -23,8 +25,17 @@ fi
 openssl rsa -pubout -in "$FORMS_API_ZITADEL_PRIVATE_KEY" -out "$FORMS_API_ZITADEL_PUBLIC_KEY" >/dev/null 2>&1
 chmod 644 "$FORMS_API_ZITADEL_PUBLIC_KEY"
 
+if [[ ! -f "$LOCAL_ZITADEL_ADMIN_PRIVATE_KEY" ]]; then
+  openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -out "$LOCAL_ZITADEL_ADMIN_PRIVATE_KEY" >/dev/null 2>&1
+  chmod 600 "$LOCAL_ZITADEL_ADMIN_PRIVATE_KEY"
+fi
+openssl rsa -pubout -in "$LOCAL_ZITADEL_ADMIN_PRIVATE_KEY" -out "$LOCAL_ZITADEL_ADMIN_PUBLIC_KEY" >/dev/null 2>&1
+chmod 644 "$LOCAL_ZITADEL_ADMIN_PUBLIC_KEY"
+
 FORMS_API_ZITADEL_PRIVATE_KEY_ESCAPED="$(sed ':a;N;$!ba;s/\n/\\n/g' "$FORMS_API_ZITADEL_PRIVATE_KEY")"
 ZITADEL_APPLICATION_KEY_JSON="{\"keyId\":\"local-forms-api-introspection-key\",\"clientId\":\"local-forms-api-introspection-client\",\"key\":\"${FORMS_API_ZITADEL_PRIVATE_KEY_ESCAPED}\"}"
+LOCAL_ZITADEL_ADMIN_PRIVATE_KEY_ESCAPED="$(sed ':a;N;$!ba;s/\n/\\n/g' "$LOCAL_ZITADEL_ADMIN_PRIVATE_KEY")"
+LOCAL_ZITADEL_ADMINISTRATION_KEY_JSON="{\"userId\":\"local-zitadel-admin\",\"keyId\":\"local-zitadel-admin-public-key\",\"key\":\"${LOCAL_ZITADEL_ADMIN_PRIVATE_KEY_ESCAPED}\"}"
 
 cat >"${ROOT_DIR}/platform-forms-client/.env.yarn" <<EOF
 APP_ENV=development
@@ -68,7 +79,7 @@ EMAIL_ADDRESS_CONTACT_US=contact@example.test
 NEXT_PUBLIC_ZITADEL_URL=${PUBLIC_IDP_URL}
 ZITADEL_TRUSTED_DOMAIN=${PUBLIC_IDP_TRUSTED_DOMAIN}
 ZITADEL_CLIENT_ID=local
-ZITADEL_ADMINISTRATION_KEY={}
+ZITADEL_ADMINISTRATION_KEY=${LOCAL_ZITADEL_ADMINISTRATION_KEY_JSON}
 NEXT_PUBLIC_API_URL=${PUBLIC_API_URL}
 NEXT_PUBLIC_ZITADEL_PROJECT_ID=local
 

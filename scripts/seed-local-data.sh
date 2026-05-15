@@ -62,6 +62,7 @@ public_key_json_literal() {
 create_key_pair local-service-account
 create_key_pair local-second-service-account
 create_key_pair local-claims-service-account
+create_key_pair local-zitadel-admin
 
 PUBLIC_KEY_1="$(public_key_sql_literal local-service-account)"
 PUBLIC_KEY_2="$(public_key_sql_literal local-second-service-account)"
@@ -466,25 +467,26 @@ PRIVATE_KEY_3="$(private_key_json_literal local-claims-service-account)"
 PUBLIC_KEY_JSON_1="$(public_key_json_literal local-service-account)"
 PUBLIC_KEY_JSON_2="$(public_key_json_literal local-second-service-account)"
 PUBLIC_KEY_JSON_3="$(public_key_json_literal local-claims-service-account)"
+PUBLIC_KEY_JSON_ADMIN="$(public_key_json_literal local-zitadel-admin)"
 
 cat >"${LOCAL_SECRETS_DIR}/gcforms-api-credentials.json" <<EOF_JSON
 {
   "${SMOKE_CREDENTIAL_ID}": {
     "keyId": "local-service-account-public-key",
     "key": "${PRIVATE_KEY_1}",
-    "userId": "${SMOKE_FORM_ID}",
+    "userId": "local-service-account",
     "formId": "${SMOKE_FORM_ID}"
   },
   "${SECOND_CREDENTIAL_ID}": {
     "keyId": "local-second-service-account-public-key",
     "key": "${PRIVATE_KEY_2}",
-    "userId": "${SECOND_FORM_ID}",
+    "userId": "local-second-service-account",
     "formId": "${SECOND_FORM_ID}"
   },
   "${CLAIMS_CREDENTIAL_ID}": {
     "keyId": "local-claims-service-account-public-key",
     "key": "${PRIVATE_KEY_3}",
-    "userId": "${CLAIMS_FORM_ID}",
+    "userId": "local-claims-service-account",
     "formId": "${CLAIMS_FORM_ID}"
   }
 }
@@ -498,7 +500,7 @@ cat >"${LOCAL_SECRETS_DIR}/local-idp-credentials.json" <<EOF_JSON
     "serviceAccountId": "local-service-account",
     "keyId": "local-service-account-public-key",
     "publicKey": "${PUBLIC_KEY_JSON_1}",
-    "userId": "${SMOKE_FORM_ID}",
+    "userId": "local-service-account",
     "formId": "${SMOKE_FORM_ID}"
   },
   "local-second-service-account-public-key": {
@@ -506,7 +508,7 @@ cat >"${LOCAL_SECRETS_DIR}/local-idp-credentials.json" <<EOF_JSON
     "serviceAccountId": "local-second-service-account",
     "keyId": "local-second-service-account-public-key",
     "publicKey": "${PUBLIC_KEY_JSON_2}",
-    "userId": "${SECOND_FORM_ID}",
+    "userId": "local-second-service-account",
     "formId": "${SECOND_FORM_ID}"
   },
   "local-claims-service-account-public-key": {
@@ -514,8 +516,16 @@ cat >"${LOCAL_SECRETS_DIR}/local-idp-credentials.json" <<EOF_JSON
     "serviceAccountId": "local-claims-service-account",
     "keyId": "local-claims-service-account-public-key",
     "publicKey": "${PUBLIC_KEY_JSON_3}",
-    "userId": "${CLAIMS_FORM_ID}",
+    "userId": "local-claims-service-account",
     "formId": "${CLAIMS_FORM_ID}"
+  },
+  "local-zitadel-admin-public-key": {
+    "credentialId": "local-zitadel-admin",
+    "serviceAccountId": "local-zitadel-admin",
+    "keyId": "local-zitadel-admin-public-key",
+    "publicKey": "${PUBLIC_KEY_JSON_ADMIN}",
+    "userId": "local-zitadel-admin",
+    "formId": "local-zitadel-admin"
   }
 }
 EOF_JSON

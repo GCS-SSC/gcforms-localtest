@@ -8,7 +8,7 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const formId = process.env.GC_FORMS_FORM_ID ?? "clg17xha50008efkgfgxa8l4f";
 const serviceAccountId = process.env.GC_FORMS_SERVICE_ACCOUNT_ID ?? "local-service-account";
 const keyId = process.env.GC_FORMS_KEY_ID ?? `${serviceAccountId}-public-key`;
-const userId = process.env.GC_FORMS_USER_ID ?? formId;
+const userId = process.env.GC_FORMS_USER_ID ?? serviceAccountId;
 const apiUrl = process.env.GC_FORMS_API_URL ?? "http://localhost:3001";
 const identityProviderUrl =
   process.env.GC_FORMS_IDENTITY_PROVIDER_URL ?? "http://localhost:8080";

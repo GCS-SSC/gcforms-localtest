@@ -39,6 +39,9 @@ RUN cd platform-forms-client \
 RUN cd platform-forms-client \
   && YARN_ENABLE_IMMUTABLE_INSTALLS=false \
     DATABASE_URL=dummy_placeholder_url_for_build \
+    APP_ENV=development \
+    LOCAL_DISABLE_HCAPTCHA=true \
+    NEXT_PUBLIC_LOCAL_DISABLE_HCAPTCHA=true \
     COGNITO_APP_CLIENT_ID=local \
     COGNITO_USER_POOL_ID=local \
     COGNITO_ACCESS_KEY=test \
