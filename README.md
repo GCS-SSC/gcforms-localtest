@@ -140,6 +140,19 @@ That command outputs JSON keyed by `local-claims-gcforms`. Use the whole output
 as the GCS-SSC environment variable value. The credential `userId` is the local
 service account id, matching the shape of a hosted GCForms private API key.
 
+The decrypting smoke-test command below prints `privateKeyPath` for diagnostics;
+it does not print the PEM secret. Use `print-local-credential.mjs` when GCS-SSC
+or the extension needs the actual private key contents.
+
+Print only the raw PEM private key for temporary manual entry into an extension
+secret field:
+
+```bash
+docker compose exec -T omnibus \
+  node /opt/gcforms/scripts/print-local-credential.mjs \
+  | jq -r '."local-claims-gcforms".key'
+```
+
 The generated private key is tied to the current Docker volume. If you remove
 the `gcforms-omnibus-data` volume and reseed the stack, print the credential
 again because the key may change.
