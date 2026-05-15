@@ -23,4 +23,6 @@ local-secrets/
 
 # LocalStack/Postgres/Redis data should live in Docker volumes, not git.
 data/
+!platform-forms-client/lib/managedData/data/
+!platform-forms-client/lib/managedData/data/*.json
 tmp/
