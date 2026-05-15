@@ -1,0 +1,84 @@
+/* Animations */
+
+.wave {
+  width: 5px;
+  height: 30px;
+  background: linear-gradient(45deg, #cbd5e1, #fff);
+  margin: 1px;
+  animation: wave 1s linear infinite;
+  border-radius: 10px;
+}
+.wave:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.wave:nth-child(3) {
+  animation-delay: 0.2s;
+}
+.wave:nth-child(4) {
+  animation-delay: 0.3s;
+}
+.wave:nth-child(5) {
+  animation-delay: 0.4s;
+}
+.wave:nth-child(6) {
+  animation-delay: 0.5s;
+}
+.wave:nth-child(7) {
+  animation-delay: 0.6s;
+}
+.wave:nth-child(8) {
+  animation-delay: 0.7s;
+}
+.wave:nth-child(9) {
+  animation-delay: 0.8s;
+}
+.wave:nth-child(10) {
+  animation-delay: 0.9s;
+}
+
+@keyframes wave {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+
+::view-transition-old(.accounts-nav-forward) {
+  animation: 90ms linear both accounts-fade reverse;
+}
+
+::view-transition-new(.accounts-nav-forward) {
+  animation: 120ms ease-out both accounts-fade;
+}
+
+::view-transition-old(.accounts-nav-back) {
+  animation: 90ms linear both accounts-fade reverse;
+}
+
+::view-transition-new(.accounts-nav-back) {
+  animation: 120ms ease-out both accounts-fade;
+}
+
+@keyframes accounts-fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}

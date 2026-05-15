@@ -1,0 +1,23 @@
+{
+  "name": "vpn-scheduler",
+  "version": "1.0.0",
+  "main": "main.js",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "prebuild": "rm -rf dist",
+    "build": "tsc --project tsconfig.json",
+    "build:dev": "tsc --project tsconfig.json --watch",
+    "postbuild": "cp package.json dist/package.json && cp yarn.lock dist/yarn.lock && cd ./dist && yarn install --production",
+    "start": "node dist/main.js"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.155",
+    "@types/node": "^20.14.8",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@aws-sdk/client-ec2": "^3.750.0"
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+}

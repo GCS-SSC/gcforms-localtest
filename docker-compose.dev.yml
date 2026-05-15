@@ -1,0 +1,59 @@
+services:
+  postgres:
+    image: postgres:13.23@sha256:4689940c683801b4ab839ab3b0a0a3555a5fe425371422310944e89eca7d8068
+    container_name: gcforms-postgres
+    environment:
+      POSTGRES_DB: forms
+      POSTGRES_USER: localstack_postgres
+      POSTGRES_PASSWORD: chummy
+    ports:
+      - "4510:5432"
+    volumes:
+      - gcforms-postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U localstack_postgres -d forms"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    container_name: gcforms-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - gcforms-redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  localstack:
+    image: localstack/localstack:4.14.0
+    container_name: gcforms-localstack
+    environment:
+      SERVICES: s3,sqs,dynamodb,lambda,logs,iam,sts
+      DEFAULT_REGION: ca-central-1
+      AWS_DEFAULT_REGION: ca-central-1
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+      LAMBDA_RUNTIME_ENVIRONMENT_TIMEOUT: 60
+      LAMBDA_SYNCHRONOUS_CREATE: 1
+      LAMBDA_IGNORE_ARCHITECTURE: 1
+      DEBUG: "0"
+    ports:
+      - "4566:4566"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - gcforms-localstack:/var/lib/localstack
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:4566/_localstack/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+volumes:
+  gcforms-postgres:
+  gcforms-redis:
+  gcforms-localstack:

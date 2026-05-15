@@ -1,0 +1,70 @@
+name: Delete ECS task definitions
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 5 * * 0" # 5am Sunday UTC
+
+env:
+  AWS_REGION: ca-central-1
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  delete-ecs-task-definitions:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - account: "687401027353"
+          - account: "957818836222"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - name: Configure AWS credentials using OIDC
+        uses: aws-actions/configure-aws-credentials@7474bc4690e29a8392af63c5b98e7449536d5c3a # v4.3.1
+        with:
+          role-to-assume: arn:aws:iam::${{ matrix.account }}:role/platform-forms-client-apply
+          role-session-name: ECSTaskDefDelete
+          aws-region: ${{ env.AWS_REGION }}
+
+      # Retrieves all ACTIVE task definitions except for the 5 most recent
+      - name: Get ACTIVE ECS task definitions
+        env:
+          TASK_NAME: form-viewer
+          TASK_STATUS: ACTIVE
+          TASKS_TO_KEEP: 6 # 1 greater than number to keep
+        run: |
+          aws ecs list-task-definitions \
+              --sort ASC \
+              --status ${{ env.TASK_STATUS }} \
+              --region ${{ env.AWS_REGION }} \
+              --no-cli-pager \
+              | jq -r '(.taskDefinitionArns | map(select(contains("${{ env.TASK_NAME }}")))[:length-${{ env.TASKS_TO_KEEP }}])[]' > task-def-active-arns.txt
+
+      - name: Set ECS tasks to INACTIVE
+        run: |
+          ./scripts/delete-ecs-task-defs.sh DEREGISTER task-def-active-arns.txt
+
+      # Retrieves all INACTIVE task definitions except for the 100 most recent
+      - name: Get INACTIVE ECS task definitions
+        env:
+          TASK_NAME: form-viewer
+          TASK_STATUS: INACTIVE
+          TASKS_TO_KEEP: 101 # 1 greater than number to keep
+        run: |
+          aws ecs list-task-definitions \
+              --sort ASC \
+              --status ${{ env.TASK_STATUS }} \
+              --region ${{ env.AWS_REGION }} \
+              --no-cli-pager \
+              | jq -r '(.taskDefinitionArns | map(select(contains("${{ env.TASK_NAME }}")))[:length-${{ env.TASKS_TO_KEEP }}])[]' > task-def-inactive-arns.txt
+
+      - name: Delete INACTIVE ECS task definitions
+        run: |
+          ./scripts/delete-ecs-task-defs.sh DELETE task-def-inactive-arns.txt

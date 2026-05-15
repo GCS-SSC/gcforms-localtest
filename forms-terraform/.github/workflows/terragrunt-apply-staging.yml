@@ -1,0 +1,356 @@
+name: "Terragrunt apply STAGING"
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "aws/**"
+      - "env/common/**"
+      - "env/cloud/**"
+      - "idp/**"
+      - "lambda-code/**"
+      - ".github/workflows/terragrunt-apply-staging.yml"
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  APP_ENV: staging
+  APP_DOMAINS: ${{ vars.STAGING_APP_DOMAINS }}
+  AWS_ACCOUNT_ID: ${{ vars.STAGING_AWS_ACCOUNT_ID }}
+  AWS_REGION: ca-central-1
+  TERRAFORM_VERSION: 1.14.8
+  TERRAGRUNT_VERSION: 1.0.0
+  TF_INPUT: false
+  # API
+  TF_VAR_zitadel_application_key: ${{ secrets.STAGING_ZITADEL_APPLICATION_KEY }}
+  # App
+  TF_VAR_ecs_secret_token: ${{ secrets.STAGING_TOKEN_SECRET }}
+  TF_VAR_recaptcha_secret: ${{ secrets.STAGING_RECAPTCHA_SITE_SECRET }}
+  TF_VAR_recaptcha_public: 6LfJDN4eAAAAAGvdRF7ZnQ7ciqdo1RQnQDFmh0VY
+  TF_VAR_notify_callback_bearer_token: ${{ secrets.STAGING_GC_NOTIFY_CALLBACK_BEARER_TOKEN }}
+  TF_VAR_notify_api_key: ${{ secrets.STAGING_NOTIFY_API_KEY }}
+  TF_VAR_freshdesk_api_key: ${{ secrets.STAGING_FRESHDESK_API_KEY }}
+  TF_VAR_sentry_api_key: ${{ secrets.STAGING_SENTRY_API_KEY }}
+  TF_VAR_rds_connector_db_password: ${{ secrets.STAGING_DB_PASSWORD_RDS_CONNECTOR }}
+  TF_VAR_rds_db_password: ${{ secrets.STAGING_DB_PASSWORD }}
+  TF_VAR_slack_webhook: ${{ secrets.STAGING_SLACK_WEBHOOK }}
+  TF_VAR_opsgenie_api_key: ${{ secrets.STAGING_OPSGENIE_API_KEY }}
+  TF_VAR_gc_temp_token_template_id: b6885d06-d10a-422a-973f-05e274d9aa86
+  TF_VAR_gc_template_id: 8d597a1b-a1d6-4e3c-8421-042a2b4158b7
+  TF_VAR_cognito_code_template_id: 12a18f84-062c-4a67-8310-bf114af051ea
+  TF_VAR_email_address_contact_us: ${{ vars.STAGING_CONTACT_US_EMAIL }}
+  TF_VAR_email_address_support: ${{ vars.STAGING_SUPPORT_EMAIL }}
+  TF_VAR_load_testing_zitadel_app_private_key: ${{ secrets.STAGING_ZITADEL_APPLICATION_KEY }}
+  TF_VAR_zitadel_administration_key: ${{ secrets.STAGING_ZITADEL_ADMINISTRATION_KEY }}
+  TF_VAR_zitadel_client_id: ${{ vars.STAGING_ZITADEL_CLIENT_ID }}
+  TF_VAR_zitadel_project_id: ${{ vars.STAGING_ZITADEL_PROJECT_ID }}
+  TF_VAR_hcaptcha_site_key: ${{ vars.STAGING_HCAPTCHA_SITE_KEY }}
+  TF_VAR_hcaptcha_site_verify_key: ${{ secrets.STAGING_HCAPTCHA_SITE_VERIFY_KEY }}
+  TF_VAR_security_txt_content: ${{ vars.SECURITY_TXT_CDSSANDBOX_XYZ }}
+  # IdP
+  TF_VAR_idp_database_cluster_admin_username: ${{ secrets.STAGING_IDP_DATABASE_CLUSTER_ADMIN_USERNAME }}
+  TF_VAR_idp_database_cluster_admin_password: ${{ secrets.STAGING_IDP_DATABASE_CLUSTER_ADMIN_PASSWORD }}
+  TF_VAR_zitadel_admin_password: ${{ secrets.STAGING_ZITADEL_ADMIN_PASSWORD }}
+  TF_VAR_zitadel_admin_username: ${{ secrets.STAGING_ZITADEL_ADMIN_USERNAME }}
+  TF_VAR_zitadel_database_name: ${{ secrets.STAGING_ZITADEL_DATABASE_NAME }}
+  TF_VAR_zitadel_secret_key: ${{ secrets.STAGING_ZITADEL_SECRET_KEY }}
+  # ECR
+  TF_VAR_aws_development_accounts: ${{ vars.AWS_DEVELOPMENT_ACCOUNTS }}
+  TF_VAR_cds_org_id: ${{ secrets.STAGING_CDS_ORG_ID }}
+  # API END TO END TEST
+  TF_VAR_idp_project_identifier: "275372254274006635"
+  TF_VAR_api_end_to_end_test_form_identifier: "cmacoc5ga0001yk01zgn888l9"
+  TF_VAR_api_end_to_end_test_form_api_private_key: ${{ secrets.STAGING_API_END_TO_END_TEST_FORM_API_PRIVATE_KEY }}
+
+jobs:
+  # We deploy ECR first to make sure it is available for the 'build-tag-push-lambda-images' job which will be run in parallel with `terragrunt-apply-all-modules`
+  terragrunt-apply-ecr-only:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - name: Setup terraform tools
+        uses: cds-snc/terraform-tools-setup@36df0d7572a15921998170395475093c183d720a # v1.3.0
+
+      - name: Configure AWS credentials using OIDC
+        uses: aws-actions/configure-aws-credentials@7474bc4690e29a8392af63c5b98e7449536d5c3a # v4.3.1
+        with:
+          role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/forms-terraform-apply
+          role-session-name: TFApply
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Terragrunt apply ecr
+        working-directory: env/cloud/ecr
+        run: terragrunt run --non-interactive -- apply -auto-approve
+
+  find-lambdas-to-deploy:
+    runs-on: ubuntu-latest
+    outputs:
+      lambdas: ${{ steps.set-job-output.outputs.lambdas }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - name: Find modified Lambdas
+        if: github.event_name != 'workflow_dispatch'
+        id: filtered-lambdas
+        uses: dorny/paths-filter@d1c1ffe0248fe513906c8e24db8ea791d46f8590 # v3.0.3
+        with:
+          filters: .github/lambda-filter.yml
+
+      - name: Find all Lambdas
+        if: github.event_name == 'workflow_dispatch'
+        id: all-lambdas
+        run: echo "changes=$(yq 'keys | .[]' .github/lambda-filter.yml | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_OUTPUT
+
+      - name: Set job output
+        id: set-job-output
+        env:
+          FILTERED_LAMBDAS: ${{ steps.filtered-lambdas.outputs.changes }}
+          ALL_LAMBDAS: ${{ steps.all-lambdas.outputs.changes }}
+        run: echo "lambdas=${FILTERED_LAMBDAS:-$ALL_LAMBDAS}" >> $GITHUB_OUTPUT
+
+  detect-idp-changes:
+    needs: terragrunt-apply-ecr-only
+    runs-on: ubuntu-latest
+    outputs:
+      changes: ${{ steps.filter.outputs.changes }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - name: Filter
+        id: filter
+        uses: dorny/paths-filter@d1c1ffe0248fe513906c8e24db8ea791d46f8590 # v3.0.3
+        with:
+          filters: |
+            idp:
+              - 'idp/**'
+
+  build-tag-push-lambda-images:
+    needs: find-lambdas-to-deploy
+    if: ${{ needs.find-lambdas-to-deploy.outputs.lambdas != '[]' }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 4 # Limits parallel matrix jobs
+      matrix:
+        image: ${{ fromJSON(needs.find-lambdas-to-deploy.outputs.lambdas) }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - name: Build Lambda images
+        uses: ./.github/workflows/build-lambda-images
+        with:
+          lambda-directory: lambda-code/${{ matrix.image }}
+          lambda-name: ${{ matrix.image }}
+
+      - name: Tag and push Lambda images
+        uses: ./.github/workflows/tag-and-push-docker-images
+        with:
+          aws-role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/forms-terraform-apply
+          aws-role-session-name: TFApply
+          aws-region: ${{ env.AWS_REGION }}
+          image-name: ${{ matrix.image }}
+          image-tag: ${{ github.sha }}
+
+  build-tag-push-idp-image:
+    needs: detect-idp-changes
+    if: ${{ needs.detect-idp-changes.outputs.changes != '[]' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - name: Build IdP image
+        working-directory: idp
+        run: |
+          make build
+
+      - name: Tag and push IdP image
+        uses: ./.github/workflows/tag-and-push-docker-images
+        with:
+          aws-role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/forms-terraform-apply
+          aws-role-session-name: TFApply
+          aws-region: ${{ env.AWS_REGION }}
+          image-name: idp/zitadel
+          image-tag: ${{ github.sha }}
+          repository-suffix: ""
+
+  terragrunt-apply-all-modules:
+    needs: [build-tag-push-lambda-images, build-tag-push-idp-image]
+    if: ${{ !failure() && !cancelled() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - name: Setup terraform tools
+        uses: cds-snc/terraform-tools-setup@36df0d7572a15921998170395475093c183d720a # v1.3.0
+
+      - name: Configure AWS credentials using OIDC
+        uses: aws-actions/configure-aws-credentials@7474bc4690e29a8392af63c5b98e7449536d5c3a # v4.3.1
+        with:
+          role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/forms-terraform-apply
+          role-session-name: TFApply
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Terragrunt apply hosted_zone
+        working-directory: env/cloud/hosted_zone
+        run: terragrunt run --non-interactive -- apply -auto-approve
+
+      - name: Terragrunt apply kms
+        working-directory: env/cloud/kms
+        run: terragrunt run --non-interactive -- apply -auto-approve
+
+      - name: Terragrunt apply oidc_roles
+        working-directory: env/cloud/oidc_roles
+        run: terragrunt run --non-interactive -- apply -auto-approve
+
+      - name: Terragrunt apply sqs
+        working-directory: env/cloud/sqs
+        run: terragrunt run --non-interactive -- apply -auto-approve
+
+      - name: Terragrunt apply secrets
+        working-directory: env/cloud/secrets
+        run: terragrunt run --non-interactive -- apply -auto-approve
+
+      - name: Terragrunt apply s3
+        working-directory: env/cloud/s3
+        run: terragrunt run --non-interactive -- apply -auto-approve
+
+      # Depends on S3
+      - name: Terragrunt apply guard_duty
+        working-directory: env/cloud/guard_duty
+        run: terragrunt run --non-interactive -- apply -auto-approve
+
+      # Depends on kms
+      - name: Terragrunt apply sns
+        working-directory: env/cloud/sns
+        run: terragrunt run --non-interactive -- apply -auto-approve
+
+      - name: Terragrunt apply cognito
+        working-directory: env/cloud/cognito
+        run: terragrunt run --non-interactive -- apply -auto-approve
+
+      - name: Terragrunt apply network
+        working-directory: env/cloud/network
+        run: terragrunt run --non-interactive -- apply -auto-approve
+
+      - name: Terragrunt apply dynamodb
+        working-directory: env/cloud/dynamodb
+        run: terragrunt run --non-interactive -- apply -auto-approve
+
+      # Depends on network
+      - name: Terragrunt apply load_balancer
+        working-directory: env/cloud/load_balancer
+        run: terragrunt run --non-interactive -- apply -auto-approve
+
+      - name: Terragrunt apply redis
+        working-directory: env/cloud/redis
+        run: terragrunt run --non-interactive -- apply -auto-approve
+
+      - name: Terragrunt apply rds
+        working-directory: env/cloud/rds
+        run: terragrunt run --non-interactive -- apply -auto-approve
+
+      - name: Terragrunt apply idp
+        working-directory: env/cloud/idp
+        run: terragrunt run --non-interactive -- apply -auto-approve
+
+      # Depends on everything
+      - name: Terragrunt apply app
+        working-directory: env/cloud/app
+        run: terragrunt run --non-interactive -- apply -auto-approve
+
+      - name: Terragrunt apply api
+        working-directory: env/cloud/api
+        run: terragrunt run --non-interactive -- apply -auto-approve
+
+      - name: Terragrunt apply lambdas
+        working-directory: env/cloud/lambdas
+        run: terragrunt run --non-interactive -- apply -auto-approve
+
+      - name: Terragrunt apply alarms
+        working-directory: env/cloud/alarms
+        run: terragrunt run --non-interactive -- apply -auto-approve
+
+      - name: Terragrunt apply load_testing
+        working-directory: env/cloud/load_testing
+        run: terragrunt run --non-interactive -- apply -auto-approve
+
+      - name: Terragrunt apply pr_review
+        working-directory: env/cloud/pr_review
+        run: terragrunt run --non-interactive -- apply -auto-approve
+
+      - name: Terragrunt apply glue
+        working-directory: env/cloud/glue
+        run: terragrunt run --non-interactive -- apply -auto-approve
+
+  update-lambda-function-image:
+    needs: [find-lambdas-to-deploy, terragrunt-apply-all-modules]
+    if: ${{ needs.find-lambdas-to-deploy.outputs.lambdas != '[]' && !failure() && !cancelled() }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        image: ${{ fromJSON(needs.find-lambdas-to-deploy.outputs.lambdas) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - name: Request Lambda functions to use new image
+        uses: ./.github/workflows/request-lambda-functions-to-use-new-image
+        with:
+          aws-role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/forms-terraform-apply
+          aws-role-session-name: TFApply
+          aws-region: ${{ env.AWS_REGION }}
+          lambda-name: ${{ matrix.image }}
+          image-tag: ${{ github.sha }}
+
+  update-idp-ecs-service-image:
+    needs: [detect-idp-changes, terragrunt-apply-all-modules]
+    if: ${{ needs.detect-idp-changes.outputs.changes != '[]' && !failure() && !cancelled() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - name: Update IdP ESC service to use new image
+        uses: ./.github/workflows/request-ecs-service-to-use-new-image
+        with:
+          aws-role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/forms-terraform-apply
+          aws-role-session-name: TFApply
+          aws-region: ${{ env.AWS_REGION }}
+          ecs-cluster-name: auth
+          ecs-service-name: zitadel
+          ecs-task-def-name: zitadel
+          image-tag: "idp/zitadel:${{ github.sha }}"
+
+  notify-on-error:
+    needs:
+      [
+        terragrunt-apply-ecr-only,
+        build-tag-push-lambda-images,
+        build-tag-push-idp-image,
+        terragrunt-apply-all-modules,
+        update-lambda-function-image,
+        update-idp-ecs-service-image,
+      ]
+    if: ${{ failure() && !cancelled() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send error message on Slack
+        env:
+          WORKFLOW_URL: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          WORKFLOW_NAME: "${{ github.workflow }}"
+        run: |
+          json='{"text":":x: Terraform apply failed.\n<${{ env.WORKFLOW_URL }}|${{ env.WORKFLOW_NAME }}>"}'
+          curl -X POST -H 'Content-type: application/json' --data "$json" ${{ secrets.STAGING_SLACK_WEBHOOK }}
+        shell: bash

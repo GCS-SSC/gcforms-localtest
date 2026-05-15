@@ -1,0 +1,166 @@
+"use client";
+import React, { useState } from "react";
+import { useTranslation } from "@i18n/client";
+import { useRouter } from "next/navigation";
+import { DesignIcon, ExternalLinkIcon, WarningIcon } from "@serverComponents/icons";
+import { errorMessage, validateTemplate } from "@lib/utils/form-builder/validate";
+import Link from "next/link";
+import { useTemplateStore } from "@lib/store/useTemplateStore";
+import { clearTemplateStore } from "@lib/store/utils";
+import { safeJSONParse } from "@lib/utils";
+import { FormProperties } from "@lib/types";
+import { validateTemplateSize } from "@lib/utils/validateTemplateSize";
+import { ga } from "@lib/client/clientHelpers";
+import { transformFormProperties } from "@lib/store/helpers/elements/transformFormProperties";
+import { BetaComponentsError, checkForBetaComponents } from "@lib/validation/betaCheck";
+import { useFeatureFlags } from "@lib/hooks/useFeatureFlags";
+import { setImportedTemplate } from "@lib/store/importBuffer";
+
+export const Start = () => {
+  const {
+    t,
+    i18n: { language },
+  } = useTranslation("form-builder");
+  const router = useRouter();
+  const { initialize } = useTemplateStore((s) => ({
+    initialize: s.initialize,
+  }));
+
+  const [errors, setErrors] = useState<errorMessage[]>();
+  const { getFlag } = useFeatureFlags();
+
+  // Prevent prototype pollution in JSON.parse https://stackoverflow.com/a/63927372
+  const cleaner = (key: string, value: string) =>
+    ["__proto__", "constructor"].includes(key) ? undefined : value;
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target || !e.target.files) {
+      return;
+    }
+
+    const target = e.target;
+    // clear any existing form data
+    clearTemplateStore();
+
+    try {
+      const fileReader = new FileReader();
+
+      fileReader.readAsText(e.target.files[0], "UTF-8");
+      fileReader.onload = (e) => {
+        if (!e.target || !e.target.result || typeof e.target.result !== "string") return;
+
+        const result = e.target.result;
+        const isValidSize = validateTemplateSize(result);
+
+        if (!isValidSize) {
+          setErrors([{ message: t("startErrorTemplateSize") }]);
+          target.value = "";
+          return;
+        }
+
+        const data = transformFormProperties(safeJSONParse<FormProperties>(result, cleaner));
+
+        if (!data) {
+          setErrors([{ message: t("startErrorParse") }]);
+          target.value = "";
+          return;
+        }
+
+        const validationResult = validateTemplate(data);
+
+        if (!validationResult.valid) {
+          setErrors(validationResult.errors);
+          target.value = "";
+          return;
+        }
+
+        try {
+          checkForBetaComponents(data.elements, getFlag);
+
+          setImportedTemplate(data);
+          clearTemplateStore();
+
+          ga("open_form_file");
+          router.push(`/${language}/form-builder/0000/preview`);
+        } catch (e) {
+          if (e instanceof BetaComponentsError) {
+            setErrors([{ message: t("beta.loadingError") }]);
+          }
+        }
+      };
+    } catch (e) {
+      if (e instanceof Error) {
+        setErrors([{ message: e.message }]);
+      }
+    }
+  };
+
+  const boxClass =
+    "group mx-4 mb-4 flex h-80 w-80 flex-col rounded-xl border-[0.5px] border-slate-500 bg-gray-background pl-6 pr-5 pt-28 text-left outline-none hover:cursor-pointer hover:border-[1px] hover:border-indigo-700 hover:bg-indigo-50 focus:cursor-pointer focus:border-[3px] focus:border-slate-700";
+
+  return (
+    <>
+      <h1 className="visually-hidden">{t("start")}</h1>
+      <div role="alert">
+        {errors && (
+          <div className="m-auto mb-8 flex w-5/12 bg-red-100 p-6">
+            <div>
+              <WarningIcon className="mt-1" />
+            </div>
+            <div>
+              <h3 className="mb-2 ml-6">{t("failedToReadFormFile")}</h3>
+              <ul className="mb-4 list-none pl-6">
+                {errors.map((error, index) => {
+                  return (
+                    <li key={`section-${index}`}>
+                      {t(error.message, { property: error.property })}
+                    </li>
+                  );
+                })}
+              </ul>
+              <Link href={`/${language}/support`} className="ml-6">
+                {t("contactSupport")}
+              </Link>
+            </div>
+          </div>
+        )}
+      </div>
+      <div className="tablet:flex-row flex flex-col justify-center">
+        <button
+          data-testid="start-new-form"
+          className={boxClass}
+          onClick={async (e) => {
+            e.preventDefault();
+            // clear any existing form data
+            clearTemplateStore();
+            initialize(language);
+            router.push(`/${language}/form-builder/0000/edit`);
+          }}
+        >
+          <DesignIcon className="mb-2 scale-125" />
+          <h2 className="mb-1 p-0 group-hover:underline group-focus:underline">{t("startH2")}</h2>
+          <p className="text-sm">{t("startP1")}</p>
+        </button>
+        <label>
+          <div
+            data-testid="start-upload-form"
+            tabIndex={0}
+            role="button"
+            className={boxClass}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                const uploadButton = document.getElementById("file-upload");
+                if (uploadButton) uploadButton.click();
+              }
+            }}
+          >
+            <ExternalLinkIcon className="mb-2 scale-125" />
+            <h2 className="mb-1 p-0 group-hover:underline group-focus:underline">{t("startH3")}</h2>
+            <p className="text-sm">{t("startP2")}</p>
+            <input id="file-upload" type="file" onChange={handleChange} className="hidden" />
+          </div>
+        </label>
+      </div>
+    </>
+  );
+};

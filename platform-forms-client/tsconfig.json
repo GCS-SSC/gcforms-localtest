@@ -1,0 +1,57 @@
+{
+  "compilerOptions": {
+    "typeRoots": ["./types", "./node_modules/@types"],
+    "target": "es2020",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "paths": {
+      "@root/*": ["./*"],
+      "@lib/*": ["./lib/*"],
+      "@api/*": ["./app/api/*"],
+      "@formBuilder/*": ["./app/(gcforms)/[locale]/(form administration)/form-builder/*"],
+      "@responses-pilot/*": [
+        "./app/(gcforms)/[locale]/(form administration)/form-builder/[id]/responses-pilot/*"
+      ],
+      "@serverComponents/*": ["./components/serverComponents/*"],
+      "@clientComponents/*": ["./components/clientComponents/*"],
+      "@testFixtures/*": ["./__fixtures__/*"],
+      "@testUtils": ["./__utils__"],
+      "@i18n": ["./i18n"],
+      "@i18n/*": ["./i18n/*"],
+      "@content/*": ["./public/static/content/*"],
+      "@public/*": ["./public/*"],
+      "@gcforms/*": ["./packages/*/src"],
+      "@toast/*": ["./node_modules/react-toastify/dist/*"],
+      "app/*": ["./app/*"],
+      "components/*": ["./components/*"],
+      "lib/*": ["./lib/*"],
+      "__fixtures__/*": ["./__fixtures__/*"],
+      "__utils__/*": ["./__utils__/*"]
+    },
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": [
+    "next-env.d.ts",
+    "types",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts"
+  ],
+  "exclude": ["node_modules", "utils", ".next", "__tests__"]
+}

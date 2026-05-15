@@ -1,0 +1,18 @@
+{
+  "title": "Administration",
+  "accounts": "Comptes",
+  "systemSettings": "Paramètres",
+  "featureFlags": "Indicateurs de fonctionnalité",
+  "permissions": "Permissions",
+  "systemAdministration": "Administration du système",
+  "accountAdministration": "Administration des comptes",
+  "manageUsersAndTheirForms": "Gérer les utilisateur·rice·s et leurs formulaires",
+  "configureHowTheApplicationWorks": "Configurer le fonctionnement de l’application.",
+  "typography": "Typographie",
+  "upload": "Téléverser",
+  "viewTemplates": "Afficher les modèles",
+  "recentAccounts": "Comptes récents",
+  "buttons": "Boutons",
+  "lexical": "Terrain de jeu Lexical",
+  "auditLogs": "Journaux d’audit"
+}

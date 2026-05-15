@@ -1,0 +1,213 @@
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { PutCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
+import { SQSClient, SendMessageCommand } from "@aws-sdk/client-sqs";
+import { Handler } from "aws-lambda";
+import { v4 } from "uuid";
+import { createHash } from "crypto";
+import {
+  findAttachedFileReferencesInSubmissionResponses,
+  generateFileAccessKeysAndUploadURLs,
+} from "./lib/fileUpload.js";
+
+type AnyObject = {
+  [key: string]: any;
+};
+
+const localAwsEndpoint = process.env.LOCAL_AWS_ENDPOINT;
+
+const awsProperties = {
+  region: process.env.REGION ?? "ca-central-1",
+  ...(localAwsEndpoint && {
+    endpoint: localAwsEndpoint,
+    credentials: {
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID ?? "test",
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY ?? "test",
+    },
+  }),
+};
+
+const dynamodb = new DynamoDBClient(awsProperties);
+
+const sqs = new SQSClient(awsProperties);
+
+/*
+Params:
+  formID - ID of form,
+  language - form submission language "fr" or "en",
+  responses - form responses: {formID, securityAttribute, questionID: answer}
+  securityAttribute - string of security classification
+*/
+export const handler: Handler = async (submission: AnyObject) => {
+  const submissionId = v4();
+
+  try {
+    const attachedFileReferences = findAttachedFileReferencesInSubmissionResponses(
+      submission.responses,
+      submissionId
+    );
+
+    /**
+     * If we found file references in the response we bypass the regular submission flow
+     * in order to generate and return upload URLs for the client to send us files attached to the submission.
+     */
+    if (attachedFileReferences.length > 0) {
+      const fileChecksums = submission.fileChecksums;
+
+      // Validate that we have checksums for all file references
+      if (!fileChecksums || Object.keys(fileChecksums).length === 0) {
+        throw new Error("File references found but no checksums provided");
+      }
+
+      const { fileAccessKeys, fileUploadURLs } = await generateFileAccessKeysAndUploadURLs(
+        submissionId,
+        attachedFileReferences,
+        fileChecksums
+      );
+
+      await saveSubmission(submissionId, submission, fileAccessKeys);
+
+      console.log(
+        JSON.stringify({
+          level: "info",
+          status: "success",
+          submissionId: submissionId,
+          details: `Sent back ${fileAccessKeys.length} signed URLs to the client in order to upload files attached to submission ${submissionId}`,
+        })
+      );
+
+      return { status: true, submissionId, fileURLMap: fileUploadURLs };
+    }
+
+    await saveSubmission(submissionId, submission);
+
+    const receiptId = await enqueueReliabilityProcessingRequest(submissionId);
+
+    await updateReceiptIdForSubmission(submissionId, receiptId);
+
+    console.log(
+      JSON.stringify({
+        level: "info",
+        status: "success",
+        sqsMessage: receiptId,
+        submissionId: submissionId,
+      })
+    );
+
+    return { status: true, submissionId };
+  } catch (error) {
+    console.error(
+      JSON.stringify({
+        level: "error",
+        severity: "1", // this will trigger an alert to on-call team
+        status: "failed",
+        submissionId: submissionId,
+        msg: (error as Error).message,
+        details: JSON.stringify(error),
+      })
+    );
+
+    return { status: false };
+  }
+};
+
+const enqueueReliabilityProcessingRequest = async (submissionId: string): Promise<string> => {
+  try {
+    const sendMessageCommandOutput = await sqs.send(
+      new SendMessageCommand({
+        MessageBody: JSON.stringify({
+          submissionID: submissionId,
+        }),
+        // Helps ensure the file scanning job is processed first
+        DelaySeconds: 5,
+        QueueUrl: process.env.SQS_URL,
+      })
+    );
+
+    if (!sendMessageCommandOutput.MessageId) {
+      throw new Error("Received null SQS message identifier");
+    }
+
+    return sendMessageCommandOutput.MessageId;
+  } catch (error) {
+    throw new Error("Could not enqueue reliability processing request. " + JSON.stringify(error));
+  }
+};
+
+const saveSubmission = async (
+  submissionId: string,
+  formData: AnyObject,
+  fileKeys?: string[]
+): Promise<void> => {
+  try {
+    const securityAttribute = formData.securityAttribute ?? "Protected A";
+    delete formData.securityAttribute;
+
+    const timeStamp = Date.now();
+
+    const alteredFormDataAsString = JSON.stringify(formData);
+
+    const formResponsesAsString = JSON.stringify(formData.responses);
+
+    const formResponsesAsHash = createHash("md5").update(formResponsesAsString).digest("hex"); // We use MD5 here because it is faster to generate and it will only be used as a checksum.
+
+    console.log(
+      JSON.stringify({
+        level: "info",
+        msg: `MD5 hash ${formResponsesAsHash} was calculated for submission ${submissionId} (formId: ${formData.formID}).`,
+      })
+    );
+
+    await dynamodb.send(
+      new PutCommand({
+        TableName: "ReliabilityQueue",
+        Item: {
+          SubmissionID: submissionId,
+          FormID: formData.formID,
+          SendReceipt: "unknown",
+          FormSubmissionLanguage: formData.language,
+          FormData: alteredFormDataAsString,
+          CreatedAt: timeStamp,
+          SecurityAttribute: securityAttribute,
+          FormSubmissionHash: formResponsesAsHash,
+          HasFileKeys: fileKeys !== undefined ? 1 : 0,
+          ...(fileKeys !== undefined && { FileKeys: JSON.stringify(fileKeys) }),
+        },
+      })
+    );
+  } catch (error) {
+    throw new Error(
+      `Could not save submission to Reliability Temporary Storage. Reason: ${
+        (error as Error).message
+      }`
+    );
+  }
+};
+
+const updateReceiptIdForSubmission = async (
+  submissionId: string,
+  receiptId: string
+): Promise<void> => {
+  try {
+    await dynamodb.send(
+      new UpdateCommand({
+        TableName: "ReliabilityQueue",
+        Key: {
+          SubmissionID: submissionId,
+        },
+        UpdateExpression: "SET SendReceipt = :receiptId",
+        ExpressionAttributeValues: {
+          ":receiptId": receiptId,
+        },
+      })
+    );
+  } catch (error) {
+    console.warn(
+      JSON.stringify({
+        level: "warn",
+        submissionId: submissionId,
+        msg: `Could not update submission in reliability queue table with receipt identifier`,
+        error: (error as Error).message,
+      })
+    );
+  }
+};

@@ -1,0 +1,36 @@
+name: gcforms
+
+services:
+  omnibus:
+    image: gcforms-omnibus:local
+    build:
+      context: .
+      dockerfile: Dockerfile.omnibus
+    container_name: gcforms-omnibus
+    environment:
+      GC_FORMS_PUBLIC_APP_URL: http://localhost:3000
+      GC_FORMS_PUBLIC_API_URL: http://localhost:3001
+      MAIN_DOCKER_NETWORK: gcforms_default
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+      - "4566:4566"
+      - "4510:5432"
+      - "6379:6379"
+    volumes:
+      - gcforms-omnibus-data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "test -f /run/gcforms/bootstrap.done && curl -fsS http://127.0.0.1:3001/status >/dev/null",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 60
+      start_period: 30s
+
+volumes:
+  gcforms-omnibus-data:
+    name: gcforms-omnibus-data

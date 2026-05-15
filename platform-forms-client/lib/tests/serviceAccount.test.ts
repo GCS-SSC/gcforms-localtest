@@ -1,0 +1,248 @@
+import type { Mock, MockedFunction } from "vitest";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import { checkMachineUserExists, checkKeyExists, createKey, deleteKey } from "@lib/serviceAccount";
+import { mockAuthorizationPass, mockAuthorizationFail } from "__utils__/authorization";
+import { AccessControlError } from "@lib/auth/errors";
+import { prismaMock } from "@testUtils";
+import { logEvent } from "@lib/auditLogs";
+import * as ZitadelConnector from "@lib/integration/zitadelConnector";
+
+vi.mock("@lib/auditLogs", async () => {
+  const __actual0 = await vi.importActual<any>("@lib/auditLogs");
+  return {
+  __esModule: true,
+  logEvent: vi.fn(),
+  AuditLogDetails: __actual0.AuditLogDetails,
+  AuditLogAccessDeniedDetails: __actual0.AuditLogAccessDeniedDetails,
+};
+});
+
+vi.mock("@lib/templates");
+vi.mock("@lib/privileges");
+const mockedLogEvent = vi.mocked(logEvent);
+
+vi.mock("@lib/integration/zitadelConnector", () => ({
+  createMachineUser: vi.fn(),
+  getMachineUser: vi.fn(),
+  deleteMachineUser: vi.fn(),
+  createMachineKey: vi.fn(),
+  getMachineUserKeysById: vi.fn(),
+}));
+
+const userId = "1";
+
+describe("Service Account functions", () => {
+  beforeEach(() => {
+    vi.resetAllMocks();
+    mockAuthorizationPass(userId);
+  });
+
+  describe("checkMachineUserExists", () => {
+    it("should return user ID if user exists", async () => {
+      const userId = "testUser";
+
+      (ZitadelConnector.getMachineUser as Mock).mockResolvedValueOnce({ userId });
+
+      const result = await checkMachineUserExists(userId);
+
+      expect(result).toBe(userId);
+    });
+    it("should return undefined if user does not exist", async () => {
+      const userId = "testUser";
+
+      (ZitadelConnector.getMachineUser as Mock).mockResolvedValueOnce(undefined);
+
+      const result = await checkMachineUserExists(userId);
+
+      expect(result).toBe(undefined);
+    });
+    it("should throw and error is user is not authentiated to perform the action", async () => {
+      mockAuthorizationFail(userId);
+      await expect(checkMachineUserExists("blah")).rejects.toThrow(AccessControlError);
+    });
+    it("should throw and error is user is not authorized to perform the action", async () => {
+      mockAuthorizationFail(userId);
+      await expect(checkMachineUserExists("blah")).rejects.toThrow(AccessControlError);
+    });
+  });
+  describe("checkKeyExists", () => {
+    it("should return true if key exists", async () => {
+      const userId = "testUser";
+      const keyId = "test";
+
+      (prismaMock.apiServiceAccount.findUnique as MockedFunction<any>).mockResolvedValueOnce({
+        id: userId,
+        publicKeyId: keyId,
+      });
+
+      (ZitadelConnector.getMachineUserKeysById as Mock).mockResolvedValueOnce([{ id: keyId }]);
+
+      const result = await checkKeyExists(userId);
+      expect(result).toBe(keyId);
+    });
+    it("should return false if key does not exist", async () => {
+      const keyId = "test";
+
+      (prismaMock.apiServiceAccount.findUnique as MockedFunction<any>).mockResolvedValueOnce(
+        null
+      );
+
+      (ZitadelConnector.getMachineUserKeysById as Mock).mockResolvedValueOnce([{ id: keyId }]);
+
+      const result = await checkKeyExists("testUser");
+      expect(result).toBeFalsy();
+    });
+    it("should return false if key is out of sync", async () => {
+      const userId = "testUser";
+      const keyId = "test";
+
+      (prismaMock.apiServiceAccount.findUnique as MockedFunction<any>).mockResolvedValueOnce({
+        id: userId,
+        publicKeyId: keyId,
+      });
+
+      (ZitadelConnector.getMachineUserKeysById as Mock).mockResolvedValueOnce([
+        {
+          id: "differentKey",
+        },
+      ]);
+
+      const result = await checkKeyExists(userId);
+
+      expect(result).toBeFalsy();
+    });
+    it("should throw and error is user is not authentiated to perform the action", async () => {
+      mockAuthorizationFail(userId);
+      await expect(checkKeyExists("blah")).rejects.toThrow(AccessControlError);
+    });
+    it("should throw and error is user is not authorized to perform the action", async () => {
+      mockAuthorizationFail(userId);
+      await expect(checkKeyExists("blah")).rejects.toThrow(AccessControlError);
+    });
+  });
+  describe("createKey", () => {
+    it("should create a key if no current user exists", async () => {
+      (ZitadelConnector.getMachineUser as Mock).mockResolvedValueOnce(undefined);
+      (ZitadelConnector.createMachineUser as Mock).mockResolvedValueOnce({
+        userId: "serviceAccountUser",
+      });
+      (ZitadelConnector.createMachineKey as Mock).mockResolvedValueOnce({ keyId: "keyId" });
+
+      const result = await createKey("templateId");
+      expect(result).toMatchObject({
+        type: "serviceAccount",
+        userId: "serviceAccountUser",
+        keyId: "keyId",
+        formId: "templateId",
+      });
+      expect(mockedLogEvent).toHaveBeenCalledWith(
+        "1",
+        { type: "ServiceAccount" },
+        "CreateAPIKey",
+        "User :${userId} created API key for service account ${serviceAccountId}",
+        { serviceAccountId: "serviceAccountUser", userId: "1" }
+      );
+    });
+    it("should create a key if an existing user exists", async () => {
+      (ZitadelConnector.getMachineUser as Mock).mockResolvedValueOnce({
+        userId: "templateId",
+      });
+      (ZitadelConnector.createMachineKey as Mock).mockResolvedValueOnce({ keyId: "keyId" });
+
+      const result = await createKey("templateId");
+      expect(result).toMatchObject({
+        type: "serviceAccount",
+        userId: "templateId",
+        keyId: "keyId",
+        formId: "templateId",
+      });
+      expect(mockedLogEvent).toHaveBeenCalledWith(
+        "1",
+        { type: "ServiceAccount" },
+        "CreateAPIKey",
+        "User :${userId} created API key for service account ${serviceAccountId}",
+        { serviceAccountId: "templateId", userId: "1" }
+      );
+    });
+    it("should throw and error is user is not authentiated to perform the action", async () => {
+      mockAuthorizationFail(userId);
+      await expect(createKey("templateId")).rejects.toThrow(AccessControlError);
+    });
+    it("should throw and error is user is not authorized to perform the action", async () => {
+      mockAuthorizationFail(userId);
+      await expect(createKey("templateId")).rejects.toThrow(AccessControlError);
+    });
+  });
+
+  describe("deleteKey", () => {
+    it("should delete a key if there is an existing user in the IDP", async () => {
+      const serviceAccountID = "123412341234";
+
+      (ZitadelConnector.getMachineUser as Mock).mockResolvedValueOnce({
+        userId: serviceAccountID,
+      });
+      (ZitadelConnector.deleteMachineUser as Mock).mockResolvedValueOnce({});
+
+      (prismaMock.apiServiceAccount.deleteMany as MockedFunction<any>).mockResolvedValue({
+        count: 1,
+      });
+      await deleteKey("templateId");
+
+      expect(mockedLogEvent).toHaveBeenCalledWith(
+        "1",
+        { type: "ServiceAccount" },
+        "DeleteAPIKey",
+        "DeletedAPIKey",
+        { serviceAccountID: serviceAccountID, templateId: "templateId", userId: "1" }
+      );
+    });
+    it("should delete a key if there is not an existing user in the IDP", async () => {
+      (ZitadelConnector.getMachineUser as Mock).mockResolvedValueOnce(undefined);
+      (ZitadelConnector.deleteMachineUser as Mock).mockResolvedValueOnce({});
+
+      (prismaMock.apiServiceAccount.deleteMany as MockedFunction<any>).mockResolvedValue({
+        count: 1,
+      });
+      await deleteKey("templateId");
+
+      expect(mockedLogEvent).toHaveBeenCalledWith(
+        "1",
+        { type: "ServiceAccount" },
+        "DeleteAPIKey",
+        "DeletedAPIKey",
+        { templateId: "templateId", userId: "1", serviceAccountID: "" }
+      );
+    });
+    it("should not throw an Error if the key does not exist in the database", async () => {
+      const serviceAccountID = "123412341234";
+
+      (ZitadelConnector.getMachineUser as Mock).mockResolvedValueOnce({
+        userId: serviceAccountID,
+      });
+      (ZitadelConnector.deleteMachineUser as Mock).mockResolvedValueOnce({});
+
+      (prismaMock.apiServiceAccount.deleteMany as MockedFunction<any>).mockResolvedValue({
+        count: 0,
+      });
+      await deleteKey("templateId");
+
+      expect(mockedLogEvent).toHaveBeenCalledWith(
+        "1",
+        { type: "ServiceAccount" },
+        "DeleteAPIKey",
+        "DeletedAPIKey",
+        { serviceAccountID: serviceAccountID, templateId: "templateId", userId: "1" }
+      );
+    });
+
+    it("should throw and error is user is not authentiated to perform the action", async () => {
+      mockAuthorizationFail(userId);
+      await expect(deleteKey("templateId")).rejects.toThrow(AccessControlError);
+    });
+    it("should throw and error is user is not authorized to perform the action", async () => {
+      mockAuthorizationFail(userId);
+      await expect(deleteKey("templateId")).rejects.toThrow(AccessControlError);
+    });
+  });
+});

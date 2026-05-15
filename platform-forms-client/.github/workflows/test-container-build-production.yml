@@ -1,0 +1,21 @@
+name: "Test Production Container Build"
+
+on:
+  workflow_run:
+    workflows: ["Release Generator"]
+    types:
+      - completed
+
+jobs:
+  test-container:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - name: Build Container
+        run: |
+          docker build --platform=linux/amd64 --provenance false -t base \
+          --build-arg COGNITO_APP_CLIENT_ID="COGNITO_APP_CLIENT_ID" \
+          --build-arg COGNITO_USER_POOL_ID="COGNITO_USER_POOL_ID" \
+          --build-arg INDEX_SITE=true .

@@ -1,0 +1,12 @@
+node_modules/
+npm-debug.log
+.DS_Store
+*.gz
+.env
+build/
+.pnpm-store
+*private_api_key.json
+bin/
+obj/
+__pycache__/
+site/

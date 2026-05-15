@@ -1,0 +1,320 @@
+{
+  "tabs": {
+    "newResponses": {
+      "title": "Nouvelles réponses disponibles",
+      "message1": "Commencez par télécharger les réponses. Vous pouvez sélectionner plusieurs réponses à la fois.",
+      "message2": "Puis, approuvez leur suppression, car Formulaires GC ne conserve les réponses que temporairement les réponses."
+    },
+    "downloadedResponses": {
+      "title": "Réponses téléchargées",
+      "message1": "Approuvez la suppression des réponses dans le délai indiqué.",
+      "message2": "Les réponses seront disponibles dans Formulaires GC temporairement avant d’être supprimées de manière permanente."
+    },
+    "confirmedResponses": {
+      "title": "Réponses approuvées pour suppression",
+      "message1": "Formulaires GC conserve temporairement les réponses.",
+      "message2": "Ces réponses seront définitivement supprimées après 30 jours."
+    },
+    "problemResponses": {
+      "title": "Réponses signalées avec problèmes",
+      "message1": "L’équipe de soutien de Formulaires GC a été informée.",
+      "message2": "Quelqu’un communiquera avec vous pour aider à résoudre le problème. Approuvez la suppression des ces réponses une fois que les problèmes ont été résolus."
+    }
+  },
+  "tooltips": {
+    "downloadTable": {
+      "submissionID": {
+        "title": "Identifiant de soumission",
+        "body": "Permet de suivre l’état d’une réponse spécifique ou de signaler un problème avec les réponses."
+      },
+      "date": {
+        "title": "Date de soumission",
+        "body": "Indique quand la réponse a été reçue dans Formulaires GC."
+      },
+      "nextSteps": {
+        "title": "Prochaines étapes",
+        "body": "Étant donné que Formulaires GC ne conserve pas les réponses indéfiniment, vous devrez récupérer et effacer les données de réponses dans les 45 jours suivant la soumission."
+      }
+    }
+  },
+  "errors": {
+    "errorCode": "Contactez l'équipe de soutien avec le code d'erreur :",
+    "retrieval": {
+      "title": "Quelque chose a mal tourné",
+      "message": "Une erreur s'est produite lors de la récupération des réponses.",
+      "tryAgain": "Réessayer"
+    },
+    "generic": {
+      "title": "Quelque chose a mal tourné",
+      "message": "Une erreur s'est produite lors du chargement de la page ou de l'exécution de la demande.",
+      "tryAgain": "Réessayer"
+    }
+  },
+  "responses": {
+    "recentlyDownloaded": "Téléchargements récents",
+    "deleted": "Pour suppression",
+    "changeSetup": "Modifier les paramètres",
+    "confirmReceipt": "Approuver la suppression avec les codes de réception",
+    "navLabel": "Réponses",
+    "reportProblems": "Signaler un problème avec les réponses",
+    "title": "Réponses",
+    "unauthenticated": {
+      "createOne": "créez-en un",
+      "noAccount": "Si vous n'avez pas de compte Formulaires GC,",
+      "signIn": "connectez-vous",
+      "title": "Se connecter pour accéder aux réponses",
+      "toAccessPagePart1": "Pour accéder à cette page,",
+      "toAccessPagePart2": "à votre compte Formulaires GC"
+    },
+    "email": {
+      "title": "Paramètres des réponses courriel",
+      "submitTo": "Les réponses soumises sont envoyées à :",
+      "subjectLine": "La ligne d’objet apparaîtra comme :"
+    },
+    "status": {
+      "new": "Nouveautés",
+      "downloaded": "Téléchargements",
+      "deleted": "Pour suppression",
+      "problem": "Problème"
+    },
+    "viewAllProblemResponses": "Afficher les réponses signalées"
+  },
+  "supportWillContact": "L'équipe de soutien vous contactera",
+  "reportedAsProblem": "Réponse signalée avec problème",
+  "downloadSuccess": {
+    "title": "Réponses déplacées vers l'onglet « Téléchargements »",
+    "body": "Prochaine étape : approuvez la suppression des réponses de Formulaires GC."
+  },
+  "confirmSuccess": {
+    "title": "Réponses déplacées vers l'onglet « Pour suppression »",
+    "body": "Les réponses seront supprimées dans 30 jours."
+  },
+  "downloadResponsesTable": {
+    "download": "Télécharger",
+    "delete": "Supprimer",
+    "movedToDownloaded": "Déplacée vers Téléchargements",
+    "header": {
+      "tableTitle": "Tableau de réponses",
+      "select": "Sélectionner",
+      "selectAll": "Sélectionner tout",
+      "deselectAll": "Désélectionner tout",
+      "number": "Identifiant de soumission",
+      "status": "État",
+      "downloadResponse": "Période de téléchargement",
+      "lastDownloadedBy": "Téléchargée par",
+      "confirmReceipt": "Confirmation de réception",
+      "removal": "Suppression des données",
+      "more": "Plus",
+      "download": "Télécharger",
+      "nextStep": "Prochaine étape",
+      "date": "Date",
+      "warning": "Avertissement",
+      "pagination": {
+        "start": "Début",
+        "showing": "Affichage de réponses {{start}} à {{end}}",
+        "next": "Suivant",
+        "previous": "Précédent",
+        "new": {
+          "remainingResponses": "Vous avez plus de {{max}} nouvelles réponses."
+        },
+        "downloaded": {
+          "remainingResponses": "Vous avez plus de {{max}} réponses téléchargées."
+        },
+        "confirmed": {
+          "remainingResponses": "Vous avez plus de {{max}} réponses téléchargées."
+        }
+      }
+    },
+    "status": {
+      "downloaded": "Téléchargé",
+      "notDownloaded": "À télécharger",
+      "new": "Nouveauté",
+      "confirmed": "Confirmé",
+      "unconfirmed": "À confirmer",
+      "problem": "Problème",
+      "done": "Complété",
+      "downloadWithinXDays": "À téléchargez d'ici {{daysLeft}} jours",
+      "confirmWithinXDays": "À approuver d’ici {{daysLeft}} jours",
+      "removeWithinXDays": "Sera supprimée dans {{daysLeft}} jours",
+      "overdue": "En retard",
+      "wontRemove": "Ne peut pas être supprimée",
+      "notSet": "Non réglée"
+    },
+    "card": {
+      "noNewResponses": "Aucune nouvelle réponse",
+      "noNewResponsesMessage": "Les réponses aux formulaires soumis apparaîtront ici et seront disponibles dans Formulaires GC pendant 45 jours.",
+      "noDownloadedResponses": "Aucune réponse téléchargée",
+      "noDownloadedResponsesMessage": "Les réponses téléchargées apparaîtront ici jusqu'à ce que vous approuviez leur suppression de Formulaires GC.",
+      "noDeletedResponses": "Aucune réponse confirmée pour suppression",
+      "noDeletedResponsesMessage": "Une fois que vous aurez téléchargé et approuvé la suppression des réponses, celles-ci seront disponibles ici pendant 30 jours.",
+      "noProblemResponses": "Aucune réponse signalée avec problème",
+      "noProblemResponsesMessage": "Les réponses signalées avec problèmes apparaîtront ici jusqu'à ce qu'elles soient approuvées pour leur suppression de Formulaires GC.",
+      "noNewResponsesApiTitle": "Aucune réponse en attente de récupération",
+      "noNewResponsesApiMessage": "<p className='mb-2'>Une fois récupérées du point de terminaison API, les soumissions de formulaires apparaîtront ici et seront disponibles dans Formulaires GC pendant 30 jours.</p><p>Pour en savoir plus sur la configuration de l'intégration consultez notre <a href='https://cds-snc.github.io/forms-api/fr' target='_blank'>documentation API</a>)</p>",
+      "apiResponsesAvailableTitle": "Réponses en attente de récupération",
+      "apiResponsesAvailableMessage": "<p className='mb-2'>Récupérez les nouvelles soumissions via l'API.</p><p>Pour en savoir plus sur les demandes API, consultez notre <a href='https://cds-snc.github.io/forms-api/fr/making-requests' target='_blank'>documentation API</a></p>",
+      "apiResponsesAwaitingConfirmTitle": "Réponses en attente de confirmation",
+      "apiResponsesAwaitingConfirmMessage": "<p className='mb-2'>Confirmez que les soumissions de formulaire ont bien été récupérées via l'API.</p><p>Pour en savoir plus sur les demandes API, consultez notre  <a href='https://cds-snc.github.io/forms-api/fr/making-requests' target='_blank'>Documentation API</a>.</p>"
+    },
+    "notifications": {
+      "downloadComplete": "Réponses déplacées vers l'onglet « Téléchargements »",
+      "downloadCompleteNew": "Prochaine étape : Approuvez la suppression des réponses de Formulaires GC",
+      "downloadingXFiles": "Téléchargement de {{fileCount}} fichiers"
+    },
+    "errors": {
+      "trySelectingLessFilesHeader": "Seules {{max}} réponses peuvent être téléchargées à la fois.",
+      "trySelectingLessFiles": "Vous avez {{max}} réponses sélectionnées. Décochez au moins 1 réponse avant de télécharger.",
+      "atLeastOneFileHeader": "Au moins un fichier doit être sélectionné à télécharger.",
+      "atLeastOneFile": "Essayez de sélectionner au moins un fichier à télécharger.",
+      "errorDownloadingFilesHeader": "Erreur lors du téléchargement des fichiers sélectionnés.",
+      "errorDownloadingFiles": "Réessayez dans quelques minutes. Si le problème persiste, ",
+      "errorDownloadingFilesLink": "contactez Soutien",
+      "overdueAlert": {
+        "title": "L'accès aux nouvelles réponses est restreint jusqu'à ce que les réponses en retard soient extraites.",
+        "description": "Il y a {{numberOfOverdueResponses}} réponses qui datent de {{escalatedAfter}} jours. Téléchargez et approuvez la suppression des réponses en retard pour enlever cette restriction."
+      }
+    },
+    "downloadSelectedResponses": "Télécharger les réponses sélectionnées",
+    "deleteSelectedResponses": "Supprimer les réponses sélectionnées",
+    "skipLink": "Sauter le tableau de réponses",
+    "unknown": "Inconnu"
+  },
+  "downloadResponsesModals": {
+    "downloadDialog": {
+      "title": "Télécharger les réponses",
+      "chooseDownloadFormat": "Choisissez le format des fichiers de réponses",
+      "downloadFormatContext1": "Vous recevrez un ",
+      "downloadFormatContext2": "Reçu officiel",
+      "downloadFormatContext3": " avec les fichiers de réponses que vous téléchargez. Ce reçu pour vérifier que les réponses sont bien passées de Formulaires GC à votre ordinateur.",
+      "html": "Réponses individuelles en HTML",
+      "htmlDescription": "Des fichiers distincts pour chaque soumission de formulaire",
+      "csv": "CSV",
+      "csvDescription": "Pour des listes, feuilles de calcul ou tableaux",
+      "json": "JSON",
+      "jsonDescription": "Pour API ou configuration des données",
+      "downloadAllAsZip": "Télécharger tout sous forme de fichier ZIP (compressé)",
+      "cancel": "Annuler",
+      "download": "Télécharger"
+    },
+    "confirmDeleteNewDialog": {
+      "confirmAndDelete": "Confirmer la suppression de nouvelles réponses",
+      "responsesNotYetDownloaded": "Ces réponses n’ont pas encore été téléchargées",
+      "alertBody": "Vous n’avez pas téléchargé les réponses que vous tentez de supprimer. Si vous supprimez ces réponses, elles seront retirées du système après 30 jours.",
+      "deletePrompt": "Si vous souhaitez procéder à la suppression des réponses non téléchargées, entrez le mot « SUPPRIMER » ci-dessous.",
+      "required": "Obligatoire",
+      "cancel": "Annuler",
+      "delete": "Supprimer",
+      "deleteConfirmationString": "SUPPRIMER"
+    },
+    "confirmReceiptDialog": {
+      "title": "Approuver la suppression des réponses de Formulaires GC",
+      "contentHeading": "Formulaires GC doit vérifier que les réponses ont bien été téléchargées.",
+      "contentBody": "Pourquoi? Parce que les choses peuvent mal tourner lorsque des fichiers numériques passent d’un ordinateur à un autre. Cette étape sert à vérifier que les fichiers ont été téléchargés en toute sécurité sur votre ordinateur et que les données s'affichent comme prévu, avant que celles-ci soit supprimées.",
+      "copyCode": "Copiez-collez les codes de réception du fichier <italic>Reçu et registre officiel des réponses</italic>",
+      "copyCodeNote": "Utilisez le bouton en haut du fichier de reçu que vous avez eu avec les réponses téléchargées.",
+      "confirmReceipt": "Soumettre les codes de réception",
+      "errors": {
+        "minEntries": {
+          "title": "Au moins une réponse doit être spécifiée",
+          "description": "Entrez les codes de réception des réponses téléchargées pour confirmer leur réception."
+        },
+        "maxEntries": {
+          "title": "Seulement {{max}} réponses peuvent être confirmées à la fois",
+          "description": "Soumettez {{max}} codes de réception avant d'en ajouter d'autres."
+        },
+        "errorEntries": {
+          "title": "Certains code de réception n'ont pas été soumis",
+          "description": "Vérifiez que les codes de réception sont corrects et réessayez."
+        },
+        "invalidEntry": {
+          "title": "Le code de réception ne correspond pas au format requis",
+          "description": "Les codes de réception pour l'approbation se trouvent dans le fichier <italic>Reçu et registre officiel</italic> qui a été téléchargé avec vos réponses."
+        },
+        "unknown": {
+          "title": "Désolé, il y a un problème avec le site",
+          "description": "Attendez quelques minutes et réessayez, ou ",
+          "descriptionLink": "contactez l'équipe de soutien"
+        }
+      }
+    },
+    "reportProblemsDialog": {
+      "title": "Signaler un problème avec les réponses",
+      "findForm": "Trouvez les identifiants de soumission dans la liste des réponses qui ne se téléchargent pas ou ne s'ouvrent pas. Ces identifiants ressemblent à : 31-12-XCRV.",
+      "enterFormNumbers": "Entrez jusqu'à {{max}} identifiants de soumission, un par ligne.",
+      "problemReported": "Une fois que vous aurez signalé le problème, nous vous contacterons pour vous aider à le résoudre.",
+      "reportProblems": "Signaler le problème",
+      "describeProblem": "Décrivez le problème",
+      "errors": {
+        "minEntries": {
+          "title": "Au moins un formulaire doit être spécifié",
+          "description": "Entrez les identifiants de soumission pour les réponses qui posent un problème."
+        },
+        "maxEntries": {
+          "title": "Seulement {{max}} problèmes peuvent être signalés à la fois",
+          "description": "Soumettez {{max}} identifiants de soumission avant d'en soumettre d'autres."
+        },
+        "errorEntries": {
+          "title": "Certains identifiants de soumission n'ont pas été soumis",
+          "description": "Vérifiez que les identifiants de soumission sont corrects et réessayez."
+        },
+        "invalidEntry": {
+          "title": "L'identifiant de soumission ne correspond pas au format requis",
+          "description": "Vérifiez que le format de l'identifiant de soumission est correct et réessayez."
+        },
+        "unknown": {
+          "title": "Désolé, il y a un problème avec le site",
+          "description": "Attendez quelques minutes et réessayez, ou ",
+          "descriptionLink": "contactez l'équipe de soutien"
+        },
+        "notEmpty": "Ne peut pas être vide."
+      }
+    },
+    "lineItemEntries": {
+      "added": "Ajouté",
+      "removed": "Supprimé",
+      "remove": "Supprime"
+    },
+    "sending": "Envoi en cours...",
+    "cancel": "Annuler"
+  },
+  "loading": "Chargement...",
+  "addressComponents": {
+    "streetAddress": "Adresse municipale",
+    "city": "Ville ou communauté",
+    "province": "Province, territoire ou état",
+    "postalCode": "Code postal ou zip",
+    "country": "Pays"
+  },
+  "apiDashboard": {
+    "title": "Réponses"
+  },
+  "systemHealth": {
+    "problemsReported": {
+      "title": "Problèmes signalés avec les soumissions",
+      "description": "<a href='{`/fr/support`}' target='_blank'>Obtenir du soutien</a>"
+    },
+    "deliveredAndConfirmed": {
+      "title": "État : OK",
+      "description": "Toutes les soumissions ont été livrées et confirmées avec succès."
+    },
+    "awatingDownload": {
+      "title": "En attente de livraison",
+      "description": "Les nouvelles soumissions peuvent être téléchargées avec une demande API",
+      "new": "Nouvelles",
+      "responses": "réponses",
+      "available": "disponibles"
+    },
+    "awatingConfirm": {
+      "title": "En attente de confirmation",
+      "description": "Les soumissions téléchargées peuvent être confirmées avec une demande API"
+    },
+    "overdue": {
+      "title": "Réponses en retard",
+      "description": "Récupérez et confirmez les soumissions avec l'API"
+    }
+  },
+  "responsesPilot": {
+    "responsesPilotLink": "Essayer les nouvelles Réponses (Pilote)"
+  },
+  "decimalSeparator": ","
+}

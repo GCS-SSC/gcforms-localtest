@@ -1,0 +1,63 @@
+{
+  "title": "Indicateurs de fonction",
+  "subTitle": "Les indicateurs de fonctionnalité vous permettent de contrôler les différentes fonctionnalités activées dans l'application",
+  "loading": "Chargement des indicateurs de fonctionnalité",
+  "enabled": "Activé",
+  "disabled": "Désactivé",
+  "enable": "Activer",
+  "disable": "Désactiver",
+  "featureTitle": "Fonctionnalité",
+  "featureStatus": "Statut",
+  "featureSwitch": "Activé/Désactivé",
+  "features": {
+    "zitadelAuth": {
+      "title": "AuthenticationZitadel",
+      "description": "Authentification Zitadel pour API"
+    },
+    "addressComplete": {
+      "title": "Adresse complète",
+      "description": "Activer la complétion d'adresse CanadaPost pour les formulaires"
+    },
+    "formTimer": {
+      "title": "formTimer",
+      "description": "Activer formTimer pour retarder l'envoi d'un formulaire et contribuer à prévenir le spam"
+    },
+    "hCaptcha": {
+      "title": "hCaptcha",
+      "description": "Activer la prévention anti-spam hCaptcha"
+    },
+    "topBanner": {
+      "title": "Bannière",
+      "description": "Activer la bannière d'avertissement pour qu'elle soit visible"
+    },
+    "responsesPilot": {
+      "title": "Réponses (Pilote)",
+      "description": "Activer le nouveau flux pour le téléchargement des réponses dans le navigateur avec une clé API."
+    },
+    "userSideAuditLogs": {
+      "title": "Téléchargement de l'activité du formulaire",
+      "description": "Activer le téléchargement des actions clés récentes dans un formulaire (au cours des 30 derniers jours) dans les Paramètres"
+    },
+    "zitadelLogin": {
+      "title": "Connexion via Zitadel",
+      "description": "Activer Zitadel comme méthode de connexion pour les utilisateurs"
+    },
+    "lockedEditing": {
+      "title": "Rédaction collaborative verrouillée",
+      "description": "Activer la collaboration d'ébauches de formulaires, ce qui permet aux utilisateurs de verrouiller et de reprendre la rédaction d'un formulaire"
+    }
+  },
+  "addFlag": "Ajouter un indicateur de fonctionnalité",
+  "flag": "Flag",
+  "actions": "Actions",
+  "no-flags-set": "Aucun indicateur de fonctionnalité défini",
+  "manageUserFeatures": "Gérer les indicateurs de fonctionnalité utilisateur",
+  "user": "Comptes",
+  "select-features": "Sélectionner les fonctionnalités",
+  "add": "Ajouter",
+  "cancel": "Annuler",
+  "remove": "Enlever",
+  "userFlagHeader": "Contrôle des indicateurs de fonctionnalité spécifique à l'utilisateur",
+  "userFlagSubHeader": "Ce paramètre remplace le statut de l'indicateur de fonctionnalité et donnera à un utilisateur spécifique l'accès à une fonctionnalité.",
+  "noUserFlags": "Aucun indicateur de fonctionnalité utilisateur défini."
+}

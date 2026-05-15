@@ -1,0 +1,193 @@
+"use client";
+import React from "react";
+import { useTranslation } from "@i18n/client";
+
+import {
+  FormElementWithIndex,
+  Language,
+  LocalizedElementProperties,
+} from "@lib/types/form-builder-types";
+import { SelectedElement, ElementRequired } from ".";
+import { Question } from "./elements";
+import { QuestionDescription } from "./elements/question/QuestionDescription";
+import { useTemplateStore } from "@lib/store/useTemplateStore";
+
+import { Button } from "@clientComponents/globals";
+import { cn } from "@lib/utils";
+import { EventKeys, useCustomEvent } from "@lib/hooks/useCustomEvent";
+import { useFormBuilderConfig } from "@lib/hooks/useFormBuilderConfig";
+import { ManagedDataDetails } from "./ManagedDataDetails";
+
+export const PanelBody = ({
+  item,
+  elIndex = -1,
+  onQuestionChange,
+  onRequiredChange,
+  formId,
+}: {
+  item: FormElementWithIndex;
+  elIndex?: number;
+  onQuestionChange: (itemId: number, val: string, lang: Language) => void;
+  onRequiredChange: (itemId: number, checked: boolean) => void;
+  formId: string;
+}) => {
+  const { t } = useTranslation("form-builder");
+  const isRichText = item.type === "richText";
+  const isDynamicRow = item.type === "dynamicRow";
+
+  const isAddressComplete = item.type === "addressComplete";
+  const isFormattedDate = item.type === "formattedDate";
+  const isFileUpload = item.type === "fileInput";
+  const hasCustomRegex =
+    item.properties.validation?.type === "custom" && item.properties.validation.regex;
+
+  const { hasApiKeyId } = useFormBuilderConfig();
+
+  const properties = item.properties;
+  const maxLength = properties?.validation?.maxLength;
+
+  const { localizeField, translationLanguagePriority } = useTemplateStore((s) => ({
+    localizeField: s.localizeField,
+    translationLanguagePriority: s.translationLanguagePriority,
+  }));
+
+  const { Event } = useCustomEvent();
+
+  const description =
+    properties[localizeField(LocalizedElementProperties.DESCRIPTION, translationLanguagePriority)];
+
+  const describedById = description ? `item${item.id}-describedby` : undefined;
+
+  const isInvalid = isFileUpload && !hasApiKeyId;
+
+  return (
+    <>
+      {isRichText || isDynamicRow ? (
+        <div className="my-4">
+          <div className={cn(isDynamicRow && "mt-8 mb-2 px-4")}>
+            <Question item={item} onQuestionChange={onQuestionChange} isInvalid={isInvalid} />
+          </div>
+
+          <div className={cn(isDynamicRow && "mb-2")}>
+            <SelectedElement
+              key={`item-${item.id}-${translationLanguagePriority}`}
+              item={item}
+              elIndex={elIndex}
+              formId={formId}
+            />
+          </div>
+        </div>
+      ) : (
+        <div data-id={item.id}>
+          <div className="flex text-sm">
+            <div className="laptop:mt-0 mt-4 w-full">
+              <Question
+                item={item}
+                onQuestionChange={onQuestionChange}
+                describedById={describedById}
+                isInvalid={isInvalid}
+              />
+            </div>
+          </div>
+
+          <div className="mb-4 flex gap-8 text-sm">
+            <div className="grow">
+              <QuestionDescription item={item} describedById={describedById} />
+              <>
+                <div>
+                  <SelectedElement item={item} elIndex={elIndex} formId={formId} />
+                </div>
+                {isFormattedDate && (
+                  <div className="my-4 self-end">
+                    <Button
+                      theme="secondary"
+                      onClick={() => {
+                        Event.fire(EventKeys.openMoreDialog, { itemId: item.id });
+                      }}
+                    >
+                      <>{t("addElementDialog.formattedDate.customizeDate")}</>
+                    </Button>
+                  </div>
+                )}
+              </>
+
+              {maxLength && (
+                <div className="disabled pointer-events-none">
+                  {t("maxCharacterLength")}
+                  {maxLength}
+                </div>
+              )}
+              {hasCustomRegex && (
+                <div className="text-sm text-slate-500">{t("moreDialog.customRegex.label")}</div>
+              )}
+
+              {isAddressComplete && (
+                <div>
+                  <div>
+                    {!item.properties.addressComponents?.canadianOnly && (
+                      <div className="mt-5 cursor-not-allowed rounded-sm bg-gray-100 p-2 text-slate-600">
+                        {t("addElementDialog.addressComplete.country")}
+                      </div>
+                    )}
+                    <div className="mt-5 cursor-not-allowed rounded-sm bg-gray-100 p-2 text-slate-600">
+                      {t("addElementDialog.addressComplete.street.label")}
+                    </div>
+                    <div className="mt-5 cursor-not-allowed rounded-sm bg-gray-100 p-2 text-slate-600">
+                      {t("addElementDialog.addressComplete.city")}
+                    </div>
+                    <div className="mt-5 cursor-not-allowed rounded-sm bg-gray-100 p-2 text-slate-600">
+                      {item.properties.addressComponents?.canadianOnly &&
+                        t("addElementDialog.addressComplete.components.province")}
+                      {!item.properties.addressComponents?.canadianOnly &&
+                        t("addElementDialog.addressComplete.components.provinceOrState")}
+                    </div>
+                    <div className="mt-5 cursor-not-allowed rounded-sm bg-gray-100 p-2 text-slate-600">
+                      {item.properties.addressComponents?.canadianOnly &&
+                        t("addElementDialog.addressComplete.components.postalCode")}
+                      {!item.properties.addressComponents?.canadianOnly &&
+                        t("addElementDialog.addressComplete.components.postalCodeOrZip")}
+                    </div>
+                  </div>
+                  <div className="my-4 self-end">
+                    <Button
+                      theme="secondary"
+                      onClick={() => {
+                        Event.fire(EventKeys.openMoreDialog, { itemId: item.id });
+                      }}
+                    >
+                      {t("addElementDialog.addressComplete.customize")}
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </div>
+            <div className="w-64">
+              {item.properties.autoComplete && (
+                <div data-testid={`autocomplete-${item.id}`} className="mt-5 text-sm">
+                  <strong>{t("autocompleteIsSetTo")}</strong>{" "}
+                  {t(`autocompleteOptions.${item.properties.autoComplete}`)}
+                </div>
+              )}
+              {item.properties.managedChoices && <ManagedDataDetails item={item} />}
+              <ElementRequired
+                onRequiredChange={onRequiredChange}
+                item={item}
+                key={"element-required-" + item.id}
+              />
+            </div>
+          </div>
+
+          {isFileUpload && (
+            <div className="mt-4 border-t border-dotted border-slate-800 pt-4">
+              {!hasApiKeyId && (
+                <strong className="ml-2 inline-block text-sm font-bold text-red-700">
+                  {t("fileUploadApiWarning.text")}
+                </strong>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+    </>
+  );
+};

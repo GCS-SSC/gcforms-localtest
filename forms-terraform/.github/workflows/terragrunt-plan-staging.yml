@@ -1,0 +1,391 @@
+name: "Terragrunt plan STAGING"
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "aws/**"
+      - "env/common/**"
+      - "env/cloud/**"
+      - "idp/**"
+      - "lambda-code/**"
+      - ".github/workflows/terragrunt-plan-staging.yml"
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+env:
+  APP_ENV: staging
+  APP_DOMAINS: ${{ vars.STAGING_APP_DOMAINS }}
+  AWS_ACCOUNT_ID: ${{ vars.STAGING_AWS_ACCOUNT_ID }}
+  AWS_REGION: ca-central-1
+  CONFTEST_VERSION: 0.46.0
+  TERRAFORM_VERSION: 1.14.8
+  TERRAGRUNT_VERSION: 1.0.0
+  TF_INPUT: false
+  # API
+  TF_VAR_zitadel_application_key: ${{ secrets.STAGING_ZITADEL_APPLICATION_KEY }}
+  # App
+  TF_VAR_ecs_secret_token: ${{ secrets.STAGING_TOKEN_SECRET }}
+  TF_VAR_recaptcha_secret: ${{ secrets.STAGING_RECAPTCHA_SITE_SECRET }}
+  TF_VAR_recaptcha_public: 6LfJDN4eAAAAAGvdRF7ZnQ7ciqdo1RQnQDFmh0VY
+  TF_VAR_notify_callback_bearer_token: ${{ secrets.STAGING_GC_NOTIFY_CALLBACK_BEARER_TOKEN }}
+  TF_VAR_notify_api_key: ${{ secrets.STAGING_NOTIFY_API_KEY }}
+  TF_VAR_freshdesk_api_key: ${{ secrets.STAGING_FRESHDESK_API_KEY }}
+  TF_VAR_sentry_api_key: ${{ secrets.STAGING_SENTRY_API_KEY }}
+  TF_VAR_rds_connector_db_password: ${{ secrets.STAGING_DB_PASSWORD_RDS_CONNECTOR }}
+  TF_VAR_rds_db_password: ${{ secrets.STAGING_DB_PASSWORD }}
+  TF_VAR_slack_webhook: ${{ secrets.STAGING_SLACK_WEBHOOK }}
+  TF_VAR_opsgenie_api_key: ${{ secrets.STAGING_OPSGENIE_API_KEY }}
+  TF_VAR_gc_temp_token_template_id: b6885d06-d10a-422a-973f-05e274d9aa86
+  TF_VAR_gc_template_id: 8d597a1b-a1d6-4e3c-8421-042a2b4158b7
+  TF_VAR_cognito_code_template_id: 12a18f84-062c-4a67-8310-bf114af051ea
+  TF_VAR_email_address_contact_us: ${{ vars.STAGING_CONTACT_US_EMAIL }}
+  TF_VAR_email_address_support: ${{ vars.STAGING_SUPPORT_EMAIL }}
+  TF_VAR_load_testing_zitadel_app_private_key: ${{ secrets.STAGING_ZITADEL_APPLICATION_KEY }}
+  TF_VAR_zitadel_administration_key: ${{ secrets.STAGING_ZITADEL_ADMINISTRATION_KEY }}
+  TF_VAR_zitadel_client_id: ${{vars.STAGING_ZITADEL_CLIENT_ID}}
+  TF_VAR_zitadel_project_id: ${{ vars.STAGING_ZITADEL_PROJECT_ID }}
+  TF_VAR_hcaptcha_site_key: ${{ vars.STAGING_HCAPTCHA_SITE_KEY }}
+  TF_VAR_hcaptcha_site_verify_key: ${{ secrets.STAGING_HCAPTCHA_SITE_VERIFY_KEY }}
+  TF_VAR_security_txt_content: ${{ vars.SECURITY_TXT_CDSSANDBOX_XYZ }}
+  # IdP
+  TF_VAR_idp_database_cluster_admin_username: ${{ secrets.STAGING_IDP_DATABASE_CLUSTER_ADMIN_USERNAME }}
+  TF_VAR_idp_database_cluster_admin_password: ${{ secrets.STAGING_IDP_DATABASE_CLUSTER_ADMIN_PASSWORD }}
+  TF_VAR_zitadel_admin_password: ${{ secrets.STAGING_ZITADEL_ADMIN_PASSWORD }}
+  TF_VAR_zitadel_admin_username: ${{ secrets.STAGING_ZITADEL_ADMIN_USERNAME }}
+  TF_VAR_zitadel_database_name: ${{ secrets.STAGING_ZITADEL_DATABASE_NAME }}
+  TF_VAR_zitadel_secret_key: ${{ secrets.STAGING_ZITADEL_SECRET_KEY }}
+  # ECR
+  TF_VAR_aws_development_accounts: ${{ vars.AWS_DEVELOPMENT_ACCOUNTS }}
+  TF_VAR_cds_org_id: ${{ secrets.STAGING_CDS_ORG_ID }}
+  # API END TO END TEST
+  TF_VAR_idp_project_identifier: "275372254274006635"
+  TF_VAR_api_end_to_end_test_form_identifier: "cmacoc5ga0001yk01zgn888l9"
+  TF_VAR_api_end_to_end_test_form_api_private_key: ${{ secrets.STAGING_API_END_TO_END_TEST_FORM_API_PRIVATE_KEY }}
+
+jobs:
+  detect-lambda-changes:
+    if: ${{ ! startsWith(github.head_ref , 'release-please--') }}
+    runs-on: ubuntu-latest
+    outputs:
+      lambda-to-rebuild: ${{ steps.filter.outputs.changes }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - name: Filter
+        id: filter
+        uses: dorny/paths-filter@d1c1ffe0248fe513906c8e24db8ea791d46f8590 # v3.0.3
+        with:
+          filters: .github/lambda-filter.yml
+
+  test-lambda-code:
+    needs: detect-lambda-changes
+    if: needs.detect-lambda-changes.outputs.lambda-to-rebuild != '[]'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        image: ${{ fromJSON(needs.detect-lambda-changes.outputs.lambda-to-rebuild) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - name: Test Lambda code
+        uses: ./.github/workflows/test-lambda-code
+        with:
+          lambda-directory: lambda-code/${{ matrix.image }}
+          lambda-name: ${{ matrix.image }}
+
+  build-lambda-images:
+    needs: detect-lambda-changes
+    if: needs.detect-lambda-changes.outputs.lambda-to-rebuild != '[]'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 4 # Limits parallel matrix jobs
+      matrix:
+        image: ${{ fromJSON(needs.detect-lambda-changes.outputs.lambda-to-rebuild) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - name: Build Lambda images
+        uses: ./.github/workflows/build-lambda-images
+        with:
+          lambda-directory: lambda-code/${{ matrix.image }}
+          lambda-name: ${{ matrix.image }}
+
+  build-idp-image:
+    if: ${{ ! startsWith(github.head_ref , 'release-please--') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - name: Build IdP image
+        working-directory: idp
+        run: |
+          make build
+
+  terragrunt-plan:
+    if: ${{ ! startsWith(github.head_ref , 'release-please--') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      # Setup Terraform, Terragrunt, and Conftest
+      - name: Setup terraform tools
+        uses: cds-snc/terraform-tools-setup@36df0d7572a15921998170395475093c183d720a # v1.3.0
+
+      - name: Configure AWS credentials using OIDC
+        uses: aws-actions/configure-aws-credentials@7474bc4690e29a8392af63c5b98e7449536d5c3a # v4.3.1
+        with:
+          role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/forms-terraform-plan
+          role-session-name: TFPlan
+          aws-region: ${{ env.AWS_REGION }}
+
+      - uses: dorny/paths-filter@d1c1ffe0248fe513906c8e24db8ea791d46f8590 # v3.0.3
+        id: filter
+        with:
+          filters: .github/module-filter.yml
+
+      # No dependencies
+      - name: Terragrunt plan ecr
+        if: steps.filter.outputs.ecr == 'true'
+        uses: cds-snc/terraform-plan@19444f6b6243b20d4c89a02f8277f1f6bfbd7915 #5.0.3
+        with:
+          directory: "env/cloud/ecr"
+          comment-delete: "true"
+          comment-title: "Staging: ecr"
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          terragrunt: "true"
+
+      - name: Terragrunt plan hosted_zone
+        if: steps.filter.outputs.hosted_zone == 'true'
+        uses: cds-snc/terraform-plan@19444f6b6243b20d4c89a02f8277f1f6bfbd7915 #5.0.3
+        with:
+          directory: "env/cloud/hosted_zone"
+          comment-delete: "true"
+          comment-title: "Staging: hosted_zone"
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          terragrunt: "true"
+
+      - name: Terragrunt plan kms
+        if: steps.filter.outputs.kms == 'true'
+        uses: cds-snc/terraform-plan@19444f6b6243b20d4c89a02f8277f1f6bfbd7915 #5.0.3
+        with:
+          directory: "env/cloud/kms"
+          comment-delete: "true"
+          comment-title: "Staging: kms"
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          terragrunt: "true"
+
+      - name: Terragrunt plan oidc_roles
+        if: steps.filter.outputs.oidc_roles == 'true'
+        uses: cds-snc/terraform-plan@19444f6b6243b20d4c89a02f8277f1f6bfbd7915 #5.0.3
+        with:
+          directory: "env/cloud/oidc_roles"
+          comment-delete: "true"
+          comment-title: "Staging: oidc_roles"
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          terragrunt: "true"
+
+      - name: Terragrunt plan sqs
+        if: steps.filter.outputs.sqs == 'true'
+        uses: cds-snc/terraform-plan@19444f6b6243b20d4c89a02f8277f1f6bfbd7915 #5.0.3
+        with:
+          directory: "env/cloud/sqs"
+          comment-delete: "true"
+          comment-title: "Staging: sqs"
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          terragrunt: "true"
+
+      - name: Terragrunt plan secrets
+        if: steps.filter.outputs.secrets == 'true'
+        uses: cds-snc/terraform-plan@19444f6b6243b20d4c89a02f8277f1f6bfbd7915 #5.0.3
+        with:
+          directory: "env/cloud/secrets"
+          comment-delete: "true"
+          comment-title: "Staging: secrets"
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          terragrunt: "true"
+
+      - name: Terragrunt plan s3
+        if: steps.filter.outputs.s3 == 'true'
+        uses: cds-snc/terraform-plan@19444f6b6243b20d4c89a02f8277f1f6bfbd7915 #5.0.3
+        with:
+          directory: "env/cloud/s3"
+          comment-delete: "true"
+          comment-title: "Staging: s3"
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          terragrunt: "true"
+
+      # Depends on S3
+      - name: Terragrunt plan guard_duty
+        if: steps.filter.outputs.guard_duty == 'true'
+        uses: cds-snc/terraform-plan@19444f6b6243b20d4c89a02f8277f1f6bfbd7915 #5.0.3
+        with:
+          directory: "env/cloud/guard_duty"
+          comment-delete: "true"
+          comment-title: "Staging: guard_duty"
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          terragrunt: "true"
+
+      # Depends on kms
+      - name: Terragrunt plan sns
+        if: steps.filter.outputs.sns == 'true'
+        uses: cds-snc/terraform-plan@19444f6b6243b20d4c89a02f8277f1f6bfbd7915 #5.0.3
+        with:
+          directory: "env/cloud/sns"
+          comment-delete: "true"
+          comment-title: "Staging: sns"
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          terragrunt: "true"
+
+      - name: Terragrunt plan cognito
+        if: steps.filter.outputs.cognito == 'true'
+        uses: cds-snc/terraform-plan@19444f6b6243b20d4c89a02f8277f1f6bfbd7915 #5.0.3
+        with:
+          directory: "env/cloud/cognito"
+          comment-delete: "true"
+          comment-title: "Staging: cognito"
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          terragrunt: "true"
+
+      - name: Terragrunt plan network
+        if: steps.filter.outputs.network == 'true'
+        uses: cds-snc/terraform-plan@19444f6b6243b20d4c89a02f8277f1f6bfbd7915 #5.0.3
+        with:
+          directory: "env/cloud/network"
+          comment-delete: "true"
+          comment-title: "Staging: network"
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          terragrunt: "true"
+
+      - name: Terragrunt plan dynamodb
+        if: steps.filter.outputs.dynamodb == 'true'
+        uses: cds-snc/terraform-plan@19444f6b6243b20d4c89a02f8277f1f6bfbd7915 #5.0.3
+        with:
+          directory: "env/cloud/dynamodb"
+          comment-delete: "true"
+          comment-title: "Staging: dynamodb"
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          terragrunt: "true"
+
+      # Depends on network
+      - name: Terragrunt plan load_balancer
+        if: steps.filter.outputs.load_balancer == 'true'
+        uses: cds-snc/terraform-plan@19444f6b6243b20d4c89a02f8277f1f6bfbd7915 #5.0.3
+        with:
+          directory: "env/cloud/load_balancer"
+          comment-delete: "true"
+          comment-title: "Staging: load_balancer"
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          terragrunt: "true"
+
+      - name: Terragrunt plan redis
+        if: steps.filter.outputs.redis == 'true'
+        uses: cds-snc/terraform-plan@19444f6b6243b20d4c89a02f8277f1f6bfbd7915 #5.0.3
+        with:
+          directory: "env/cloud/redis"
+          comment-delete: "true"
+          comment-title: "Staging: redis"
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          terragrunt: "true"
+
+      - name: Terragrunt plan rds
+        if: steps.filter.outputs.rds == 'true'
+        uses: cds-snc/terraform-plan@19444f6b6243b20d4c89a02f8277f1f6bfbd7915 #5.0.3
+        with:
+          directory: "env/cloud/rds"
+          comment-delete: "true"
+          comment-title: "Staging: rds"
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          terragrunt: "true"
+
+      - name: Terragrunt plan idp
+        if: steps.filter.outputs.idp == 'true'
+        uses: cds-snc/terraform-plan@19444f6b6243b20d4c89a02f8277f1f6bfbd7915 #5.0.3
+        with:
+          directory: "env/cloud/idp"
+          comment-delete: "true"
+          comment-title: "Staging: idp"
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          terragrunt: "true"
+
+      # Depends on everything
+      - name: Terragrunt plan app
+        if: steps.filter.outputs.app == 'true'
+        uses: cds-snc/terraform-plan@19444f6b6243b20d4c89a02f8277f1f6bfbd7915 #5.0.3
+        with:
+          directory: "env/cloud/app"
+          comment-delete: "true"
+          comment-title: "Staging: app"
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          terragrunt: "true"
+
+      - name: Terragrunt plan api
+        if: steps.filter.outputs.api == 'true'
+        uses: cds-snc/terraform-plan@19444f6b6243b20d4c89a02f8277f1f6bfbd7915 #5.0.3
+        with:
+          directory: "env/cloud/api"
+          comment-delete: "true"
+          comment-title: "Staging: api"
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          terragrunt: "true"
+
+      - name: Terragrunt plan lambdas
+        if: steps.filter.outputs.lambdas == 'true'
+        uses: cds-snc/terraform-plan@19444f6b6243b20d4c89a02f8277f1f6bfbd7915 #5.0.3
+        with:
+          directory: "env/cloud/lambdas"
+          comment-delete: "true"
+          comment-title: "Staging: lambdas"
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          terragrunt: "true"
+
+      - name: Terragrunt plan alarms
+        if: steps.filter.outputs.alarms == 'true'
+        uses: cds-snc/terraform-plan@19444f6b6243b20d4c89a02f8277f1f6bfbd7915 #5.0.3
+        with:
+          directory: "env/cloud/alarms"
+          comment-delete: "true"
+          comment-title: "Staging: alarms"
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          terragrunt: "true"
+
+      - name: Terragrunt plan glue
+        if: steps.filter.outputs.glue == 'true'
+        uses: cds-snc/terraform-plan@19444f6b6243b20d4c89a02f8277f1f6bfbd7915 #5.0.3
+        with:
+          directory: "env/cloud/glue"
+          comment-delete: "true"
+          comment-title: "Staging: glue"
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          terragrunt: "true"
+
+      - name: Terragrunt plan pr_review
+        if: steps.filter.outputs.pr_review == 'true'
+        uses: cds-snc/terraform-plan@19444f6b6243b20d4c89a02f8277f1f6bfbd7915 #5.0.3
+        with:
+          directory: "env/cloud/pr_review"
+          comment-delete: "true"
+          comment-title: "Staging: pr_review"
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          terragrunt: "true"
+
+      - name: Terragrunt plan load_testing
+        if: steps.filter.outputs.load_testing == 'true'
+        uses: cds-snc/terraform-plan@19444f6b6243b20d4c89a02f8277f1f6bfbd7915 #5.0.3
+        with:
+          directory: "env/cloud/load_testing"
+          comment-delete: "true"
+          comment-title: "Staging: load_testing"
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          terragrunt: "true"

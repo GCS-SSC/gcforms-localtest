@@ -1,0 +1,182 @@
+"use client";
+import React, { useEffect } from "react";
+import { useTranslation } from "@i18n/client";
+import Image from "next/image";
+import { getDate, slugify } from "@lib/client/clientHelpers";
+import { LinkButton } from "@serverComponents/globals/Buttons/LinkButton";
+import Loader from "@clientComponents/globals/Loader";
+import { Button, Alert } from "@clientComponents/globals";
+import { useDialogRef, Dialog } from "./Dialog";
+import { checkUnprocessed } from "@lib/unprocessed/actions";
+import { getFormTemplate } from "@formBuilder/actions";
+
+async function downloadForm(lang: string, id: string) {
+  const template = await getFormTemplate(id);
+  if (template.formRecord) {
+    const formRecord = template.formRecord;
+    const fileName = lang === "fr" ? formRecord.titleFr : formRecord.titleEn;
+    const data = JSON.stringify(template, null, 2);
+    const tempUrl = window.URL.createObjectURL(new Blob([data]));
+    const link = document.createElement("a");
+    link.href = tempUrl;
+    link.setAttribute("download", slugify(`${fileName}-${getDate()}`) + ".json");
+    document.body.appendChild(link);
+    link.click();
+    window.URL.revokeObjectURL(tempUrl);
+  } else {
+    alert("error creating file download");
+  }
+}
+
+export const ConfirmFormDeleteDialog = ({
+  formId,
+  handleConfirm,
+  handleClose,
+  isPublished,
+}: {
+  formId: string;
+  handleConfirm: () => void;
+  handleClose: () => void;
+  isPublished?: boolean;
+}) => {
+  const dialog = useDialogRef();
+  const { t, i18n } = useTranslation("form-builder");
+  const [unprocessed, setUnprocessed] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(isPublished ?? true);
+  const [error, setError] = React.useState(false);
+
+  useEffect(() => {
+    if (isPublished) {
+      const fetchData = async () => {
+        try {
+          const result = await checkUnprocessed({ formId });
+          if (result.error) {
+            setUnprocessed(false);
+            setError(true);
+          } else {
+            setUnprocessed(result.unprocessedSubmissions ?? false);
+            setError(false);
+          }
+        } catch {
+          setError(true);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+
+      fetchData();
+    }
+  }, [formId, isPublished]);
+
+  if (isLoading) {
+    return (
+      <Dialog handleClose={handleClose} dialogRef={dialog}>
+        <div className="p-5">
+          <Loader message={t("loading", { ns: "form-builder" })} />{" "}
+        </div>
+      </Dialog>
+    );
+  }
+
+  if (error) {
+    return (
+      <Dialog handleClose={handleClose} dialogRef={dialog}>
+        <div className="flex min-h-[150px] p-5">
+          <div className="w-full p-10">
+            <Alert.Danger>
+              <Alert.Title>{t("formDelete.error")}</Alert.Title>
+              <p>{t("formDelete.somethingWentWrong")}</p>
+            </Alert.Danger>
+          </div>
+        </div>
+      </Dialog>
+    );
+  }
+
+  const actions = (
+    <>
+      <Button
+        theme="secondary"
+        onClick={() => {
+          downloadForm(i18n.language, formId);
+        }}
+        dataTestId="download-file-button"
+      >
+        {t("formDelete.downloadButtonText")}
+      </Button>
+      <Button
+        className="ml-5"
+        theme="destructive"
+        onClick={() => {
+          dialog.current?.close();
+          handleClose();
+          handleConfirm();
+        }}
+        dataTestId="confirm-delete"
+      >
+        {t("formDelete.okay")}
+      </Button>
+    </>
+  );
+
+  const responsesLink = `/${i18n.language}/form-builder/${formId}/responses`;
+
+  if (unprocessed && isPublished) {
+    return (
+      <Dialog handleClose={handleClose} dialogRef={dialog}>
+        <div className="p-5">
+          <div className="flex justify-center px-10">
+            <Image
+              width={"326"}
+              height={"228"}
+              alt=""
+              className="block"
+              src="/img/form-builder-download-responses.png"
+            />
+          </div>
+          <div className="mt-10">
+            <h2>{t("formDeleteResponses.title")}</h2>
+            <p className="mb-6">{t("formDeleteResponses.message1")}</p>
+            <p className="mb-2">
+              <span className="font-bold">{t("formDeleteResponses.message2")}</span>
+            </p>
+            <p className="mb-1">{t("formDeleteResponses.message3")}</p>
+            <p className="mb-6">{t("formDeleteResponses.message4")}</p>
+            <LinkButton.Primary href={responsesLink}>
+              {t("formDeleteResponses.cta")}
+            </LinkButton.Primary>
+          </div>
+        </div>
+      </Dialog>
+    );
+  }
+
+  return (
+    <Dialog
+      handleClose={handleClose}
+      dialogRef={dialog}
+      actions={actions}
+      title={t("formDelete.title")}
+    >
+      <div className="p-5">
+        <div>
+          {isPublished ? (
+            <>
+              <p className="mb-6">{t("formDelete.published.message1")}</p>
+              <p>{t("formDelete.published.message2")} </p>
+              <p>
+                <span className="font-bold">{t("formDelete.published.message3")}</span>
+              </p>
+            </>
+          ) : (
+            <>
+              <p className="mb-6">{t("formDelete.draft.message1")}</p>
+              <p className="mb-6">{t("formDelete.draft.message2")}</p>
+              <p>{t("formDelete.draft.message3")}</p>
+            </>
+          )}
+        </div>
+      </div>
+    </Dialog>
+  );
+};

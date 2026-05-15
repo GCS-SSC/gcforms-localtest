@@ -1,0 +1,381 @@
+{
+  "footer": {
+    "about": {
+      "link": "https://articles.alpha.canada.ca/forms-formulaires/?utm_source=EN_FormsFooter&utm_medium=Product&utm_campaign=forms_product",
+      "desc": "About GC Forms"
+    },
+    "terms-and-conditions": {
+      "link": "/en/terms-and-conditions",
+      "desc": "Terms and conditions"
+    },
+    "terms-of-use": {
+      "link": "/en/terms-of-use",
+      "desc": "Terms of use"
+    },
+    "sla": {
+      "link": "/en/sla",
+      "desc": "Service-level agreement"
+    },
+    "support": {
+      "link": "/en/support",
+      "desc": "Support"
+    },
+    "ariaLabel": "Footer"
+  },
+  "skip-link": "Skip to main content",
+  "fip": {
+    "link": "http://canada.ca/en.html",
+    "text": "Symbol of the Government of Canada",
+    "label": "Government of Canada homepage"
+  },
+  "preview": {
+    "title": "Preview a form from JSON config",
+    "button": "Preview"
+  },
+  "lang-toggle": "Language selection",
+  "submitButton": "Submit",
+  "input-validation": {
+    "heading": "Please correct the errors on the page.",
+    "required": "Complete the required field to continue.",
+    "alphanumeric": "Enter letters and numbers only.",
+    "duplicateEmail": "This email address was already added.",
+    "text": "",
+    "number": "Enter a number.",
+    "email": "Enter a valid email address.",
+    "date": "Enter a valid date in mm/dd/yyyy format.",
+    "date-invalid": "Enter a valid date.",
+    "phone": "Enter a valid telephone number.",
+    "regex": "Enter the correct format.",
+    "invalidRegex": "There was a problem processing the form.",
+    "combobox-strict": "Select a value from the list.",
+    "too-few-digits": "The number entered does not have enough digits.",
+    "too-many-digits": "The number entered has too many digits.",
+    "too-small": "The number entered must be at least {{min}}.",
+    "too-large": "The number entered must be at most {{max}}.",
+    "file-upload": {
+      "default": {
+        "heading": "There was a problem submitting your form",
+        "message": "The file {{fileName}} could not be uploaded."
+      },
+      "file-size-too-large": {
+        "message": "'{{fileName}}' is too big. Choose a file size that is less than {{maxSizeInMb}} MB."
+      },
+      "mime": {
+        "heading": "There was a problem submitting your form",
+        "message": "{{fileName}} could not be uploaded. Try saving the file in a different format and uploading it again."
+      },
+      "network-error": {
+        "heading": "There was a problem submitting your form",
+        "message": "Check your network connection and try to submit again later."
+      }
+    },
+    "file-type-invalid": "Select a different file type.",
+    "too-many-characters": "Shorten the response.",
+    "all-checkboxes-required": "Read and check all boxes to confirm the items in this section.",
+    "validGovEmail": "Enter a valid government email address.",
+    "notSameAsUserEmail": "This cannot be your email address. Enter the email of the person in charge of your team. If that's you, add a colleague.",
+    "min-length-4-characters": "Must be at least 4 characters.",
+    "mismatched-type": "The answer does not match the required type.",
+    "MB": "MB",
+    "KB": "KB",
+    "bytes": "bytes",
+    "error-list": {
+      "default": "Enter an answer for: {{question}}",
+      "select": "Select an option for: {{question}}",
+      "checkbox": "Select one or multiple options for: {{question}}",
+      "check-all": "Check off all the boxes for: {{question}}",
+      "file-input": "Choose a file for: {{question}}",
+      "date-invalid": "Enter a valid date for: {{question}}"
+    }
+  },
+  "required": "required",
+  "all-required": "all checkboxes required",
+  "required-field": "Required field",
+  "decimalSeparator": ".",
+  "file-upload-button-text": "Choose file",
+  "file-upload-sr-only-file-selected": "Currently selected file is",
+  "file-upload-no-file-selected": "No file currently selected",
+  "dropdown-initial-option-text": "No selection",
+  "combobox-results-available_one": "{{count}} option available",
+  "combobox-results-available_other": "{{count}} options available",
+  "combobox-no-results": "No options available",
+  "combobox-of": "of",
+  "combobox-input-hint": "When results are available, use the directional arrows to navigate: up and down arrows to review, enter to select. Touch device users, explore by touch or with swipe gestures.",
+  "server-error": "Sorry, it seems there was a problem submitting your form. Please try again later.",
+  "form-closed-error": "This form is closed and no longer accepting form submissions. Refresh this page for a more specific message about this closed form.",
+  "title-full": "GC Forms - Formulaires GC",
+  "title": "GC Forms",
+  "loading": "We are processing your form submission. Please wait.",
+  "spam-error": {
+    "error-part-1": "Button cannot be used in less than",
+    "error-part-2": "seconds.",
+    "prompt-part-1": "Try again in",
+    "prompt-part-2": "seconds.",
+    "success-message": "The button is ready.",
+    "success-prompt": "You can try this button again now."
+  },
+  "adminNav": {
+    "dashboard": "Home",
+    "formbuilder": "Form builder",
+    "users": "Accounts",
+    "templates": "Templates",
+    "features": "Feature flags",
+    "login": "Sign in",
+    "logout": "Sign out",
+    "privileges": "Privileges",
+    "settings": "Settings",
+    "administration": "Administration",
+    "myForms": "Forms",
+    "profile": "Profile",
+    "typography": "Typography",
+    "upload": "Upload",
+    "viewTemplates": "View Templates",
+    "allForms": "Forms"
+  },
+  "formElements": {
+    "characterCount": {
+      "remaining_one": "You have {{count}} character left.",
+      "remaining_other": "You have {{count}} characters left.",
+      "exceeded_one": "You've exceeded the limit by {{count}} character.",
+      "exceeded_other": "You've exceeded the limit by {{count}} characters."
+    }
+  },
+  "dynamicRow": {
+    "add": "Add",
+    "delete": "Delete",
+    "addedMessage": "Fieldset {{rowTitle}} - {{count}} was added to the form",
+    "removedMessage": "Fieldset {{rowTitle}} - {{count}} was removed from the form"
+  },
+  "acceptableUsePage": {
+    "agree": "Agree",
+    "welcome": "Know your responsibilities"
+  },
+  "loginMenu": {
+    "login": "Sign in",
+    "logout": "Sign out"
+  },
+  "alert": {
+    "dismissAlert": "Close this alert"
+  },
+  "continue": "Continue",
+  "error": "Error",
+  "unknown": "Unknown",
+  "attention": {
+    "warning": "Warning",
+    "error": "Error"
+  },
+  "errorPanel": {
+    "defaultTitle": "Something went wrong",
+    "defaultMessage": "Sorry, there was a problem and we lost you. Please try again later.",
+    "cta": {
+      "yourForms": "Back to Forms",
+      "home": "Back to home",
+      "support": "Get support"
+    }
+  },
+  "account": {
+    "actions": {
+      "backToSignIn": "Back to sign in"
+    },
+    "fields": {
+      "password": {
+        "label": "Password",
+        "hint": "Must be at least 8 characters with a capital letter, number, and symbol",
+        "error": {
+          "minLength": "Password must be at least 8 characters.",
+          "maxLength": "Password must not exceed 50 characters.",
+          "oneLowerCase": "Password must contain at least 1 lowercase character.",
+          "oneUpperCase": "Password must contain at least 1 uppercase character.",
+          "oneNumber": "Password must contain at least 1 number.",
+          "oneSymbol": "Password must contain at least 1 symbol."
+        }
+      },
+      "passwordConfirmation": {
+        "label": "Confirm password",
+        "error": {
+          "mustMatch": "The entries for password must match."
+        }
+      }
+    }
+  },
+  "mainNavAriaLabel": "Main",
+  "yourAccount": "Your account",
+  "accountMenu": {
+    "label": "Account menu",
+    "editing": "Editing -",
+    "release": "Release",
+    "gcFormsProfile": "GC Forms profile",
+    "account": "Account",
+    "fallbackName": "GC Forms user"
+  },
+  "dateModified": "Date modified",
+  "formattedDate": {
+    "year": "Year",
+    "month": "Month",
+    "day": "Day",
+    "months": {
+      "1": "January",
+      "2": "February",
+      "3": "March",
+      "4": "April",
+      "5": "May",
+      "6": "June",
+      "7": "July",
+      "8": "August",
+      "9": "September",
+      "10": "October",
+      "11": "November",
+      "12": "December"
+    },
+    "YYYY-MM-DD": "YYYY-MM-DD",
+    "DD-MM-YYYY": "DD-MM-YYYY",
+    "MM-DD-YYYY": "MM-DD-YYYY",
+    "roleDescription": "formatted date"
+  },
+  "start": "Start",
+  "loadingResult": "Loading...",
+  "logic": {
+    "start": "Start page",
+    "end": "Confirmation page",
+    "review": "End (Review page and Confirmation)",
+    "introduction": "Form introduction",
+    "confirmation": "Confirmation message",
+    "privacy": "Privacy statement"
+  },
+  "exit": "Exit",
+  "campaignBanner": {
+    "enabled": "true",
+    "type": "COMING SOON",
+    "message": "<strong>In August</strong>: Build multi-page forms with branching logic. <a href='/en/contact' className='text-white hover:text-white'>Subscribe for updates</a>",
+    "type2": "NEW",
+    "message2": "Build complex multi-page forms with display logic and branching. <a href='https://articles.alpha.canada.ca/forms-formulaires/setting-up-form-logic/' className='text-white hover:text-white'>Learn more</a>",
+    "type3": "Federal election",
+    "message3": "Check with your department’s communications team about announcements during the <a href='https://www.canada.ca/en/privy-council/services/publications/guidelines-conduct-ministers-state-exempt-staff-public-servants-election.html' className='text-white hover:text-white'>caretaker period</a>",
+    "type4": "Retiring email delivery",
+    "message4": "Published forms are unaffected. New forms will not have email data delivery as an option. <a href='https://articles.alpha.canada.ca/forms-formulaires/getting-form-responses/' className='text-white hover:text-white'>Learn more</a>",
+    "type5": "Take 1 minute to help",
+    "message5": "Test an upcoming functionality to improve response retrieval: <a href='/en/forms/browser-check' target='_blank' className='text-white hover:text-white'>Check your browser</a>"
+  },
+  "closingNotice": {
+    "title": "Form closing",
+    "text1": "Form accepting submissions until:",
+    "text2": "{{month}} {{day}}, {{year}} at {{hour}}:{{minute}} ET."
+  },
+  "cancel": "Cancel",
+  "number": "Number",
+  "saveAndResume": {
+    "saveBtn": "Save to device",
+    "resumeBtn": "Resume form",
+    "loadAnswers": "Load your answers",
+    "saveToDevice": "Save to device",
+    "resumeForm": "Resume form",
+    "protectYourDataNote": "Protect your data by keeping the downloaded file in a safe place on a trusted device.",
+    "more": "More",
+    "cancel": "Cancel",
+    "formRestored": "Your answers were loaded to the form.",
+    "resumeUploadError": {
+      "title": "Problem loading answers",
+      "description": "Try uploading the file again or restart a new form and copy-paste your answers from the file.",
+      "errorCode": "Error code: {{code}}"
+    },
+    "problemLoadingAnswers": {
+      "title": "Problem loading answers from file",
+      "description": "Make sure you're selecting the right file. Try uploading again, or restart a new form and copy-paste your answers from your file.",
+      "errorCode": "Error code: {{code}}"
+    },
+    "resumePage": {
+      "upload": {
+        "title": "Load your answers",
+        "description": "Upload your saved form in progress"
+      },
+      "restart": {
+        "title": "Start blank form",
+        "description": "Fill out a new form"
+      },
+      "readyToContinue": {
+        "title": "Ready to continue?",
+        "intro": "To continue the form you started:",
+        "text1": "1. Find the file saved on your device",
+        "text2": "2. Upload it to add your answers to the form",
+        "text3": "3. Continue filling out the form"
+      }
+    },
+    "prompt": {
+      "title": "Save to device",
+      "text1": "Download a copy of your form in progress.",
+      "text2": "Resume later by finding the file on your device and loading your saved answers.",
+      "text3": "Make sure you protect your data by keeping the downloaded file in a safe place on a trusted device.",
+      "okay": "Save",
+      "cancel": "Cancel"
+    },
+    "downloadProgressHtml": {
+      "nextSteps": {
+        "title": "Ready to continue? ",
+        "resumeBox": {
+          "title": "To load these answers:",
+          "text1": "1. Go to the online form",
+          "text2": "2. Click Resume form",
+          "text3": "3. Find this file on your device",
+          "text4": "4. Upload it to load your answers to the form",
+          "link": "Go to the online form"
+        }
+      },
+      "keepSafe": {
+        "title": "Keep your personal information safe",
+        "description": "Make sure to save this file containing form answers in a secure spot on your device."
+      },
+      "badge": {
+        "text": "In progress",
+        "lastSaved": "Saved:  {{month}} {{day}}, {{year}}"
+      }
+    }
+  },
+  "saveResponse": {
+    "saveBtn": "Download",
+    "saveBtnDescription": "Get a copy of your answers",
+    "prompt": {
+      "title": "Save to device",
+      "description": "Protect your data by keeping this file in a safe place.",
+      "okay": "Save",
+      "cancel": "Cancel"
+    },
+    "downloadHtml": {
+      "keepSafe": {
+        "description": " Keep this file in a secure spot on your device to protect your information."
+      },
+      "badge": {
+        "text": "Form submitted on ",
+        "lastSaved": "{{month}} {{day}}, {{year}}",
+        "submissionId": "Submission ID: {{submissionId}}"
+      },
+      "generateHtmlError": {
+        "description": "There was a problem saving your form answers. The file could not be downloaded. Try again later."
+      }
+    }
+  },
+  "conditional": {
+    "activated": "The form element {{title}} was added to the form"
+  },
+  "version": "Version",
+  "remove": "Remove",
+  "fileInput": {
+    "addedMessage": "{{fileName}} was added to the form",
+    "removedMessage": "{{fileName}} removed"
+  },
+  "submitProgress": {
+    "text": "Submitting form...",
+    "uploadingFiles": "Uploading {{totalFiles}} files...",
+    "spinner": "Submitting form"
+  },
+  "saveFileWarning": {
+    "text": "You'll need to re-upload any files attached when you resume filling the form."
+  },
+  "confirmFileWarning": {
+    "text": "This copy of your answers will not include the files you attached to your submission."
+  },
+  "loginPilot": {
+    "title": "Sign in to GC Forms",
+    "description": "Use your government account to build forms and access submitted responses.",
+    "button": "Sign in"
+  }
+}

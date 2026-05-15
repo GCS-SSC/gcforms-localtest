@@ -1,0 +1,203 @@
+#
+# VPC Endpoints:
+# Allows for communication between the VPC and 
+# AWS services that does not route over the internet.
+#
+resource "aws_vpc_endpoint" "sqs" {
+  vpc_id              = aws_vpc.forms.id
+  vpc_endpoint_type   = "Interface"
+  service_name        = "com.amazonaws.${var.region}.sqs"
+  private_dns_enabled = true
+  security_group_ids = [
+    aws_security_group.privatelink.id
+  ]
+  subnet_ids = aws_subnet.forms_private.*.id
+
+
+}
+
+resource "aws_vpc_endpoint" "lambda" {
+  vpc_id              = aws_vpc.forms.id
+  vpc_endpoint_type   = "Interface"
+  service_name        = "com.amazonaws.${var.region}.lambda"
+  private_dns_enabled = true
+  security_group_ids = [
+    aws_security_group.privatelink.id,
+  ]
+  subnet_ids = data.aws_subnets.lambda_endpoint_available.ids
+
+
+}
+
+resource "aws_vpc_endpoint" "ecr-dkr" {
+  vpc_id              = aws_vpc.forms.id
+  vpc_endpoint_type   = "Interface"
+  service_name        = "com.amazonaws.${var.region}.ecr.dkr"
+  private_dns_enabled = true
+  security_group_ids = [
+    aws_security_group.privatelink.id,
+  ]
+  subnet_ids = data.aws_subnets.ecr_endpoint_available.ids
+
+
+}
+
+resource "aws_vpc_endpoint" "ecr-api" {
+  vpc_id              = aws_vpc.forms.id
+  vpc_endpoint_type   = "Interface"
+  service_name        = "com.amazonaws.${var.region}.ecr.api"
+  private_dns_enabled = true
+  security_group_ids = [
+    aws_security_group.privatelink.id,
+  ]
+  subnet_ids = data.aws_subnets.ecr_endpoint_available.ids
+
+
+}
+
+resource "aws_vpc_endpoint" "kms" {
+  vpc_id              = aws_vpc.forms.id
+  vpc_endpoint_type   = "Interface"
+  service_name        = "com.amazonaws.${var.region}.kms"
+  private_dns_enabled = true
+  security_group_ids = [
+    aws_security_group.privatelink.id,
+  ]
+  subnet_ids = aws_subnet.forms_private.*.id
+
+
+}
+
+resource "aws_vpc_endpoint" "secretsmanager" {
+  vpc_id              = aws_vpc.forms.id
+  vpc_endpoint_type   = "Interface"
+  service_name        = "com.amazonaws.${var.region}.secretsmanager"
+  private_dns_enabled = true
+  security_group_ids = [
+    aws_security_group.privatelink.id,
+  ]
+  subnet_ids = aws_subnet.forms_private.*.id
+
+
+}
+
+resource "aws_vpc_endpoint" "logs" {
+  vpc_id              = aws_vpc.forms.id
+  vpc_endpoint_type   = "Interface"
+  service_name        = "com.amazonaws.${var.region}.logs"
+  private_dns_enabled = true
+  security_group_ids = [
+    aws_security_group.privatelink.id,
+  ]
+  subnet_ids = aws_subnet.forms_private.*.id
+
+
+}
+
+resource "aws_vpc_endpoint" "monitoring" {
+  vpc_id              = aws_vpc.forms.id
+  vpc_endpoint_type   = "Interface"
+  service_name        = "com.amazonaws.${var.region}.monitoring"
+  private_dns_enabled = true
+  security_group_ids = [
+    aws_security_group.privatelink.id,
+  ]
+  subnet_ids = aws_subnet.forms_private.*.id
+
+
+}
+
+resource "aws_vpc_endpoint" "rds" {
+  vpc_id              = aws_vpc.forms.id
+  vpc_endpoint_type   = "Interface"
+  service_name        = "com.amazonaws.${var.region}.rds-data"
+  private_dns_enabled = true
+  security_group_ids = [
+    aws_security_group.privatelink.id,
+  ]
+  subnet_ids = aws_subnet.forms_private.*.id
+
+
+}
+
+resource "aws_vpc_endpoint" "glue" {
+  vpc_id              = aws_vpc.forms.id
+  vpc_endpoint_type   = "Interface"
+  service_name        = "com.amazonaws.${var.region}.glue"
+  private_dns_enabled = true
+  security_group_ids = [
+    aws_security_group.privatelink.id,
+  ]
+  subnet_ids = aws_subnet.forms_private.*.id
+}
+
+resource "aws_vpc_endpoint" "sns" {
+  vpc_id              = aws_vpc.forms.id
+  vpc_endpoint_type   = "Interface"
+  service_name        = "com.amazonaws.${var.region}.sns"
+  private_dns_enabled = true
+  security_group_ids = [
+    aws_security_group.privatelink.id,
+  ]
+  subnet_ids = aws_subnet.forms_private.*.id
+}
+
+resource "aws_vpc_endpoint" "xray" {
+  vpc_id              = aws_vpc.forms.id
+  vpc_endpoint_type   = "Interface"
+  service_name        = "com.amazonaws.${var.region}.xray"
+  private_dns_enabled = true
+  security_group_ids = [
+    aws_security_group.privatelink.id,
+  ]
+  subnet_ids = aws_subnet.forms_private.*.id
+}
+
+resource "aws_vpc_endpoint" "ssm" {
+  vpc_id              = aws_vpc.forms.id
+  vpc_endpoint_type   = "Interface"
+  service_name        = "com.amazonaws.${var.region}.ssm"
+  private_dns_enabled = true
+  security_group_ids = [
+    aws_security_group.privatelink.id,
+  ]
+  subnet_ids = aws_subnet.forms_private.*.id
+}
+
+resource "aws_vpc_endpoint" "codestar" {
+  vpc_id              = aws_vpc.forms.id
+  vpc_endpoint_type   = "Interface"
+  service_name        = "com.amazonaws.${var.region}.codestar-connections.api"
+  private_dns_enabled = true
+  security_group_ids = [
+    aws_security_group.privatelink.id,
+  ]
+  subnet_ids = aws_subnet.forms_private.*.id
+}
+
+resource "aws_vpc_endpoint" "ecs" {
+  vpc_id              = aws_vpc.forms.id
+  vpc_endpoint_type   = "Interface"
+  service_name        = "com.amazonaws.${var.region}.ecs"
+  private_dns_enabled = true
+  security_group_ids = [
+    aws_security_group.privatelink.id,
+  ]
+  subnet_ids = aws_subnet.forms_private.*.id
+}
+
+resource "aws_vpc_endpoint" "dynamodb" {
+  vpc_id            = aws_vpc.forms.id
+  vpc_endpoint_type = "Gateway"
+  service_name      = "com.amazonaws.${var.region}.dynamodb"
+  route_table_ids   = aws_route_table.forms_public_subnet.*.id
+
+
+}
+
+resource "aws_vpc_endpoint" "s3" {
+  vpc_id            = aws_vpc.forms.id
+  vpc_endpoint_type = "Gateway"
+  service_name      = "com.amazonaws.${var.region}.s3"
+  route_table_ids   = aws_route_table.forms_public_subnet.*.id
+}

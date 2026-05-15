@@ -1,0 +1,51 @@
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
+import { SQSClient } from "@aws-sdk/client-sqs";
+import { AWS_REGION } from "@config";
+import { S3Client } from "@aws-sdk/client-s3";
+
+const globalConfig = {
+  region: AWS_REGION,
+  ...(process.env.LOCAL_AWS_ENDPOINT && {
+    endpoint: process.env.LOCAL_AWS_ENDPOINT,
+    credentials: {
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID ?? "test",
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY ?? "test",
+    },
+  }),
+};
+
+export class AwsServicesConnector {
+  private static instance: AwsServicesConnector | undefined = undefined;
+
+  public dynamodbClient: DynamoDBDocumentClient;
+
+  public sqsClient: SQSClient;
+
+  public s3Client: S3Client;
+
+  private constructor() {
+    this.dynamodbClient = DynamoDBDocumentClient.from(
+      new DynamoDBClient({
+        ...globalConfig,
+      }),
+    );
+
+    this.sqsClient = new SQSClient({
+      ...globalConfig,
+    });
+
+    this.s3Client = new S3Client({
+      ...globalConfig,
+      ...(process.env.LOCAL_AWS_ENDPOINT && { forcePathStyle: true }),
+    });
+  }
+
+  public static getInstance(): AwsServicesConnector {
+    if (AwsServicesConnector.instance === undefined) {
+      AwsServicesConnector.instance = new AwsServicesConnector();
+    }
+
+    return AwsServicesConnector.instance;
+  }
+}

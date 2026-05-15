@@ -1,0 +1,26 @@
+.DS_Store
+*.log
+*.zip
+
+# Local runtime state and generated secrets.
+.tools/
+.playwright-cli/
+local-secrets/
+**/.env
+**/.env.*
+!**/.env.example
+!**/.env.*.example
+!**/.env_example
+
+# Dependency and build output.
+**/node_modules/
+**/.next/
+**/build/
+**/coverage/
+**/.turbo/
+**/.cache/
+**/.yarn/install-state.gz
+
+# LocalStack/Postgres/Redis data should live in Docker volumes, not git.
+data/
+tmp/

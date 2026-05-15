@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="${GC_FORMS_ROOT:-/opt/gcforms}"
+PATH="${ROOT_DIR}/.tools/node-v24.15.0-linux-x64/bin:${PATH}"
+
+cd "${ROOT_DIR}/platform-forms-client"
+exec "${ROOT_DIR}/omnibus/bin/wait-bootstrap.sh" \
+  node .yarn/releases/yarn-4.14.0.cjs dev:debug

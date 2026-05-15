@@ -1,0 +1,52 @@
+{
+  "title": "Settings",
+  "title-update": "Update setting",
+  "title-create": "Create setting",
+  "brandingRequestId": "Branding request form ID",
+  "success": "Data saved successfully",
+  "loadingError": "Sorry, something went wrong.",
+  "manageSetting": "Manage",
+  "createSetting": "Create",
+  "viewSetting": "View",
+  "deleteSetting": "Delete",
+  "cancel": "Cancel",
+  "save": "Save",
+  "back": "Back",
+  "deleted": "Setting deleted",
+  "errorDeleting": "Error deleting setting",
+  "created": "Setting created",
+  "errorCreating": "Error creating setting",
+  "updated": "Setting updated",
+  "errorUpdating": "Error updating setting",
+  "settingNotFound": "Setting not found",
+  "help": "help",
+  "error": {
+    "save": "Error saving data",
+    "duplicateId": "Duplicate internal ID, please select another"
+  },
+  "label": {
+    "internalId": "Internal identifier",
+    "nameEn": "English name",
+    "nameFr": "French name",
+    "descriptionEn": "English description",
+    "descriptionFr": "French description",
+    "value": "Value for this setting"
+  },
+  "throttling": {
+    "title": "API rate limit",
+    "description": "Increase API rate limit to 1000 requests per minute",
+    "weeks": "weeks",
+    "permanent": "Increase API rate limit indefinitely",
+    "updateRate": "Modify API rate",
+    "resetRate": "Reset API rate to 500 requests per minute",
+    "tooltip": "Checking this will not schedule the API rate for a specific period of time. To schedule an end to the API rate, uncheck this and the 'weeks' input will be enabled, for up to 12 weeks.",
+    "succcessUpdate": {
+      "title": "API rate increased to 1000 requests per minute",
+      "description": "New rate will stay in effect until: {{success}}"
+    },
+    "succcessReset": {
+      "title": "API rate was reset to 500 requests per minute."
+    },
+    "error": "API rate could not be modified. Try again later."
+  }
+}

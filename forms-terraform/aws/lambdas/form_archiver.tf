@@ -1,0 +1,57 @@
+#
+# Archive form templates
+#
+
+resource "aws_lambda_function" "form_archiver" {
+  function_name = "form-archiver"
+  image_uri     = "${var.ecr_repository_lambda_urls["form-archiver-lambda"]}:latest"
+  package_type  = "Image"
+  role          = aws_iam_role.lambda.arn
+  timeout       = 300
+  memory_size   = 256
+
+  lifecycle {
+    ignore_changes = [image_uri]
+  }
+
+  // Even in development mode this lambda should be attached to the VPC in order to connecto the DB
+  vpc_config {
+    security_group_ids = [var.lambda_security_group_id]
+    subnet_ids         = var.private_subnet_ids
+  }
+
+  environment {
+    variables = {
+      REGION       = var.region
+      DATABASE_URL = var.database_connection_url_secret_arn
+    }
+  }
+
+  logging_config {
+    log_format = "Text"
+    log_group  = "/aws/lambda/Archive_Form_Templates"
+  }
+
+  tracing_config {
+    mode = "Active"
+  }
+}
+
+resource "aws_lambda_permission" "allow_cloudwatch_to_run_form_archiver_lambda" {
+  statement_id  = "AllowExecutionFromCloudWatch"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.form_archiver.function_name
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.form_archiver_lambda_trigger.arn
+}
+
+/*
+ * When implementing containerized Lambda we had to rename some of the functions.
+ * In order to keep existing log groups we decided to hardcode the group name and make the Lambda write to that legacy group.
+ */
+
+resource "aws_cloudwatch_log_group" "archive_form_templates" {
+  name              = "/aws/lambda/Archive_Form_Templates"
+  kms_key_id        = var.kms_key_cloudwatch_arn
+  retention_in_days = 731
+}

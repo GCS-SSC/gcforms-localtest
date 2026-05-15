@@ -1,0 +1,28 @@
+name: "Terragrunt plan PRODUCTION warn release exists"
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "version.txt"
+
+jobs:
+  warn-release-exists:
+    if: ${{ startsWith(github.head_ref, 'release-please--') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - name: Get version
+        run: echo "version=v$(cat version.txt)" >> $GITHUB_ENV
+
+      - name: Fail if release tag exists # this happens if there is a revert and the reverted release and tag is not deleted
+        run: |
+          git fetch --tags > /dev/null 2>&1
+          if git rev-parse "$version" >/dev/null 2>&1; then
+            echo "Tag $version exists..."
+            echo "Please delete the release and tag and try again."
+            exit 1
+          fi

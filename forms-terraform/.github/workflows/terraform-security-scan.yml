@@ -1,0 +1,28 @@
+name: "Terraform security scan"
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "aws/**"
+      - ".github/workflows/terraform-security-scan.yml"
+  pull_request:
+    paths:
+      - "aws/**"
+      - ".github/workflows/terraform-security-scan.yml"
+
+jobs:
+  terraform-security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - name: Checkov security scan
+        uses: bridgecrewio/checkov-action@097919de4f8058fb4478275f36e6708d12a9f53a # latest as of December 2023
+        with:
+          directory: aws
+          framework: terraform
+          quiet: true
+          output_format: cli
+          soft_fail: false

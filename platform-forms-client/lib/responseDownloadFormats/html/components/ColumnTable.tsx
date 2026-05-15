@@ -1,0 +1,131 @@
+import React, { type JSX } from "react";
+import { capitalize } from "./ResponseSection";
+import { customTranslate, orderLanguageStrings } from "../../../i18nHelpers";
+import { Answer, Submission } from "../../types";
+import { TableProps } from "../types";
+import { formatDateTimeUTC } from "@lib/utils/form-builder";
+import { FormElementTypes, FormRecord } from "@lib/types";
+import { formatUserInput } from "@lib/utils/strings";
+import { Language } from "@lib/types/form-builder-types";
+import { formatNumberInputAnswer } from "@lib/responseDownloadFormats/utils/formatNumberInputAnswer";
+
+/*
+ ⚡ NOTE: CSS is compiled 
+   see: lib/responseDownloadFormats/html/package.json command "compile"
+   If you update the CSS here, you need to re compile and commit compiled.ts
+*/
+
+const QuestionColumns = ({
+  submission,
+  lang,
+  formRecord,
+}: {
+  submission: Submission;
+  lang: Language;
+  formRecord: FormRecord;
+}): JSX.Element => {
+  const { t } = customTranslate("common");
+
+  const renderRow = (index: number | string, lang: Language, item: Answer) => {
+    const numberInputValue = formatNumberInputAnswer(item, lang, formRecord);
+    return (
+      <div key={`row-${index}`} className="border-gray flex w-full flex-row border-b py-4">
+        <dt data-testid={`col-question-${index}`} className="w-96 py-4 font-bold">
+          {orderLanguageStrings({ stringEn: item.questionEn, stringFr: item.questionFr, lang })}
+          {item.type === FormElementTypes.formattedDate && item.dateFormat ? (
+            <>
+              <br />{" "}
+              {orderLanguageStrings({
+                stringEn: t(`formattedDate.${item.dateFormat}`, { lng: "en" }),
+                stringFr: t(`formattedDate.${item.dateFormat}`, { lng: "fr" }),
+                lang,
+              })}
+            </>
+          ) : (
+            ""
+          )}
+        </dt>
+        {item.type === FormElementTypes.numberInput ? (
+          <dd data-testid={`col-answer-${index}`} className={`flex-1 py-4 pl-8`}>
+            <p>{numberInputValue}</p>
+          </dd>
+        ) : (
+          <dd
+            data-testid={`col-answer-${index}`}
+            className={`flex-1 py-4 pl-8`}
+            dangerouslySetInnerHTML={{ __html: formatUserInput(String(item.answer)) }}
+          />
+        )}
+      </div>
+    );
+  };
+
+  const answers = submission.answers.map((item, index) => {
+    if (typeof item.answer === "string") {
+      return renderRow(index, lang, item);
+    } else if (typeof item.answer === "object" && !Array.isArray(item.answer)) {
+      return renderRow(index, lang, item);
+    } else {
+      return (
+        <div key={`col-${index}-${lang}`}>
+          <dt className="w-full py-4 font-bold">
+            {orderLanguageStrings({ stringEn: item.questionEn, stringFr: item.questionFr, lang })}
+          </dt>
+          <dd className="w-full py-4 pl-16">
+            <dl className="ml-8">
+              {item.answer.map((subItem, subItemIndex) => {
+                return (
+                  Array.isArray(subItem) &&
+                  subItem.map((subSubItem, subIndex) => {
+                    return renderRow(`${index}-${subItemIndex}-${subIndex}`, lang, subSubItem);
+                  })
+                );
+              })}
+            </dl>
+          </dd>
+        </div>
+      );
+    }
+  });
+
+  return <>{answers}</>;
+};
+
+export const ColumnTable = (props: TableProps): React.ReactElement => {
+  const { t } = customTranslate("my-forms");
+  const { responseID, submissionDate, submission, lang = "en", formRecord } = props;
+
+  return (
+    <dl
+      id={`responseTableCol${capitalize(lang)}`}
+      data-testid={`responseTableCol${capitalize(lang)}`}
+      className="border-gray border-y-2"
+    >
+      <div className="border-gray flex border-b py-4">
+        <dt data-testid="col-question-response-id" className="w-96 flex-none py-4 font-bold">
+          {orderLanguageStrings({
+            stringEn: t("responseTemplate.responseNumber", { lng: "en" }),
+            stringFr: t("responseTemplate.responseNumber", { lng: "fr" }),
+            lang,
+          })}
+        </dt>
+        <dd data-testid="col-answer-response-id" className="min-w-0 flex-1 py-4 pl-8">
+          {responseID}
+        </dd>
+      </div>
+      <div className="border-gray flex border-b py-4">
+        <dt data-testid="col-question-submission-date" className="w-96 flex-none py-4 font-bold">
+          {orderLanguageStrings({
+            stringEn: t("responseTemplate.submissionDate", { lng: "en" }),
+            stringFr: t("responseTemplate.submissionDate", { lng: "fr" }),
+            lang,
+          })}
+        </dt>
+        <dd data-testid="col-answer-submission-date" className="flex-1 py-4 pl-8">
+          {formatDateTimeUTC(submissionDate)}
+        </dd>
+      </div>
+      <QuestionColumns submission={submission} lang={lang} formRecord={formRecord} />
+    </dl>
+  );
+};

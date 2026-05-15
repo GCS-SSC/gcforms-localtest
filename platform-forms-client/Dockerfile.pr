@@ -1,0 +1,88 @@
+# Form viewier that runs as a Lambda function.  It is used to create 
+# Lambda function review environments for each PR.
+FROM node:24-alpine AS build
+
+ENV NODE_ENV=production
+ENV NEXT_OUTPUT_STANDALONE=true
+ENV NEXT_PUBLIC_ADDRESSCOMPLETE_API_KEY=UR78-BU29-RU35-EP49 
+# Address Complete API key is domain locked, and provided to the client browser, where the API is processed.
+
+ARG ZITADEL_URL
+ENV NEXT_PUBLIC_ZITADEL_URL=$ZITADEL_URL
+
+ARG ZITADEL_PROJECT_ID
+ENV NEXT_PUBLIC_ZITADEL_PROJECT_ID=$ZITADEL_PROJECT_ID
+
+ARG API_URL
+ENV NEXT_PUBLIC_API_URL=$API_URL
+
+COPY . /src
+WORKDIR /src
+
+ARG COGNITO_APP_CLIENT_ID
+ARG COGNITO_USER_POOL_ID
+
+ARG NEXT_DEPLOYMENT_ID
+ENV NEXT_DEPLOYMENT_ID=$NEXT_DEPLOYMENT_ID
+
+ARG HCAPTCHA_SITE_KEY
+ENV NEXT_PUBLIC_HCAPTCHA_SITE_KEY=$HCAPTCHA_SITE_KEY
+
+ARG INDEX_SITE="false"
+ENV INDEX_SITE=$INDEX_SITE
+RUN corepack enable && yarn set version stable
+RUN yarn workspaces focus gcforms
+RUN yarn build
+
+FROM node:24-alpine AS final
+LABEL maintainer="-"
+
+ARG COGNITO_APP_CLIENT_ID
+ENV COGNITO_APP_CLIENT_ID=$COGNITO_APP_CLIENT_ID
+
+ARG COGNITO_USER_POOL_ID
+ENV COGNITO_USER_POOL_ID=$COGNITO_USER_POOL_ID
+
+ARG INDEX_SITE="false"
+ENV INDEX_SITE=$INDEX_SITE
+
+ARG TAG_VERSION
+ENV TAG_VERSION=$TAG_VERSION
+
+ARG NEXT_DEPLOYMENT_ID
+ENV NEXT_DEPLOYMENT_ID=$NEXT_DEPLOYMENT_ID
+
+ENV AWS_LWA_ENABLE_COMPRESSION=true
+ENV HOSTNAME=localhost
+ENV PORT=3000
+
+# Use the LAMBDA_ENV environment variable to determine if the app is running in a Lambda environment
+# Enables memory caching for the prerendering of pages
+ENV LAMBDA_ENV=1
+
+# Use the REVIEW_ENV environment variable to determine if the app is running in a Review environment
+ENV REVIEW_ENV=1
+
+WORKDIR /src
+
+COPY --from=build /src/.next/standalone ./
+COPY --from=build /src/.next/static ./.next/static
+
+COPY package.json yarn.lock .yarnrc.yml next.config.ts nextCacheHandler.ts ./
+COPY .yarn ./.yarn
+COPY public ./public
+COPY scripts/pr-review-entrypoint.sh ./entrypoint.sh
+# Update to latest yarn version
+RUN corepack enable && yarn set version stable
+# Required by the entrypoint.sh to load the SSM ParameterStore environment variables
+RUN apk update && apk add --no-cache aws-cli
+
+# Lambda web adapter: https://github.com/awslabs/aws-lambda-web-adapter
+# The public.ecr.aws/awsguru/aws-lambda-adapter:0.7.0 image reference in the docs has
+# been pushed to the public CDS ECR to avoid rate limiting when pulling the image.
+COPY --from=public.ecr.aws/cds-snc/aws-lambda-adapter:0.9.0@sha256:19cd0b92bc4a376b2b63e3b02d8b9ad3b4031ea3549fd5e54faa848c49948e09 /lambda-adapter /opt/extensions/lambda-adapter
+RUN ln -s /tmp ./.next/cache
+
+EXPOSE 3000
+
+ENTRYPOINT ["./entrypoint.sh"]

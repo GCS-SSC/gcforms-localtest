@@ -1,0 +1,171 @@
+[
+  {
+    "name": "aws-otel-collector",
+    "image": "amazon/aws-otel-collector",
+    "command": ["--config=/etc/ecs/ecs-default-config.yaml"],
+    "essential": true,
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "/ecs/ecs-aws-otel-sidecar-collector",
+        "awslogs-region": "${awslogs-region}",
+        "awslogs-stream-prefix": "ecs-otel",
+        "awslogs-create-group": "True"
+      }
+    },
+    "healthCheck": {
+      "command": ["/healthcheck"],
+      "interval": 5,
+      "timeout": 6,
+      "retries": 5,
+      "startPeriod": 1
+    }
+  },
+  {
+    "name": "form_viewer",
+    "image": "${image}",
+    "portMappings": [
+      {
+        "containerPort": 3000,
+        "protocol": "tcp"
+      }
+    ],
+    "cpu": 0,
+    "essential": true,
+    "dependsOn": [
+      {
+        "containerName": "aws-otel-collector",
+        "condition": "START"
+      }
+    ],
+    "linuxParameters": {
+      "capabilities": {
+        "add": [],
+        "drop": ["ALL"]
+      }
+    },
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${awslogs-group}",
+        "awslogs-region": "${awslogs-region}",
+        "awslogs-stream-prefix": "${awslogs-stream-prefix}"
+      }
+    },
+    "environment": [
+      {
+        "name": "METRIC_PROVIDER",
+        "value": "${metric_provider}"
+      },
+      {
+        "name": "TRACER_PROVIDER",
+        "value": "${tracer_provider}"
+      },
+      {
+        "name": "HOST_URL",
+        "value": "${host_url}"
+      },
+      {
+        "name": "NEXTAUTH_URL",
+        "value": "${host_url}"
+      },
+      {
+        "name": "REDIS_URL",
+        "value": "${redis_url}"
+      },
+      {
+        "name": "RELIABILITY_FILE_STORAGE",
+        "value": "${reliability_file_storage}"
+      },
+      {
+        "name": "RECAPTCHA_V3_SITE_KEY",
+        "value": "${recaptcha_public}"
+      },
+      {
+        "name": "TEMPORARY_TOKEN_TEMPLATE_ID",
+        "value": "${gc_temp_token_template_id}"
+      },
+      {
+        "name": "TEMPLATE_ID",
+        "value": "${gc_template_id}"
+      },
+      {
+        "name": "COGNITO_ENDPOINT_URL",
+        "value": "${cognito_endpoint_url}"
+      },
+      {
+        "name": "COGNITO_CLIENT_ID",
+        "value": "${cognito_client_id}"
+      },
+      {
+        "name": "EMAIL_ADDRESS_CONTACT_US",
+        "value": "${email_address_contact_us}"
+      },
+      {
+        "name": "EMAIL_ADDRESS_SUPPORT",
+        "value": "${email_address_support}"
+      },
+      {
+        "name": "REPROCESS_SUBMISSION_QUEUE_URL",
+        "value": "${reprocess_submission_queue}"
+      },
+      {
+        "name": "AUDIT_LOG_QUEUE_URL",
+        "value": "${audit_log_queue_url}"
+      },
+      {
+        "name": "ZITADEL_URL",
+        "value": "${zitadel_url}"
+      },
+      {
+        "name": "ZITADEL_CLIENT_ID",
+        "value": "${zitadel_client_id}"
+      },
+      {
+        "name": "ZITADEL_TRUSTED_DOMAIN",
+        "value": "${zitadel_trusted_domain}"
+      }
+    ],
+    "secrets": [
+      {
+        "name": "NOTIFY_API_KEY",
+        "valueFrom": "${notify_api_key}"
+      },
+      {
+        "name": "RECAPTCHA_V3_SECRET_KEY",
+        "valueFrom": "${recaptcha_secret}"
+      },
+      {
+        "name": "DATABASE_URL",
+        "valueFrom": "${database_url}"
+      },
+      {
+        "name": "TOKEN_SECRET",
+        "valueFrom": "${token_secret}"
+      },
+      {
+        "name": "GC_NOTIFY_CALLBACK_BEARER_TOKEN",
+        "valueFrom": "${gc_notify_callback_bearer_token}"
+      },
+      {
+        "name": "FRESHDESK_API_KEY",
+        "valueFrom": "${freshdesk_api_key}"
+      },
+      {
+        "name": "SENTRY_API_KEY",
+        "valueFrom": "${sentry_api_key}"
+      },
+      {
+        "name": "ZITADEL_ADMINISTRATION_KEY",
+        "valueFrom": "${zitadel_administration_key}"
+      },
+      {
+        "name": "HCAPTCHA_SITE_VERIFY_KEY",
+        "valueFrom": "${hcaptcha_site_verify_key}"
+      }
+    ],
+    "mountPoints": [],
+    "volumesFrom": [],
+    "systemControls": []
+  }
+]

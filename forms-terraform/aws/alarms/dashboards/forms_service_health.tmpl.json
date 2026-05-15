@@ -1,0 +1,622 @@
+{
+    "widgets": [
+        {
+            "height": 8,
+            "width": 6,
+            "y": 111,
+            "x": 0,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/RDS", "CPUUtilization", "DBClusterIdentifier", "${rds_cluster_identifier}", { "region": "${region}", "color": "#17becf" } ]
+                ],
+                "sparkline": true,
+                "view": "timeSeries",
+                "region": "${region}",
+                "stat": "Average",
+                "period": 60,
+                "title": "DB: CPU use",
+                "stacked": false
+            }
+        },
+        {
+            "height": 8,
+            "width": 6,
+            "y": 111,
+            "x": 6,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/RDS", "FreeableMemory", "DBClusterIdentifier", "${rds_cluster_identifier}", { "color": "#9467bd" } ]
+                ],
+                "sparkline": true,
+                "view": "timeSeries",
+                "region": "${region}",
+                "stat": "Average",
+                "period": 60,
+                "title": "DB: freeable memory",
+                "stacked": false
+            }
+        },
+        {
+            "height": 8,
+            "width": 6,
+            "y": 111,
+            "x": 12,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/RDS", "ReadLatency", "DBClusterIdentifier", "${rds_cluster_identifier}", { "color": "#c5b0d5" } ]
+                ],
+                "sparkline": true,
+                "view": "timeSeries",
+                "region": "${region}",
+                "stat": "Average",
+                "period": 60,
+                "title": "DB: read latency",
+                "stacked": false
+            }
+        },
+        {
+            "height": 8,
+            "width": 6,
+            "y": 111,
+            "x": 18,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/RDS", "WriteLatency", "DBClusterIdentifier", "${rds_cluster_identifier}", { "color": "#7f7f7f" } ]
+                ],
+                "sparkline": true,
+                "view": "timeSeries",
+                "region": "${region}",
+                "stat": "Average",
+                "period": 60,
+                "title": "DB: write latency",
+                "stacked": false
+            }
+        },
+        {
+            "height": 2,
+            "width": 24,
+            "y": 0,
+            "x": 0,
+            "type": "text",
+            "properties": {
+                "markdown": "# Form submissions\nTracking form submissions flow through the system.",
+                "background": "transparent"
+            }
+        },
+        {
+            "height": 6,
+            "width": 8,
+            "y": 14,
+            "x": 0,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/SQS", "NumberOfMessagesReceived", "QueueName", "submission_processing.fifo", { "color": "#8c564b" } ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "${region}",
+                "stat": "Sum",
+                "period": 300,
+                "title": "Queue: submission messages"
+            }
+        },
+        {
+            "height": 6,
+            "width": 4,
+            "y": 14,
+            "x": 8,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/SQS", "ApproximateAgeOfOldestMessage", "QueueName", "submission_processing.fifo", { "color": "#7f7f7f", "region": "${region}", "label": "Oldest message age" } ]
+                ],
+                "sparkline": true,
+                "view": "singleValue",
+                "region": "${region}",
+                "stat": "Average",
+                "period": 300,
+                "title": "Queue: submission message age"
+            }
+        },
+        {
+            "height": 3,
+            "width": 24,
+            "y": 20,
+            "x": 0,
+            "type": "text",
+            "properties": {
+                "markdown": " \n# Form responses\nTracking form response list, retrieval and confirm.",
+                "background": "transparent"
+            }
+        },
+        {
+            "height": 3,
+            "width": 24,
+            "y": 83,
+            "x": 0,
+            "type": "text",
+            "properties": {
+                "markdown": " \n## Lambdas\nPerformance metrics for the Submission and Reliability functions.",
+                "background": "transparent"
+            }
+        },
+        {
+            "height": 7,
+            "width": 8,
+            "y": 76,
+            "x": 0,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/ECS", "CPUUtilization", "ServiceName", "${ecs_service_name}", "ClusterName", "${ecs_cluster_name}", { "stat": "Minimum", "region": "${region}" } ],
+                    [ "...", { "stat": "Maximum", "region": "${region}" } ],
+                    [ "...", { "stat": "Average", "region": "${region}" } ]
+                ],
+                "period": 300,
+                "region": "${region}",
+                "stacked": false,
+                "title": "App: CPU use",
+                "view": "timeSeries"
+            }
+        },
+        {
+            "height": 7,
+            "width": 8,
+            "y": 76,
+            "x": 8,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/ECS", "MemoryUtilization", "ServiceName", "${ecs_service_name}", "ClusterName", "${ecs_cluster_name}", { "stat": "Minimum" } ],
+                    [ "...", { "stat": "Maximum" } ],
+                    [ "...", { "stat": "Average" } ]
+                ],
+                "period": 300,
+                "region": "${region}",
+                "stacked": false,
+                "title": "App: memory use",
+                "view": "timeSeries"
+            }
+        },
+        {
+            "height": 3,
+            "width": 24,
+            "y": 98,
+            "x": 0,
+            "type": "text",
+            "properties": {
+                "markdown": " \n## Load balancer\nRequests, errors and response time for the app's load balancer.",
+                "background": "transparent"
+            }
+        },
+        {
+            "height": 6,
+            "width": 18,
+            "y": 86,
+            "x": 0,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/Lambda", "Invocations", "FunctionName", "Submission", { "region": "${region}" } ],
+                    [ ".", "Throttles", ".", ".", { "color": "#ffbb78", "region": "${region}" } ],
+                    [ ".", "Errors", ".", ".", { "region": "${region}", "color": "#d62728" } ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "${region}",
+                "stat": "Sum",
+                "period": 300,
+                "title": "Lambda: submission"
+            }
+        },
+        {
+            "height": 6,
+            "width": 6,
+            "y": 86,
+            "x": 18,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/Lambda", "Duration", "FunctionName", "Submission", "Resource", "Submission", { "region": "${region}", "color": "#555555" } ]
+                ],
+                "sparkline": true,
+                "view": "singleValue",
+                "region": "${region}",
+                "title": "Lambda: submission duration",
+                "stacked": false,
+                "period": 300,
+                "stat": "Average"
+            }
+        },
+        {
+            "height": 6,
+            "width": 18,
+            "y": 92,
+            "x": 0,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/Lambda", "Invocations", "FunctionName", "reliability", "Resource", "reliability", { "region": "${region}" } ],
+                    [ ".", "Throttles", ".", ".", ".", ".", { "region": "${region}", "color": "#ffbb78" } ],
+                    [ ".", "Errors", ".", ".", ".", ".", { "region": "${region}", "color": "#d62728" } ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "${region}",
+                "stat": "Sum",
+                "period": 300,
+                "title": "Lambda: reliability"
+            }
+        },
+        {
+            "height": 6,
+            "width": 6,
+            "y": 92,
+            "x": 18,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/Lambda", "Duration", "FunctionName", "reliability", "Resource", "reliability", { "color": "#555" } ]
+                ],
+                "sparkline": true,
+                "view": "singleValue",
+                "region": "${region}",
+                "title": "Lambda: reliabiity duration",
+                "stacked": false,
+                "period": 300,
+                "stat": "Average"
+            }
+        },
+        {
+            "height": 7,
+            "width": 8,
+            "y": 76,
+            "x": 16,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "ECS/ContainerInsights", "NetworkRxBytes", "ClusterName", "${ecs_cluster_name}", { "region": "${region}", "color": "#1f77b4" } ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "${region}",
+                "stat": "Sum",
+                "period": 300,
+                "title": "App: network bytes"
+            }
+        },
+        {
+            "height": 7,
+            "width": 9,
+            "y": 101,
+            "x": 0,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/ApplicationELB", "RequestCount", "LoadBalancer", "${lb_arn_suffix}", { "color": "#2ca02c", "region": "${region}", "label": "Request count" } ],
+                    [ ".", "HTTPCode_ELB_4XX_Count", ".", ".", { "region": "${region}", "color": "#ffbb78", "label": "4XX response count" } ],
+                    [ ".", "HTTPCode_ELB_5XX_Count", ".", ".", { "color": "#d62728", "region": "${region}", "label": "5XX response count" } ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "${region}",
+                "stat": "Sum",
+                "period": 300,
+                "title": "LB: requests"
+            }
+        },
+        {
+            "height": 7,
+            "width": 6,
+            "y": 101,
+            "x": 18,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/ApplicationELB", "TargetResponseTime", "LoadBalancer", "${lb_arn_suffix}", { "region": "${region}", "color": "#8c564b" } ]
+                ],
+                "view": "singleValue",
+                "stacked": false,
+                "region": "${region}",
+                "sparkline": true,
+                "period": 300,
+                "title": "LB: response time",
+                "stat": "Average"
+            }
+        },
+        {
+            "height": 3,
+            "width": 24,
+            "y": 108,
+            "x": 0,
+            "type": "text",
+            "properties": {
+                "markdown": " \n## Database\nPerformance metrics for the database cluster.",
+                "background": "transparent"
+            }
+        },
+        {
+            "height": 7,
+            "width": 9,
+            "y": 101,
+            "x": 9,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/ApplicationELB", "ActiveConnectionCount", "LoadBalancer", "${lb_arn_suffix}", { "color": "#e377c2" } ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "${region}",
+                "stat": "Average",
+                "period": 300,
+                "title": "LB: connections"
+            }
+        },
+        {
+            "height": 8,
+            "width": 20,
+            "y": 64,
+            "x": 0,
+            "type": "log",
+            "properties": {
+                "query": "SOURCE '${ecs_cloudwatch_log_group_name}' | SOURCE '${lambda_reliability_log_group_name}' | SOURCE '${lambda_submission_log_group_name}' | SOURCE '${lambda_nagware_log_group_name}' | SOURCE '${lambda_response_archiver_log_group_name}' | SOURCE '${lambda_vault_integrity_log_group_name}' | fields @timestamp, @message, @logStream, @log\n| filter level = 'error' or level = 'warn' or status = 'failed'\n| filter @message not like /days since submission/\n| sort @timestamp desc\n| limit 1000",
+                "region": "${region}",
+                "stacked": false,
+                "title": "Errors: app and lambdas",
+                "view": "table"
+            }
+        },
+        {
+            "height": 8,
+            "width": 4,
+            "y": 64,
+            "x": 20,
+            "type": "alarm",
+            "properties": {
+                "title": "Alarms",
+                "alarms": [
+                    "${alarm_ecs_cpu_utilization_warn}",
+                    "${alarm_ecs_memory_utilization_warn}",
+                    "${alarm_lb_response_5xx_warn}",
+                    "${alarm_lb_response_time_warn}",
+                    "${alarm_lb_healthy_host_count}",
+                    "${alarm_lb_unhealth_host_count_tg1}",
+                    "${alarm_lb_unhealth_host_count_tg2}",
+                    "${alarm_reliability_deadletter_queue}"
+                ]
+            }
+        },
+        {
+            "height": 2,
+            "width": 24,
+            "y": 72,
+            "x": 0,
+            "type": "text",
+            "properties": {
+                "markdown": " \n# Performance",
+                "background": "transparent"
+            }
+        },
+        {
+            "height": 7,
+            "width": 8,
+            "y": 54,
+            "x": 0,
+            "type": "log",
+            "properties": {
+                "query": "SOURCE '${ecs_cloudwatch_log_group_name}' | fields @message\n| filter @message =~ /HealthCheck: cognito sign-up/\n| parse @message \"success\" as @successCount\n| parse @message \"failure\" as @failureCount\n| stats count(@successCount) as Success, count(@failureCount) as Failed by bin(5m)",
+                "region": "${region}",
+                "stacked": false,
+                "title": "App: Cognito sign-up",
+                "view": "timeSeries"
+            }
+        },
+        {
+            "height": 14,
+            "width": 16,
+            "y": 40,
+            "x": 0,
+            "type": "log",
+            "properties": {
+                "query": "SOURCE '${ecs_cloudwatch_log_group_name}' | fields @message\n| filter @message =~ /HealthCheck: cognito sign-in/\n| parse @message \"success\" as @successCount\n| parse @message \"undefined token\" as @undefinedTokenCount\n| parse @message \"failure\" as @failureCount\n| stats count(@successCount) as Success, count(@undefinedTokenCount) as UndefinedToken, count(@failureCount) as Failed by bin(5m)",
+                "region": "${region}",
+                "stacked": false,
+                "title": "App: Cognito sign-in",
+                "view": "timeSeries"
+            }
+        },
+        {
+            "height": 7,
+            "width": 8,
+            "y": 40,
+            "x": 16,
+            "type": "log",
+            "properties": {
+                "query": "SOURCE '${ecs_cloudwatch_log_group_name}' | fields @message\n| filter @message =~ /HealthCheck: send initial 2fa code/\n| parse @message \"success\" as @successCount\n| parse @message \"failure\" as @failureCount\n| stats count(@successCount) as Success, count(@failureCount) as Failed by bin(5m)",
+                "region": "${region}",
+                "stacked": false,
+                "title": "App: send initial 2FA code",
+                "view": "timeSeries"
+            }
+        },
+        {
+            "height": 7,
+            "width": 8,
+            "y": 54,
+            "x": 16,
+            "type": "log",
+            "properties": {
+                "query": "SOURCE '${ecs_cloudwatch_log_group_name}' | fields @message\n| filter @message =~ /HealthCheck: request new 2fa code/\n| parse @message \"success\" as @successCount\n| parse @message \"failure\" as @failureCount\n| stats count(@successCount) as Success, count(@failureCount) as Failed by bin(5m)",
+                "region": "${region}",
+                "stacked": false,
+                "title": "App: request new 2FA code",
+                "view": "timeSeries"
+            }
+        },
+        {
+            "height": 7,
+            "width": 8,
+            "y": 47,
+            "x": 16,
+            "type": "log",
+            "properties": {
+                "query": "SOURCE '${ecs_cloudwatch_log_group_name}' | fields @message\n| filter @message =~ /HealthCheck: 2fa code validation/\n| parse @message \"success\" as @successCount\n| parse @message \"failure\" as @failureCount\n| stats count(@successCount) as Success, count(@failureCount) as Failed by bin(5m)",
+                "region": "${region}",
+                "stacked": false,
+                "title": "App: 2FA code validation",
+                "view": "timeSeries"
+            }
+        },
+        {
+            "height": 7,
+            "width": 8,
+            "y": 30,
+            "x": 16,
+            "type": "log",
+            "properties": {
+                "query": "SOURCE '${ecs_cloudwatch_log_group_name}' | fields @message\n| filter @message =~ /HealthCheck: confirm submissions/\n| parse @message \"success\" as @successCount\n| parse @message \"failure\" as @failureCount\n| stats count(@successCount) as Success, count(@failureCount) as Failed by bin(5m)",
+                "region": "${region}",
+                "stacked": false,
+                "title": "App: confirm submissions",
+                "view": "timeSeries"
+            }
+        },
+        {
+            "height": 7,
+            "width": 8,
+            "y": 54,
+            "x": 8,
+            "type": "log",
+            "properties": {
+                "query": "SOURCE '${ecs_cloudwatch_log_group_name}' | fields @message\n| filter @message =~ /HealthCheck: send email/\n| parse @message \"success\" as @successCount\n| parse @message \"failure\" as @failureCount\n| stats count(@successCount) as Success, count(@failureCount) as Failed by bin(5m)",
+                "region": "${region}",
+                "stacked": false,
+                "title": "App: email sender (GC Notify API connector)",
+                "view": "timeSeries"
+            }
+        },
+        {
+            "height": 14,
+            "width": 16,
+            "y": 23,
+            "x": 0,
+            "type": "log",
+            "properties": {
+                "query": "SOURCE '${ecs_cloudwatch_log_group_name}' | fields @message\n| filter @message =~ /HealthCheck: list submissions/\n| parse @message \"success\" as @successCount\n| parse @message \"failure\" as @failureCount\n| stats count(@successCount) as Success, count(@failureCount) as Failed by bin(5m)",
+                "region": "${region}",
+                "stacked": false,
+                "title": "App: list submissions",
+                "view": "timeSeries"
+            }
+        },
+        {
+            "height": 7,
+            "width": 8,
+            "y": 23,
+            "x": 16,
+            "type": "log",
+            "properties": {
+                "query": "SOURCE '${ecs_cloudwatch_log_group_name}' | fields @message\n| filter @message =~ /HealthCheck: retrieve submissions/\n| parse @message \"success\" as @successCount\n| parse @message \"failure\" as @failureCount\n| stats count(@successCount) as Success, count(@failureCount) as Failed by bin(5m)",
+                "region": "${region}",
+                "stacked": false,
+                "title": "App: retrieve submissions",
+                "view": "timeSeries"
+            }
+        },
+        {
+            "height": 3,
+            "width": 24,
+            "y": 37,
+            "x": 0,
+            "type": "text",
+            "properties": {
+                "markdown": " \n# Sign in and create account\nTracking user flow as they sign in and create new accounts.",
+                "background": "transparent"
+            }
+        },
+        {
+            "height": 3,
+            "width": 24,
+            "y": 61,
+            "x": 0,
+            "type": "text",
+            "properties": {
+                "markdown": " \n# Errors\nError logs and alarms from the app and lambdas.",
+                "background": "transparent"
+            }
+        },
+        {
+            "height": 2,
+            "width": 24,
+            "y": 74,
+            "x": 0,
+            "type": "text",
+            "properties": {
+                "markdown": "## App\nPerformance metrics for the ECS form viewer client app.",
+                "background": "transparent"
+            }
+        },
+        {
+            "height": 12,
+            "width": 12,
+            "y": 2,
+            "x": 0,
+            "type": "log",
+            "properties": {
+                "query": "SOURCE '${ecs_cloudwatch_log_group_name}' | fields @message\n| filter @message ~= \"Response submitted for Form ID\" or @message ~= \"Attempted response submission for Form ID\"\n| parse @message \"Response submitted\" as @successCount\n| parse @message \"Attempted\" as @failureCount\n| stats count(@successCount) as Success, count(@failureCount) as Failure by bin(5m)",
+                "region": "${region}",
+                "stacked": false,
+                "title": "App: client submissions",
+                "view": "timeSeries"
+            }
+        },
+        {
+            "height": 6,
+            "width": 12,
+            "y": 2,
+            "x": 12,
+            "type": "log",
+            "properties": {
+                "query": "SOURCE '${lambda_submission_log_group_name}' | fields status\n| filter status in [\"success\", \"failed\"] or level == \"warn\"\n| parse @message \"status\\\":\\\"success\" as @successCount\n| parse @message \"status\\\":\\\"failed\" as @failedCount\n| parse @message \"level\\\":\\\"warn\" as @warnCount\n| stats count(@successCount) as Success, count(@failedCount) as Failed, count(@warnCount) as Warn by bin(5m)",
+                "region": "${region}",
+                "stacked": false,
+                "title": "Lambda: submission",
+                "view": "timeSeries"
+            }
+        },
+        {
+            "height": 6,
+            "width": 12,
+            "y": 8,
+            "x": 12,
+            "type": "log",
+            "properties": {
+                "query": "SOURCE '${lambda_reliability_log_group_name}' | fields status\n| filter status in [\"success\", \"failed\"] or level == \"warn\"\n| parse @message \"status\\\":\\\"success\" as @successCount\n| parse @message \"status\\\":\\\"failed\" as @failedCount\n| parse @message \"level\\\":\\\"warn\" as @warnCount\n| stats count(@successCount) as Success, count(@failedCount) as Failed, count(@warnCount) as Warn by bin(5m)",
+                "region": "${region}",
+                "stacked": false,
+                "view": "timeSeries",
+                "title": "Lambda: reliability"
+            }
+        },
+        {
+            "type": "log",
+            "x": 12,
+            "y": 14,
+            "width": 12,
+            "height": 6,
+            "properties": {
+                "query": "SOURCE '${lambda_reliability_log_group_name}' | fields @message\n| filter \n    @message ~= \"Successfully sent submission through GC Notify\"\n    or @message ~= \"Successfully saved submission to Vault\"\n    or @message ~= \"Failed to send submission through GC Notify\"\n    or @message ~= \"Failed to save submission to Vault\"\n| parse @message \"Successfully sent submission through GC Notify\" as @successNotify\n| parse @message \"Successfully saved submission to Vault\" as @successVault\n| parse @message \"Failed to send submission through GC Notify\" as @failedNotify\n| parse @message \"Failed to save submission to Vault\" as @failedVault\n| stats count(@successVault) as SuccessVaultSave, count(@successNotify) as SuccessNotifySend, count(@failedVault) as FailedVaultSave, count(@failedNotify) as FailedNotifySend by bin(5m)",
+                "region": "${region}",
+                "stacked": false,
+                "title": "Lambda: reliability send/save",
+                "view": "timeSeries"
+            }
+        }
+    ]
+}

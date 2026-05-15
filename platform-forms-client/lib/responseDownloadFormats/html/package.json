@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "compile": "node ./css/compile.js"
+  },
+  "type": "module",
+  "dependencies": {
+    "shelljs": "^0.10.0",
+    "@gcds-core/tokens": "1.0.0"
+  }
+}

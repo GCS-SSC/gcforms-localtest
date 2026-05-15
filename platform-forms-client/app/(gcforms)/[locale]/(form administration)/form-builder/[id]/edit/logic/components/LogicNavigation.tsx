@@ -1,0 +1,92 @@
+"use client";
+import React, { useState } from "react";
+import { LangSwitcher } from "@formBuilder/components/shared/LangSwitcher";
+import { toast } from "@formBuilder/components/shared/Toast";
+import { Tooltip } from "@formBuilder/components/shared/Tooltip";
+import { useGroupStore } from "@lib/groups/useGroupStore";
+import { autoFlowAllNextActions } from "@root/lib/groups/utils/setNextAction";
+import { type GroupsType } from "@gcforms/types";
+import { SortIcon } from "@serverComponents/icons";
+import { useTranslation } from "@i18n/client";
+import { useFlowRef } from "@formBuilder/[id]/edit/logic/components/flow/provider/FlowRefProvider";
+import { resetLockedSections } from "@lib/formContext";
+import { ResetFlowDialog } from "./ResetFlowDialog";
+import { useTemplateContext } from "@lib/hooks/form-builder/useTemplateContext";
+
+export const LogicNavigation = () => {
+  const { t } = useTranslation("form-builder");
+  const { getGroups, replaceGroups } = useGroupStore((s) => {
+    return {
+      getGroups: s.getGroups,
+      replaceGroups: s.replaceGroups,
+    };
+  });
+
+  const { saveDraftIfNeeded } = useTemplateContext();
+
+  const { flow } = useFlowRef();
+
+  const autoFlow = () => {
+    const groups = getGroups() as GroupsType;
+    let newGroups = autoFlowAllNextActions({ ...groups }, true); // forces overwrite of existing next actions
+
+    if (newGroups) {
+      newGroups = resetLockedSections(newGroups);
+    }
+
+    replaceGroups(newGroups);
+    flow.current?.redraw();
+    toast.success(t("logic.toastSuccess"));
+  };
+
+  const [showResetDialog, setShowResetDialog] = useState(false);
+
+  const handleOpenResetDialog = async () => {
+    setShowResetDialog(true);
+  };
+
+  const handleConfirmResetDialog = async () => {
+    autoFlow();
+    await saveDraftIfNeeded();
+    handleCloseResetDialog();
+  };
+
+  const handleCloseResetDialog: () => void = async () => {
+    setShowResetDialog(false);
+  };
+
+  return (
+    <>
+      <div className="flex gap-4">
+        <LangSwitcher descriptionLangKey="editingIn" />
+        <div className="flex items-center text-sm">
+          <label className="ml-4 flex font-bold">
+            {t("logic.resetRules")}
+            <button
+              className="ml-2 rounded-md border border-slate-500"
+              onClick={handleOpenResetDialog}
+            >
+              <SortIcon title={t("logic.resetRules")} />
+            </button>
+            <Tooltip.Info
+              side="top"
+              triggerClassName="align-middle ml-1"
+              tooltipClassName="font-normal whitespace-normal"
+              iconTitle={t("logic.resetRulesHelp")}
+            >
+              <strong>{t("logic.resetRules")}</strong>
+              <p>{t("logic.resetRulesDescription")}</p>
+            </Tooltip.Info>
+          </label>
+        </div>
+      </div>
+
+      {showResetDialog && (
+        <ResetFlowDialog
+          handleClose={() => handleCloseResetDialog()}
+          handleConfirm={() => handleConfirmResetDialog()}
+        />
+      )}
+    </>
+  );
+};

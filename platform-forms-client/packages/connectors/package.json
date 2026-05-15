@@ -1,0 +1,41 @@
+{
+  "name": "@gcforms/connectors",
+  "version": "2.2.20",
+  "author": "Canadian Digital Service",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsdown src/index.ts --format cjs,esm --dts --clean --splitting",
+    "prepack": "yarn build",
+    "connectors:prepack": "yarn prepack"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.1045.0",
+    "@aws-sdk/client-secrets-manager": "^3.1045.0",
+    "@aws-sdk/client-sqs": "^3.1045.0",
+    "@aws-sdk/lib-dynamodb": "^3.1045.0",
+    "axios": "^1.12.2",
+    "postgres": "^3.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^24.6.1",
+    "tsdown": "^0.15.6",
+    "typescript": "^6.0.2"
+  },
+  "packageManager": "yarn@4.10.3"
+}

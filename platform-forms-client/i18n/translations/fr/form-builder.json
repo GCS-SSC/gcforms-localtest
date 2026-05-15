@@ -1,0 +1,1640 @@
+{
+  "element": {
+    "copy": {
+      "text": "Copier l'élément",
+      "toastSuccess": "Élément copié"
+    }
+  },
+  "fileTypes": {
+    "more": {
+      "label": "Types de fichiers autorisés"
+    },
+    "documents": {
+      "label": "Documents",
+      "description": "pdf, txt, doc, docx"
+    },
+    "images": {
+      "label": "Images",
+      "description": "jpg, jpeg, png"
+    },
+    "spreadsheets": {
+      "label": "Feuilles de calcul",
+      "description": "xls, xlsx, csv"
+    }
+  },
+  "addElement": "Ajouter un élément",
+  "addElementDialog": {
+    "example": "exemple",
+    "filters": {
+      "all": "Tout",
+      "basic": "De base",
+      "preset": "Prédéfini",
+      "other": "Autre"
+    },
+    "cancel": "Annuler",
+    "tryIt": "Aperçu",
+    "addButton": "Sélectionner cet élément",
+    "addElement": {
+      "textField": "Ajouter une réponse courte",
+      "textArea": "Ajouter une réponse longue",
+      "radio": "Ajouter des boutons radio",
+      "checkbox": "Ajouter des cases à cocher",
+      "dropdown": "Ajouter une liste déroulante",
+      "fileInput": "Ajouter un téléverseur de fichier",
+      "attestation": "Ajouter une attestation",
+      "date": "Ajouter une date",
+      "number": "Ajouter un chiffre",
+      "name": "Ajouter un nom complet",
+      "firstMiddleLastName": "Ajouter des noms individuels",
+      "address": "Ajouter une adresse",
+      "addressComplete": "Ajouter une adresse",
+      "contact": "Ajouter des coordonnées",
+      "dynamicRow": "Ajouter un ensemble récurrent",
+      "richText": "Ajouter du texte de page",
+      "departments": "Ajouter un ministère",
+      "combobox": "Ajouter une liste avec recherche",
+      "formattedDate": "Ajouter une date",
+      "customJson": "Ajouter un élément personnalisé"
+    },
+    "address": {
+      "whatIsYourAddress": "Quelle est votre adresse?",
+      "city": "Ville ou communauté",
+      "country": "Pays",
+      "description": "Une configuration pour recueillir une adresse canadienne, y compris des champs pour une adresse une ville, une province et un code postal.",
+      "label": "Adresse",
+      "postal": "Code postal",
+      "province": "Province ou territoire",
+      "street": {
+        "description": "Indiquez le nom de rue et le numéro d'unité.",
+        "label": "Adresse municipale"
+      },
+      "title": "Adresse"
+    },
+    "addressComplete": {
+      "whatIsYourAddress": "Adresse postale",
+      "city": "Ville ou communauté",
+      "country": "Pays",
+      "description": "Le champ d'adresse utilise l'API AdresseComplète de Postes Canada pour vérifier les adresses au fur et à mesure qu'elles sont saisies. Utilisez-le pour recueillir des adresses plus précises.",
+      "label": "Adresse",
+      "postal": "Code postal ou zip",
+      "province": "Province, territoire ou état",
+      "street": {
+        "description": "Indiquez le nom et le numéro de rue.",
+        "label": "Adresse municipale"
+      },
+      "title": "Adresse",
+      "select": "Sélectionner les éléments de l'adresse à inclure.",
+      "options": "Options de format d’adresse",
+      "fields": "Format des données",
+      "fieldsDesc": "Ceci détermine la manière dont l’adresse apparaît dans les données de réponses.",
+      "fullAddress": "Adresse entière combinée",
+      "fullAddressDesc": "Données affichées en tant qu'une seule ligne.",
+      "splitAddress": "Adresse fractionnée en parties",
+      "splitAddressDesc": "Données divisées en plusieurs lignes.",
+      "customize": "Adapter le format",
+      "startTyping": "Commencez à taper l'adresse à rechercher",
+      "canadianOnly": "Adresses canadiennes seulement",
+      "components": {
+        "unitNumber": "Numéro de l’unité",
+        "civicNumber": "Numéro civique",
+        "city": "Ville ou communauté",
+        "province": "Province ou territoire",
+        "provinceOrState": "Province, territoire ou état",
+        "postalCode": "Code postal",
+        "postalCodeOrZip": "Code postal ou zip",
+        "country": "Pays"
+      }
+    },
+    "allRequired": "toutes obligatoires",
+    "answer": "Réponse...",
+    "attest": "J'accepte :",
+    "attestation": {
+      "description": "Une série de conditions qui doivent toutes être confirmées. Par exemple, pour s'assurer qu'une responsabilité légale est comprise.",
+      "title": "Attestation"
+    },
+    "categories": {
+      "all": "Tout",
+      "basic": "De base",
+      "preset": "Prédéfini",
+      "other": "Autre"
+    },
+    "customJson": {
+      "description": "Schéma JSON pour créer un élément sur mesure.",
+      "title": "Élément sur mesure",
+      "label": "JSON",
+      "placeholder": "Espace réservé pour l'élément sur mesure",
+      "field": {
+        "label": "Format JSON",
+        "description": "Copiez-collez votre schéma JSON ici"
+      }
+    },
+    "checkbox": {
+      "description": "Une liste d’options en vue de sélection unique ou multiple.",
+      "title": "Cases à cocher",
+      "chooseItems": "Question",
+      "selectAllThatApply": "Sélectionnez toutes les options pertinentes."
+    },
+    "checkboxItem": "Option",
+    "combobox": {
+      "description": "Une liste avec recherche est une liste déroulante d'options parmi lesquelles un choix est fait.",
+      "title": "Liste avec recherche",
+      "example": {
+        "select": "Selectionner"
+      },
+      "selectOption": "Question",
+      "selectOne": "Commencez à taper pour réduire la liste.",
+      "choices": "Option 1,Option 2,Option 3,Option 4,Option 5,Option 6,Option 7,Option 8,Option 9,Option 10"
+    },
+    "condition1": "Condition 1",
+    "condition2": "Condition 2",
+    "condition3": "Condition 3",
+    "contact": {
+      "howCanWeContactYou": "Comment pouvons-nous vous contacter?",
+      "description": "Une configuration pour recueillir des informations de contact en vue d'une communication de suivi, y compris numéro de téléphone, courriel et langue de correspondance.",
+      "email": {
+        "description": "Par exemple : nom@exemple.com",
+        "label": "Adresse courriel"
+      },
+      "label": "Coordonnées",
+      "language": {
+        "english": "Anglais",
+        "french": "Français",
+        "label": "Langue de communication préférée"
+      },
+      "phone": {
+        "description": "Par exemple : 111-222-3333",
+        "label": "Numéro de téléphone"
+      },
+      "title": "Coordonnées"
+    },
+    "date": {
+      "description": "Un champ pour recueillir une date dans un format prévisible.",
+      "title": "Date",
+      "example": {
+        "dateValue": "mm/jj/aaaa"
+      },
+      "forExample": "Saisissez la date dans ce format : mm/jj/aaaa"
+    },
+    "departments": {
+      "description": "Une liste gérée d’organisations du gouvernement du Canada parmi lesquelles un choix est fait.",
+      "title": "Ministère",
+      "example": {
+        "select": "Sélectionner"
+      },
+      "selectOption": "Ministère ou organisme",
+      "selectOne": "Commencez à taper pour réduire la liste."
+    },
+    "dropdown": {
+      "description": "Une longue liste d’options parmi lesquelles un choix est fait.",
+      "title": "Liste déroulante",
+      "example": {
+        "select": "Sélectionner"
+      },
+      "selectOption": "Question",
+      "selectOne": "Sélectionnez l’option pertinente.",
+      "choices": "Option 1,Option 2,Option 3,Option 4,Option 5,Option 6,Option 7,Option 8,Option 9,Option 10"
+    },
+    "dynamicRow": {
+      "description": "La possibilité de regrouper plusieurs éléments de formulaire dans un ensemble qui permet la récurrence pour ajouter plusieurs instances des mêmes questions.",
+      "title": "Ensemble récurrent"
+    },
+    "fileInput": {
+      "description": "Un moyen d'ajouter des documents à l'appui tels que des images PNG ou JPEG, et fichiers PDF, Word ou Excel. Chaque fichier peut avoir une taille maximale de 10 Mo.",
+      "label": "Téléverser un fichier",
+      "title": "Téléverseur de fichier"
+    },
+    "fileInputDefault": {
+      "text1": "Un moyen d'ajouter de la documentation à l'appui. Chaque fichier peut avoir une taille maximale de 10 Mo. Les fichiers peuvent être au format PDF, Word, Excel, CSV, PNG, JPG ou TXT.",
+      "text1x": "⚠️ Vous devez",
+      "text2": "avoir une clé API configurée pour la récupération des données",
+      "text3": "afin d'utiliser cet élément."
+    },
+    "fileInputWithApi": {
+      "description": "Un moyen d'ajouter de la documentation à l'appui. Chaque fichier peut avoir une taille maximale de 10 Mo. Les fichiers peuvent être au format PDF, Word, Excel, CSV, PNG, JPG ou TXT."
+    },
+    "firstMiddleLastName": {
+      "whatIsYourName": "Quel est votre nom?",
+      "description": "Les champs séparés pour le prénom, le deuxième prénom et le nom de famille. Ce format est conventionnel et pourrait être nécessaire pour le traitement de formulaires.",
+      "first": {
+        "description": "Description du prénom",
+        "label": "Prénom"
+      },
+      "label": "Noms individuels",
+      "last": {
+        "description": "Description du nom de famille",
+        "label": "Nom de famille"
+      },
+      "middle": {
+        "description": "Description du deuxième prénom",
+        "label": "Deuxième prénom"
+      },
+      "title": "Noms individuels"
+    },
+    "formattedDate": {
+      "title": "Date",
+      "description": "Un champ pour recueillir une date dans un format numérique personnablisable.",
+      "label": "Entrer la date",
+      "year": "Année",
+      "month": "Mois",
+      "day": "Jour",
+      "customizeDate": "Adapter le format"
+    },
+    "listItem": "Élément de liste ",
+    "name": {
+      "description": "Un champ unique pour le nom. Il peut s’agir d’une manière plus inclusive et plus sensible de recueillir ces informations.",
+      "label": "Nom complet",
+      "title": "Nom complet"
+    },
+    "number": {
+      "description": "Un champ qui n’accepte qu’une valeur numérique.",
+      "title": "Chiffre",
+      "amount": "Montant",
+      "enterOnlyNumbers": "Saisissez un chiffre.",
+      "setNumberFormat": "Définir le format des chiffres",
+      "allowNegative": "Permettre les valeurs numériques négatives",
+      "decimalPlaces": "Nombre de décimales pouvant être saisies",
+      "min": "Valeur minimale",
+      "max": "Valeur maximale",
+      "minShort": "Min",
+      "maxShort": "Max",
+      "valueRange": "Série de valeurs",
+      "addValueRange": "Ajouter une série de valeurs",
+      "numberOfDigits": "Nombre de chiffres",
+      "limitNumberOfDigits": "Limiter le nombre de chiffres",
+      "invalidValueRange": "La valeur minimale doit être inférieure à la valeur maximale.",
+      "invalidDigitRange": "Le nombre minimum de chiffres doit être inférieur au nombre maximum de chiffres.",
+      "minDigits": "Nombre minimum de chiffres",
+      "maxDigits": "Nombre maximum de chiffres",
+      "currency": "Devise ($)",
+      "currencyNone": "Aucune",
+      "decimals": "Décimales",
+      "thousandsSeparator": "Séparateur de milliers"
+    },
+    "numberInput": {
+      "title": "Nombre"
+    },
+    "questionElement": "Éléments",
+    "radio": {
+      "description": "Une petite liste d’options en vue d'une sélection unique.",
+      "title": "Boutons radio",
+      "chooseAnOption": "Question",
+      "selectOnlyOne": "Sélectionnez une option."
+    },
+    "richText": {
+      "description": "Élément de texte enrichi pour insérer des en-têtes, des paragraphes, des listes ou des liens.",
+      "example": "Texte de paragraphe qui peut être mis en forme avec du <strong>gras</strong> ou de l'<i>italique</i>, ou avec des <a tab-index=\"-1\" href=\"#\">hyperliens</a>.",
+      "title": "Texte de page"
+    },
+    "textField": {
+      "description": "Un champ de texte pour une réponse d’une seule ligne.",
+      "title": "Réponse courte",
+      "enterAnswer": "Étiquette",
+      "forExample": "Texte explicatif ou exemple"
+    },
+    "textArea": {
+      "title": "Réponse longue",
+      "description": "Une zone de texte pour une réponse libre de plusieurs lignes.",
+      "enterAnswer": "Question",
+      "forExample": "Texte explicatif ou exemple"
+    }
+  },
+  "addMultiple": "Ajouter plusieurs options",
+  "addOption": "Ajouter une option",
+  "addOptions": "Ajouter des options",
+  "clearOptions": {
+    "button": "Supprimer les options",
+    "title": "Supprimer toutes les options?",
+    "description": "Vous effacerez l'ensemble des options ajoutéespour cette question. Toutes les règles conditionnelles d'affichage ou d'embranchement liées à ces options seront également supprimées.",
+    "confirm": "Supprimer toutes les options",
+    "successToast": "Les options ont été supprimées avec succès."
+  },
+  "choiceLimitReached": "Vous ne pouvez ajouter que {{maxChoices}} options au maximum.",
+  "choiceOptionsUpload": {
+    "uploadButton": "Téléverser une liste d’un CSV",
+    "helpButton": "Aide pour le format du fichier CSV afin d'ajouter une liste d'options",
+    "helpTitle": "Comment formater le fichier CSV",
+    "helpDescription": "Créez une feuille de calcul avec l'anglais dans la première colonne et le français dans la deuxième. Enregistrez le fichier au format .csv (valeurs séparées par des virgules).",
+    "exampleLabel": "Exemple",
+    "dialogTitle": "Téléverser une liste d'options d’un fichier CSV",
+    "dialogDescription": "Créez un fichier .csv pour importer les options de sélection pour cet élément de formulaire.",
+    "selectFile": "Choisir un fichier",
+    "noFileSelected": "Aucun fichier sélectionné",
+    "copyButton": "Copier les options vers un CSV",
+    "copyButtonCopied": "Options copiées en CSV",
+    "importButton": "Importer les options du CSV",
+    "successNotice": "{{count}} options ont été ajoutées à partir du fichier CSV.",
+    "previewCount": "{{count}} options (lignes) sont prêtes à être importées",
+    "previewSummary": "Aperçu des lignes",
+    "errors": {
+      "empty": "Le fichier CSV ne contient aucune option.",
+      "invalidColumns": "Chaque ligne doit inclure les valeurs en anglais dans la colonne 1 et les valeurs en français dans la colonne 2.",
+      "invalidType": "Téléversez un fichier .csv.",
+      "maxChoices": "Vous pouvez importer jusqu’à {{maxChoices}} options au maximum."
+    }
+  },
+  "addRules": "Ajouter des règles",
+  "addQuestionToSet": "Ajouter un élément à l'ensemble",
+  "addToSet": "Ajouter à l'ensemble",
+  "allRequired": "Toutes obligatoires",
+  "at": "à",
+  "attestation": "Attestation",
+  "autocompleteIsSetTo": "Le remplissage automatique est réglé :",
+  "autocompleteOptions": {
+    "additional-name": "Deuxième prénom",
+    "address-level1": "Province, État",
+    "address-level2": "Ville ou communauté",
+    "address-line1": "Ligne d'adresse 1 (numéro civique et nom de la rue)",
+    "address-line2": "Ligne d'adresse 2 (appartement ou suite)",
+    "address-line3": "Ligne d'adresse 3 (autre détails de l'adresse)",
+    "bday": "Date de naissance",
+    "bday-day": "Jour de naissance",
+    "bday-month": "Mois de naissance",
+    "bday-year": "Année de naissance",
+    "country": "Code du pays (identifiant du pays à 2 lettres)",
+    "country-name": "Pays",
+    "email": "Adresse courriel",
+    "family-name": "Nom de famille",
+    "given-name": "Prénom",
+    "honorific-prefix": "Préfix du nom, M., Mme, Dr",
+    "honorific-suffix": "Suffix du nom, Jr, B.Sc,",
+    "language": "Langue",
+    "name": "Nom complet (y compris le prénom, le deuxième prénom et le nom de famille)",
+    "organization-title": "Titre du poste",
+    "tel": "Numéro de téléphone",
+    "postal-code": "Code postal ou zip",
+    "url": "Adresse du site Web"
+  },
+  "autocompleteWhenNotToUse": {
+    "text1": "Les attributs de remplissage automatique pourraient ne pas fonctionner correctement pour les informations que les personnes qui ne saisissent pas régulièrement. Des informations historiques ou commerciales risquent d'être erronées.",
+    "text2": "Les tests d'utilisabilité sont un bon moyen de comprendre si les paramètres que vous fixez aux questions posent des problèmes pour les personnes qui remplissent le formulaire.",
+    "title": "Quand ne pas utiliser le remplissage automatique"
+  },
+  "backToForm": "Retourner au formulaire",
+  "branding": {
+    "defaultOption": "Gouvernement du Canada",
+    "default": "",
+    "heading": "Image de marque",
+    "notFound": "Vous ne trouvez pas votre ministère ou votre organisme dans la liste?",
+    "preview": "Aperçu",
+    "select": "Sélectionnez un autre en-tête à affiché en haut du formulaire.",
+    "submitNew": "Demander une autre image de marque",
+    "text1": "Par défaut, la signature du gouvernement du Canada apparaît sur les formulaires publiés."
+  },
+  "cancel": "Annuler  ",
+  "characterLimitDescription": "N'utilisez une limite de caractères que lorsqu'il existe une bonne raison de limiter le nombre de caractères que les utilisateur·rice·s peuvent entrer.",
+  "characterLimitWhenToUse": {
+    "text1": "Des preuves que les utilisateur·rice·s sont susceptibles de saisir plus d'informations qu'ils n'en ont besoin.",
+    "text2": "Une raison légale ou technique qui fait qu'une entrée ne doit pas dépasser un certain nombre de caractères.",
+    "text3": "Si vos utilisateur·rice·s atteignent constamment à la limite de caractères imposée par le backend de votre service, essayez d'augmenter la limite plutôt que d'utiliser un nombre de caractères.",
+    "title": "Raisons pour la limite de caractères"
+  },
+  "checkboxes": "Cases à cocher",
+  "close": "Fermer",
+  "closeModal": "Fermer fenêtre modale",
+  "combobox": "Liste avec recherche",
+  "completed": "Complétée",
+  "confirmationDescriptionItem1": "des précisions sur la suite de choses.",
+  "confirmationDescriptionItem2": "les coordonnées du service.",
+  "confirmationDescriptionItem3": "des liens pour obtenir de l’information ou des liens vers des services que les utilisateur·rice·s pourraient utiliser plus tard.",
+  "confirmationDescriptionItem4": "un lien vers le formulaire de rétroaction (Si vous n’en avez pas, vous pouvez en créer un à l’aide de Formulaires GC qui sera lancé même temps que votre formulaire principal).",
+  "confirmationDescriptionParagraph": "Le message de confirmation s’affichera sur une nouvelle page une fois le formulaire soumis. Voici quelques éléments utiles à présenter dans la confirmation :",
+  "confirmationMessage": "Message de confirmation",
+  "confirmationPage": "Page de confirmation",
+  "contactSupport": "Contacter l’équipe de soutien",
+  "contactSupportIfYouHaveQuestions": "<a href=\"/fr/support\" target=\"_blank\">Veuillez contacter</a> l’équipe de soutien si vous avez des questions. ",
+  "contactus": {
+    "title": "Nous contacter",
+    "useThisForm": "Nous soutenons les fonctionnaires qui utilisent Formulaires GC. Nous ne pouvons pas conseiller le public au sujet des formulaires que nous hébergeons.",
+    "gcFormsTeamPart1": "Utilisez ce formulaire pour vous inscrire à notre infolettre, fournir de la rétroaction, ou suggérer une nouvelle fonctionnalité. Pour toute autre demande, allez à la page",
+    "gcFormsTeamLink": "Coordonnées du Gouvernement du Canada",
+    "gcFormsTeamPart2": "pour trouver le ministère ou l'organisme qui peut vous aider.",
+    "needSupport": "Besoin d'aide pour l'utilisation de Formulaires GC?",
+    "ifYouExperience": "Pour obtenir du soutien technique, veuillez remplir le ",
+    "supportFormLink": "formulaire de soutien",
+    "request": {
+      "title": "Que souhaitez-vous faire?",
+      "option1": "S'inscrire à la liste de diffusion",
+      "option2": "Donner un avis sur le produit",
+      "option3": "Suggérer une nouvelle fonctionnalité",
+      "option4": "Autre"
+    },
+    "description": {
+      "title": "Dites-nous en plus",
+      "description": "Veuillez ne pas inclure de renseignements protégés ou personnels."
+    },
+    "followUp": "Fournissez vos coordonnées pour que nous puissions vous contacter.",
+    "name": "Nom",
+    "email": "Adresse courriel",
+    "department": "Ministère ou organisme",
+    "branch": "Direction ou secteur",
+    "jobTitle": "Titre de poste",
+    "errors": {
+      "submissionError": "Il y a eu une erreur. Veuillez réessayer plus tard."
+    }
+  },
+  "copyButton": "Copié dans le presse-papiers",
+  "copyMessage": "Le formulaire a été téléchargé avec succès.",
+  "date": "Date",
+  "defaultElementDescription": {
+    "date": "Saisissez une date dans ce format : mm/jj/aaaa",
+    "email": "Par exemple : nom@exemple.com",
+    "number": "Saisissez un chiffre",
+    "phone": "Par exemple : 111-222-3333",
+    "combobox": "Commencez à taper pour réduire la liste.",
+    "fileInput": ""
+  },
+  "defaultElementLabel": {
+    "addressComplete": "Adresse"
+  },
+  "description": "Description",
+  "descriptionDescription": "Le texte explicatif apparaît sous l'étiquette et avant le champ. Il est utilisé pour ajouter un contexte et des instructions pour le champ. C'est un endroit idéal pour préciser les exigences de mise en forme ou donner un exemple.",
+  "didYouFindThisToolHelpful": "Avez-vous trouvé Formulaires GC pertinent comme outil? <a href=\"/fr/contact\" target=\"_blank\">Donner votre avis</a>",
+  "downloadCSV": "Exporter en fichier CSV",
+  "or": "ou",
+  "downloadResponsesTable": {
+    "card": {
+      "noResponses": "Vous n'avez pas reçu de réponses",
+      "noResponsesToDownload": "Il n'y a pas de réponses disponibles pour être téléchargées."
+    },
+    "download": {
+      "atLeastOneFile": "Au moins un fichier doit être sélectionné pour être téléchargé.",
+      "downloadComplete": "Téléchargement terminé",
+      "downloading": "Téléchargement en cours",
+      "downloadingXFiles": "Téléchargement de {{fileCount}} fichiers",
+      "downloadXSelectedResponses": "Télécharger les {{size}} réponses selectionnées",
+      "errorDownloadingFiles": "Erreur lors du téléchargement des fichiers sélectionnés",
+      "trySelectingLessFiles": "Un maximum de {{max}} fichiers peuvent être téléchargées à la fois. Veuillez sélectionner moins de fichiers."
+    },
+    "header": {
+      "confirmReceipt": "Confirmer la réception",
+      "downloadResponse": "Télécharger la réponse",
+      "lastDownloadedBy": "Dernier téléchargement par",
+      "number": "Chiffre",
+      "removal": "Suppresssion",
+      "select": "Sélectionner",
+      "status": "État",
+      "tableTitle": "Réponses à télécharger"
+    },
+    "skipLink": "Sauter le tableau avec les réponses à télécharger",
+    "status": {
+      "confirmed": "Confirmée",
+      "done": "Complétée",
+      "downloaded": "Téléchargée",
+      "new": "Nouveauté",
+      "notDownloaded": "Non téléchargée",
+      "notSet": "Non réglée",
+      "overdue": "En retard",
+      "problem": "Problème",
+      "unconfirmed": "Non confirmée",
+      "withinXDays": "Dans {{daysLeft}} jours",
+      "wontRemove": "Ne sera pas supprimée"
+    },
+    "unknown": "Inconnue"
+  },
+  "dropdown": "Liste déroulante",
+  "duplicate": "Dupliquer",
+  "dyanamicRow": "Ensemble récurrent",
+  "edit": "Modifier",
+  "editingIn": "Modifier en :",
+  "editLink": "Modifier un lien  ",
+  "elementActions": "Actions des éléments",
+  "email": "Courriel",
+  "english": "anglais",
+  "errorSaving": "Une erreur s'est produite lors de l'enregistrement du formulaire. <a href=\"/fr/support\" target=\"_blank\">Contacter l’équipe de soutien</a>.",
+  "failedToReadFormFile": "L’ouverture du fichier de formulaire a échoué",
+  "formatBold": "Mettre en gras",
+  "formatBulletList": "Mettre en liste à puces",
+  "formatH2": "Mettre en en-tête niveau 2",
+  "formatH3": "Mettre en en-tête niveau 3",
+  "formatItalic": "Mettre en italique",
+  "formatNumberedList": "Mettre en liste numérotée",
+  "formattedDate": "Date",
+  "formConfirmationMessage": "Message de confirmation",
+  "formDeleteResponses": {
+    "title": "Approuvez la suppression des réponses avant d'archiver le formulaire",
+    "message1": "Vous avez des réponses à récupérer de Formulaires GC avant de pouvoir archiver ce formulaire.",
+    "message2": "Avant d'archiver ce formulaire :",
+    "message3": "1. Télécharger toutes les réponses.",
+    "message4": "2. Confirmer la réception des réponses téléchargées en approuvant leur suppression de Formulaires GC.",
+    "cta": "Accéder aux réponses"
+  },
+  "formDelete": {
+    "error": "Erreur",
+    "somethingWentWrong": "Il y a eu un problème",
+    "downloadButtonText": "Télécharger une copie",
+    "draft": {
+      "message1": "L'archivage déplacera ce formulaire vers la section « Archivés » de vos formulaires.",
+      "message2": "Ce formulaire pourra être désarchivé à partir des formulaires « Archivés » pendant 30 jours avant d'être définitivement supprimé.",
+      "message3": " Téléchargez une copie du fichier du formulaire pour vos registres. Vous pourrez ensuite le téléverser à nouveau dans Formulaires GC pour recréer le formulaire plus tard."
+    },
+    "okay": "Archiver le formulaire",
+    "published": {
+      "message1": "L'archivage de ce formulaire publié ne peut être annulée. Votre formulaire publié sera définitivement enlevé de l'Internet, ce qui risque de créer des liens brisés.",
+      "message2": "Téléchargez une copie du fichier de formulaire pour vos registres. Vous pourrez ensuite le téléverser à nouveau dans Formulaires GC pour recréer un nouveau formulaire avec de nouveaux liens URL.",
+      "message3": "Avant d'archiver votre formulaire, assurez-vous de supprimer tous les liens publics menant à ce formulaire. Cela permet d'éviter d'envoyer les gens dans une impasse. Pour arrêter les soumissions, vous pouvez plutôt considérer la fermeture du formulaire dans les paramètres."
+    },
+    "title": "Archiver ce formulaire?"
+  },
+  "formDeletedDialogMessage": "Formulaire supprimé",
+  "formDeletedDialogMessageFailed": "Échec de la suppression du formulaire",
+  "formDeletedResponsesExist": "Le formulaire n'a pas pu être supprimé. Veuillez vous assurer qu'il n'y a pas de nouvelles réponses et réessayez.",
+  "formDownload": {
+    "description": "Conservez une version du formulaire enregistrée localement sur votre ordinateur ou utilisez ce fichier pour partager une ébauche en cours de développement.",
+    "downloadBtnText": "Télécharger le fichier du formulaire",
+    "title": "Obtenir une copie du formulaire"
+  },
+  "auditDownload": {
+    "description": "Obtenez une feuille de calcul avec l'historique des dernières actions clés effectuées dans un formulaire. Celles-ci sont disponibles pourraient prendre quelques minutes pour apparaître dans le journal d'activité et seront disponibles jusqu'à 30 jours.",
+    "downloadBtnText": "Télécharger l'activité récente",
+    "title": "Afficher l'activité du formulaire",
+    "dialog": {
+      "title": "Télécharger l'activité du formulaire",
+      "downloadBtnText": "Télécharger CSV",
+      "allEventsTitle": "Tous les événements",
+      "allEventsDescription": "Téléchargez tous les événements qui se sont produits dans le formulaire.",
+      "allEventsCheckbox": "Tous les événements du formulaire",
+      "specificEventsTitle": "Événements spécifiques",
+      "specificEventsDescription": "Choisissez les événements que vous souhaitez voir apparaître dans le CSV.",
+      "specific": {
+        "formBuilding": "Création de formulaire",
+        "formCollaboration": "Collaboration sur le formulaire",
+        "responseDownloads": "Téléchargements de réponses",
+        "apiIntegrations": "Intégrations API"
+      }
+    },
+    "headers": {
+      "formId": "Identifiant du formulaire",
+      "userId": "Membre de l'équipe",
+      "event": "Action du formulaire",
+      "timestamp": "Date et heure (TUC)",
+      "description": "Détails"
+    },
+    "events": {
+      "CreateForm": "Formulaire créé",
+      "DeleteForm": "Formulaire archivé",
+      "UnarchiveForm": "Formulaire désarchivé",
+      "ChangeDeliveryOption": "Option de livraison modifiée",
+      "ChangeSecurityAttribute": "Classification des données modifiée",
+      "ChangeFormPurpose": "Usage prévu modifié",
+      "ChangeFormSaveAndResume": "Option de sauvegarde et de reprise modifiée",
+      "ChangeFormName": "Nom du formulaire modifié",
+      "UpdateForm": "Formulaire mis à jour",
+      "UpdateNotificationsInterval": "Intervalle de notifications modifié",
+      "GrantFormAccess": "Accès au formulaire accordé",
+      "RevokeFormAccess": "Accès au formulaire révoqué",
+      "DownloadResponse": "Réponses téléchargées",
+      "ConfirmResponse": "Réponses confirmées",
+      "IdentifyProblemResponse": "Réponses signalées avec probléme",
+      "DeleteDraftResponses": "Réponses tests effacées lors de la publication.",
+      "RetrieveResponses": "Réponses récupérées via l'API",
+      "CreateAPIKey": "Clé API générée",
+      "DeleteAPIKey": "Clé API supprimée",
+      "RefreshAPIKey": "Clé API re-générée",
+      "PublishForm": "Formulaire publié",
+      "UpdateFormJsonConfig": "JSON du formulaire mise à jour",
+      "UpdatedNotificationSettings": "Paramètre de notification mis à jour."
+    },
+    "eventDetails": {
+      "CreatedForm": "Formulaire créé",
+      "UpdatedFormName": "Formulaire renommé en {{newFormName}}",
+      "UpdatedFormContent": "Contenu du formulaire mis à jour",
+      "DuplicatedForm": "Formulaire dupliqué pour créer le formulaire {{newFormID}}",
+      "ArchivedForm": "Formulaire archivé",
+      "RestoredForm": "Formulaire désarchivé",
+      "DownloadedForm": "Une copie du formulaire a été téléchargée",
+      "ChangeSecurityAttribute": "Classification changée à {{securityAttribute}}",
+      "SetFormPurpose": "Usage prévu défini comme {{formPurpose}}",
+      "SetSaveAndResume": "La sauvegarde des réponses est {{saveAndResume}}",
+      "UpdateClosingDate": "Date de fermeture mise à jour à {{closingDate}}",
+      "UpdatedNotificationSettings": "Paramètre de notification mis à jour à {{enabled}} pour {{userEmail}}",
+      "GeneratedAPIKey": "Clé API {{APIkeyID}} générée par {{userEmail}}",
+      "DeletedAPIKey": "Clé API {{APIkeyID}} supprimée par {{userEmail}}",
+      "IncreasedThrottling": "Débit de l'API fixé à {{throttlingRate}} pour {{weeks}} semaines",
+      "GrantAccess": "Accès accordé à {{userEmail}}",
+      "RevokeAccess": "Accès révoqué pour {{userEmail}}",
+      "UserInvited": "{{userEmail}} a invité {{invitationEmail}}",
+      "AcceptedInvitation": "Invitation acceptée par {{userEmail}}",
+      "DeclinedInvitation": "Invitation refusée par {{userEmail}}",
+      "CancelInvitation": "Invitation annulée pour {{invitationEmail}}",
+      "ReceivedFormResponses": "Réponse {{submissionId}} reçue",
+      "DownloadedFormResponses": "Réponse {{submissionId}} téléchargée en format {{format}}",
+      "ConfirmedResponsesForForm": "Réponse {{submissionId}} confirmée"
+    },
+    "eventParams": {
+      "Unclassified": "Non classifié",
+      "Protected A": "Protégé A",
+      "Protected B": "Protégé B",
+      "admin": "Administratif",
+      "nonAdmin": "Non administratif",
+      "On": "Activée",
+      "Off": "Désactivée",
+      "500 requests per minute": "500 demandes par minute",
+      "1000 requests per minute": "1000 demandes par minute"
+    },
+    "errorCreatingDownload": "Une erreur s'est produite lors du téléchargement. Veuillez réessayer plus tard ou contacter l'équipe de soutien.",
+    "noEvents": "Aucun événement trouvé, il peut falloir plusieurs minutes pour que l'activité récente apparaisse."
+  },
+  "formIntroduction": "Introduction du formulaire ",
+  "formInvalidProperty": "Invalide : {{property}}",
+  "formMissingProperty": "Il manque : {{property}}",
+  "formSettings": "Paramétres du formulaire",
+  "formSubmissionDisabledInPreview": "La soumission de formulaire est désactivée dans la prévisualisation.",
+  "formTitle": "Titre du formulaire",
+  "french": "français",
+  "gcForms": "Formulaires GC",
+  "gcFormsEdit": "Modifier",
+  "editLock": {
+    "title": "Ce formulaire est deja en cours de modification",
+    "lockedMessage": "{{name}} travaille actuellement sur ce formulaire, ce qui signifie que vous ne pouvez pas y apporter de modifications a moins d'en prendre le controle.",
+    "readOnly": "Lecture seule : {{name}} modifie ce formulaire.",
+    "statusLabel": "Statut :",
+    "lastActivityLabel": "Derniere activite :",
+    "statuses": {
+      "active": "Actif en ce moment",
+      "idle": "Consulte le formulaire, sans activite recente",
+      "away": "Absent",
+      "stale": "Connexion inactive"
+    },
+    "unknownUser": "Un autre utilisateur",
+    "saveBlocked": "Enregistrement bloqué : {{name}} modifie ce formulaire.",
+    "takeover": "Prendre le contrôle",
+    "takingOver": "Prise de contrôle...",
+    "syncingLatest": "Synchronisation de la plus récente version enregistrée du formulaire...",
+    "syncedLatest": "Vous avez maintenant le verrou de modification et la plus récente version enregistrée du formulaire a été chargée.",
+    "takeoverError": "Impossible de prendre le contrôle. Veuillez réessayer.",
+    "sessionExpiredTitle": "Votre session de modification a expiré",
+    "sessionExpiredMessage": "La modification a été arrêtée parce que ce formulaire est resté inactif trop longtemps. Retournez à la liste des formulaires pour le rouvrir si vous devez encore apporter des changements.",
+    "returnToForms": "Retourner aux formulaires"
+  },
+  "gcFormsApi": "API",
+  "gcFormsPublish": "Publier",
+  "gcFormsPublished": "Publié",
+  "gcFormsSettings": "Paramètres",
+  "gcFormsStart": "Créer",
+  "gcFormsTest": "Tester",
+  "gcFormsTranslate": "Traductions",
+  "hasFileInputAndApiDelivery": "Récupération des réponses à partir du point de terminaison API",
+  "hasFileInputAndApiDeliveryNote": "Clé API obligatoire lors de l'utilisation du téléverseur de fichiers",
+  "ifYouAreExperiencingProblems": "Si vous rencontrez des problèmes avec votre formulaire publié, <a href=\"/fr/support\" target=\"_blank\">veuillez contacter l’équipe de soutien.</a>.",
+  "incomplete": "Incomplet",
+  "inputDescription": "Texte explicatif",
+  "insertLink": "Insérer un lien  ",
+  "lastSaved": "mise à jour à",
+  "linkUrl": "URL du lien",
+  "lockedBlock": "Essentiel",
+  "longAnswerText": "Réponse longue",
+  "managedList": {
+    "prefix": "Liste gérée :",
+    "departments": "Liste d’organisations du GC",
+    "crownCorporations": "Sociétés d'État",
+    "provincialTerritorial": "Provinces et territoires",
+    "managedListOptions": "Options pour la liste d'organisations",
+    "includeDepartments": "Inclure les ministères et organismes",
+    "includeCrownCorporations": "Inclure les sociétés d'État",
+    "includeProvincialTerritorial": "Inclure les provinces et les territoires"
+  },
+  "maxCharacterLength": "Longueur maximale des caractères :",
+  "maximumCharacterLength": "Longueur maximale des caractères",
+  "maxNumberOfRows": {
+    "description": "Définissez la limite supérieure du nombre d'entrées que vos utilisateur·rice·s peuvent fournir pour cette question.",
+    "label": "Nombre maximum de réponses"
+  },
+  "more": "Plus",
+  "moreDialog": {
+    "date": {
+      "dateOptions": "Options de date",
+      "typeOfDate": "Quel type de date recueillez-vous?",
+      "selectFormat": "Sélectionnez un format pour la date",
+      "generalDateLabel": "Date générale",
+      "birthDateLabel": "Date de naissance",
+      "isoFormatLabel": "AAAA-MM-JJ (Standard du Gouvernement du Canada)",
+      "ddmmyyyyFormatLabel": "JJ-MM-AAAA",
+      "mmddyyyyFormatLabel": "MM-JJ-AAAA",
+      "infoBox": "Quel format de date utiliser?",
+      "infoLine1": "Le format standard de la date au Canada est AAAA-MM-JJ et devrait être votre premier choix, à moins qu'il n'y ait une raison de choisir un format différent.",
+      "infoLine2": "Par exemple, lorsque vous demandez la date exacte d'un passeport, d'une carte ou d'un autre document, faites en sorte que les champs correspondent au format de l'original. Il est ainsi plus facile pour les utilisateurs de recopier la date avec précision."
+    },
+    "apiOptionsSection": {
+      "title": "Personnaliser les attributs des données de l'API",
+      "description": "Modifiez la façon dont les champs de votre formulaire sont encodés pour l'intégration de l'API."
+    },
+    "questionId": {
+      "title": "Identifiant de la question",
+      "description": "Vous pouvez définir une valeur unique permettant de se référer de manière cohérente à un élément de formulaire afin qu'ils puissent correspondre entre les versions de formulaires republiées, les structures de données et les systèmes.",
+      "uniqueWarning": "Choisissez une valeur unique qui diffère des autres questions."
+    },
+    "tags": {
+      "title": "Balises supplémentaires",
+      "description": "Vous pouvez ajouter des étiquettes flexibles  pour inclure des métadonnées aux éléments du formulaire afin de catégoriser les questions connexes ou de transformer les données.",
+      "errorTagTooLong": "La balise ne peut pas dépasser 50 caractères"
+    },
+    "dynamicRow": {
+      "errorMaxRows": "Le nombre maximal de réponses ne peut pas dépasser {{maxRows}}."
+    },
+    "customRegex": {
+      "title": "Configurer la validation avancée des entrées",
+      "description": "Vous pouvez utiliser une expression régulière (regex) pour créer une validation personnalisée pour cette question.",
+      "label": "Modèle d'expression régulière (regex) personnalisé",
+      "errorInvalidRegex": "Le modèle d'expression régulière (regex) n'est pas valide. Veuillez saisir un modèle regex valide.",
+      "previousPatterns": "Modèles précédents",
+      "errorUnsafeRegex": "Ce modèle regex est potentiellement dangereux. Évitez les modèles susceptibles de causer des problèmes de performance, tels que ceux comportant des quantificateurs imbriqués ou un retour en arrière excessif. "
+    }
+  },
+  "moreOptions": "Plus d'options  ",
+  "moveDown": "Déplacer vers le bas ",
+  "moveUp": "Déplacer vers le haut ",
+  "navLabelEditor": "Navigation de l’onglet modifier",
+  "navLabelFormBuilder": "Navigation de Formulaires GC",
+  "numericField": "Chiffre",
+  "openModal": "Ouvrir fenêtre modale",
+  "option": "Option",
+  "optionText": "Option",
+  "pagePreview": "Prévisualiser",
+  "pageSettings": "Paramètres",
+  "pageText": "Texte de page",
+  "paragraph": "Réponse longue",
+  "phoneNumber": "Numéro de téléphone",
+  "placeHolderFormTitle": "Titre du formulaire",
+  "previewingIn": "Prévisualiser en :",
+  "previewDisabledForPublishedForm": "La prévisualisation et les tests sont désactivés pour les formulaires publiés",
+  "privacyNoticeDescription": "<p class=\"mb-4\">Aidez les personnes qui remplissent le formulaire à comprendre comment vous traitez leurs renseignements personnels, comme énoncé à la section 4.2.10 de la <a href=\"https://www.tbs-sct.canada.ca/pol/doc-fra.aspx?id=18309\" target=\"_blank\">Directive sur les pratiques relatives à la protection de la vie privée</a>.</p><p><strong>Ce qu'il faut préciser dans un avis de confidentialité</strong></p><ul><li>Les renseignements personnels qui sont recueillis et les fins de la collecte.</li><li>Les autorisations légales ou de programmes dont vous disposez.</li><li>Les façons dont les reseignements seront utilisés, partagés, stockés et conservés.</li><li>Les droits d’accès ou de correction des renseignements personnels et les droits de déposer une plainte.</li></ul><p>C’est votre responsabilité de bien connaître les exigences de votre ministère ou organisme en matière de renseignements personnels. Si vous ne savez pas comment procéder, nous vous recommandons de contacter votre <a href=\"https://www.tbs-sct.canada.ca/ap/atip-aiprp/coord-fra.asp\" target=\"_blank\">coordinateur·rice de l'accès à l'information et de la protection de la vie privée</a>.</p>",
+  "privacyStatement": "Avis de confidentialité ",
+  "provideFeedback": "Aidez-nous à nous améliorer",
+  "publish": "Publier",
+  "readyToPublish": "Prêt à publier",
+  "published": "Publié",
+  "publishedBack": "Retourner aux formulaires",
+  "publishedCopied": "Copié",
+  "closedFormSettings": "Paramètres du formulaire fermé",
+  "publishedEnglish": "Anglais",
+  "publishedErrors": "Obtenir du soutien",
+  "publishedFrench": "Français",
+  "publishedTitle": "Votre formulaire est publié",
+  "publishedViewLinks": "Visualisez et partagez votre formulaire publié à partir de ces liens : ",
+  "whatYouNeedToKnow": "Ce qu’il faut savoir",
+  "publishingDisablesEditing": "La publication désactive toute modification.",
+  "publishingDisablesEditingDescription": "Une fois publié, vous ne pouvez plus apporter des modifications à ce formulaire. Si des modifications sont nécessaires après la publication, utilisez le fichier du formulaire pour créer et publier un nouveau formulaire.",
+  "publishingDisablesEditingDescription": "Une fois publié, vous ne pouvez plus apporter des modifications à ce formulaire. Si des modifications sont nécessaires après la publication, utilisez le fichier du formulaire pour créer et publier un nouveau formulaire.",
+  "publishingLocksSettings": "La publication verrouille certains paramètres.",
+  "publishingLocksSettingsDescription": "Plusieurs paramètres du formulaire ne seront plus modifiables, tels que la classification et l'usage prévu du formulaire.",
+  "publishingRemovesTestResponses": "La publication supprime les réponses test.",
+  "publishingRemovesTestResponsesDescription": "Toutes les réponses antérieures seront supprimées du système.",
+  "publishYourForm": "Publier votre formulaire",
+  "publishYourFormInstructions": {
+    "settings": "Paramètres",
+    "classification": "Classification des données ",
+    "deliveryOption": "Récupération des données ",
+    "purpose": "Usage prévu ",
+    "text1": "Veuillez franchir les étapes suivantes avant de publier votre formulaire.",
+    "text2": "",
+    "vaultOption": "Réponses à télécharger",
+    "emailOption": "Réponses envoyées par courriel — ",
+    "apiOption": "Réponses récupérées avec l'API",
+    "change": "Modifier ces paramètres"
+  },
+  "logicPublishWarning": {
+    "header": "Testez minutieusement votre formulaire avant de le publier",
+    "text": "Vérifiez que tous les chemins possibles à travers le formulaire fonctionnent comme prévu, en évitant les impasses et les boucles infinies."
+  },
+  "prePublishFormDialog": {
+    "title": "Publier le formulaire",
+    "text1": "Pourquoi souhaitez-vous publier le formulaire?",
+    "readyForPublicUse": "Formulaire prêt pour un usage par le public",
+    "readyForInternalUse": "Formulaire prêt pour un usage interne",
+    "sharingForFeedback": "Formulaire à partager pour commentaires ou approbation",
+    "other": "Autre",
+    "text2": "Décrivez-nous votre formulaire",
+    "whatType": "Type de formulaire",
+    "briefDesc": "Description du formulaire et de son usage",
+    "thisInformation": "Cette information nous aide à comprendre comment vous utilisez Formulaires GC, pour que nous puissions mieux répondre à vos besoins.",
+    "helpsUnderstand": "Cette information nous aide à comprendre à qui le formulaire est destiné.",
+    "purpose": {
+      "admin": "fins administratives",
+      "nonAdmin": "fins non-administratives",
+      "unset": "pas définie"
+    },
+    "formtypes": {
+      "Collect": "Collecte d'informations ou rétroaction",
+      "Administer": "Administration de prestation ou service",
+      "Grants": "Subventions et contributions",
+      "Regulatory": "Conformité réglementaire",
+      "Operations": "Opérations organisationnelles",
+      "Other": "Autre"
+    },
+    "error": {
+      "title": "Erreur",
+      "message": "Veuillez remplir tous les champs."
+    }
+  },
+  "question": "Question",
+  "questions": "Questions",
+  "questionSet": {
+    "addAnother": {
+      "description": "Créez une étiquette descriptive pour le bouton afin d'indiquer aux personnes remplissant le formulaire qu'elles peuvent ajouter une autre réponses. Par exemple, ajouter « une autre adresse ».",
+      "placeholder": "Ajouter",
+      "title": "Bouton"
+    }
+  },
+  "setName": "Nom de l'ensemble",
+  "questionTitle": "Question",
+  "remove": "Supprimer",
+  "removeFromSet": "Enlever de l'ensemble",
+  "removeOption": "Supprimer l'option :  ",
+  "requestSuccess": {
+    "backToForms": "Retourner à Formulaires GC",
+    "forOtherEnquiriesLink": "Coordonnées du Gouvernement du Canada",
+    "forOtherEnquiriesPart1": "Pour toute autre question, allez à ",
+    "forOtherEnquiriesPart2": "pour trouver le ministère ou l'organisme qui peut vous aider",
+    "theGCFormsTeam": "Veuillez noter que l'équipe Formulaires GC fournit des services aux personnes qui travaillent au sein du gouvernement. Nous ne pouvons pas donner de conseils généraux au public sur les formulaires que nous hébergeons.",
+    "title": "Merci pour votre soumission",
+    "weWillRespond": "Nous vous répondrons dans les 2 prochains jours ouvrables."
+  },
+  "required": "obligatoire",
+  "responseDelivery": "Tester la réception des réponses",
+  "richText": "Texte de page",
+  "richTextConfirmationTitle": "Message de confirmation",
+  "richTextEditor": "Éditeur de texte enrichi",
+  "richTextIntroTitle": "Introduction au formulaire",
+  "richTextPrivacyTitle": "Avis de confidentialité",
+  "save": "Enregistrer",
+  "saveAndRequest": "Demander la capacité de publier",
+  "saveDraft": "Enregistrer l’ébauche",
+  "selectAutocomplete": "Sélectionnez un attribut de remplissage automatique",
+  "selectAutocompleteHint": "Cette option est utile lorsque les personnes qui remplissent le formulaire fournissent des informations personnelles telles que leur adresse, courriel ou numéro de téléphone.",
+  "selectElement": "Sélectionnez un type d'élément",
+  "send": "Envoyer",
+  "copy": "copie",
+  "settings": {
+    "formManagement": "Options liées aux réponses",
+    "apiIntegration": {
+      "navigation": {
+        "title": "Intégration API"
+      },
+      "page": {
+        "title": "Configurer l’intégration API",
+        "text1": "Cette section s'adresse aux développeur·se·s qui souhaitent utiliser l'API pour extraire les données des soumissions au formulaire vers un système cible avec une intégration sur mesure. Une fois l’API configurée, les réponses pourront être récupérées à partir d'un point de terminaison programmatiquement. Consultez notre site de documentation pour en savoir plus.",
+
+        "text1": "This section is for developers who want to use the API to pull form submission data to a target system with a custom integration. Once set-up, responses can be retrieved from the API endpoint programmatically. Visit our documentation site for more information.",
+
+        "docsButton": {
+          "text": "Accéder à la documentation API",
+          "link": "https://cds-snc.github.io/forms-api/fr"
+        },
+        "apiKey": {
+          "title": "Récupérer les soumissions via l'API",
+          "description": "Le fait de disposer d'une clé API signifie que GC Forms s'attend à ce que les données de réponse au formulaire soient récupérées du point de terminaison API.",
+          "rateLimit": {
+            "title": "Limite de débit API",
+            "currentLimit": "Limite actuelle :",
+            "currentLimitDescription": "500 requêtes par minute",
+            "increaseRequest": "Si vous avez besoin d’un débit plus élevé, <a href='/en/support' target='_blank'>contactez l'équipe de soutien</a>."
+          }
+        },
+        "isEmailDelivery": {
+          "title": "Cette fonctionnalité n'est pas disponible avec l'envoi par courriel",
+          "description": "La récupération des données via API n'est pas possible lorsque les réponses sont envoyées par courriel. Considérez la fermeture de ce formulaire et sa republication afin d'utiliser cette fonctionnalité."
+        }
+      }
+    },
+    "api": {
+      "keyId": "Identifiant de la clé API",
+      "title": "Accès pour l'API",
+      "generateKey": "Générer une clé API",
+      "refreshKey": "Générer une nouvelle clé API",
+      "deleteKey": "Supprimer la clé API",
+      "deleteKeyFailed": {
+        "title": "Quelque chose a mal tourné",
+        "message": "La clé API n'a pas pu être supprimée"
+      },
+      "deleteKeySuccess": {
+        "title": "La clé API a été supprimée",
+        "message": "Les nouvelles réponses peuvent maintenant être téléchargées sur la ",
+        "responseLinkText": "page Réponses"
+      },
+      "deleteApiKeyToChangeOptions": {
+        "title": "Supprimer la clé API pour modifier la méthode de livraison",
+        "message": "Afin de sélectionner une autre option, vous devez d'abord supprimer la clé API."
+      },
+      "generateKeySuccess": {
+        "title": "La clé API a été générée",
+        "message": "Les nouvelles réponses seront disponibles par l'API. Trouvez des instructions pour la configuration de l'intégration dans ",
+        "docsLinkText": "la documentation API",
+        "docsLink": "https://cds-snc.github.io/forms-api/fr"
+      },
+      "keyExists": "La clé existe déjà",
+      "keyIdToolTip": {
+        "text1": "Qu'est-ce que l'identifiant de la clé API?",
+        "text2": "L'identifiant de la clé API n'est pas la clé elle-même. Il s'agit d'un moyen d'identifier une clé sans partager des informations protégées."
+      },
+      "deleteApiKeyDialog": {
+        "title": "Supprimer la clé API",
+        "cautionTitle": "Attention :",
+        "cautionText": "La suppression de cette clé API ne peut être annulée. Supprimer la clé interrompt définitivement la livraison de réponses à tous les systèmes intégrés. Vous devrez créer une nouvelle clé et l'ajouter à votre intégration pour relancer la livraison à partir de l'API.",
+        "stopText": "<strong>Pour arrêter les soumissions</strong> à ce formulaire de façon temporaire, veuillez considérer",
+        "fileUploadText": "⚠️ En supprimant la clé API, vous changerez votre méthode de livraison et pourriez entraîner la perte des fichiers joints aux soumissions de formulaires.Pour récupérer tous les fichiers qui font partie des soumissions, créez une nouvelle clé API et configurez votre intégration.",
+        "stopText1": "la fermeture du formulaire",
+        "stopText2": " à la place.",
+        "cancelButton": "Annuler",
+        "deleteKeyButton": "Supprimer la clé",
+        "error": {
+          "deleteFailed": {
+            "title": "La clé API n'a pas pu être supprimée",
+            "message": "Une erreur s'est produite lors de la suppression de la clé API. Veuillez réessayer plus tard."
+          }
+        }
+      },
+      "dialog": {
+        "title": "Créer la clé API",
+        "refreshTitle": "Générer une nouvelle clé API",
+        "heading": "⚠️ Les clés API de Formulaires GC sont PROTÉGÉES B",
+        "refreshHeading": "⚠️ Vous devrez ajouter cette nouvelle clé à votre intégration pour pouvoir récupérer correctement les réponses.",
+        "responsibility": "Vous êtes responsable de :",
+        "responsibility1": "L'enregistrement de cette clé dans un endroit sûr d'une machine du gouvernement du Canada.",
+        "responsibility2": "Le partage de cette clé uniquement avec les personnes qui ont les autorisations, s'il y a un besoin pour l'intégration programmatique.",
+        "responsibility3": "L'envoi de cette clé en utilisant un courriel crypté, s'il est nécessaire pour la configuration de l'intégration.",
+        "responsibility4": "La sécurisation de la clé et sa gestion avec la génération d’une nouvelle clé, si l'on soupçonne qu'elle a été compromise.",
+        "text1": "Ne perdez pas votre clé ",
+        "text2": "Cette clé n'est fournie qu'une seule fois, car elle permet d'accéder aux données des réponses au formulaire. Si vous perdez cette clé ou si elle est compromise, vous devrez en générer une nouvelle.",
+        "cancelButton": "Annuler",
+        "downloadButton": "Télécharger la clé API",
+        "confirm": {
+          "label": "Confirmation",
+          "required": "(obligatoire)",
+          "description": "Saisissez <strong>ACCEPTE</strong> dans la case ci-dessous pour confirmer que vous comprenez vos responsabilités et que vous acceptez les <a href='https://forms-formulaires.alpha.canada.ca/fr/terms-of-use' target='_blank'>conditions d'utilisation</a> lors de l'enregistrement et du partage de cette clé."
+        },
+        "error": {
+          "createFailed": {
+            "title": "La clé API n'a pas pu être générée",
+            "message": "Une erreur s'est produite lors de la génération de la clé API. Veuillez enregistrer le formulaire et réessayer plus tard."
+          }
+        }
+      }
+    },
+    "hasUnconfirmedDownloads": {
+      "message": "⚠️ Vous devez approuver pour suppression toutes les réponses qui ont été téléchargées, mais qui n'ont pas encore été confirmées avec les codes de réception.",
+      "ctaButton": "Accéder aux réponses",
+      "cancelButton": "Annuler",
+      "generateAction": {
+        "title": "Avant de générer une clé API"
+      },
+      "deleteAction": {
+        "title": "Avant de supprimer une clé API"
+      }
+    },
+    "notifications": {
+      "title": "Recevoir des notifications",
+      "save": "Enregistrer",
+      "email": {
+        "singleSubmission": {
+          "subject": "New form response | Nouvelle réponse au formulaire",
+          "paragraph1": "Votre formulaire a reçu une nouvelle soumission :",
+          "paragraph2": "Allez à Formulaires GC",
+          "paragraph3": "Si vous souhaitez désactiver les notifications pour les nouvelles réponses, allez dans Paramètres > Gestion du formulaire."
+        },
+        "multipleSubmissions": {
+          "subject": "New form responses | Nouvelles réponses au formulaire",
+          "paragraph1": "Votre formulaire a reçu des nouvelles soumissions :",
+          "paragraph2": "Allez à Formulaires GC",
+          "paragraph3": "Si vous souhaitez désactiver les notifications pour les nouvelles réponses, allez dans Paramètres > Gestion du formulaire."
+        }
+      },
+      "sessionUser": {
+        "title": "Recevoir des notifications par courriel",
+        "description": "Soyez informé que votre formulaire a reçu des nouvelles soumissions (jusqu'à un maximum de deux notifications par jour).",
+        "toggle": {
+          "title": "Recevoir des notifications à {{email}}",
+          "on": "Activé",
+          "off": "Désactivé"
+        }
+      },
+      "usersList": {
+        "title": "Personnes ayant accès au formulaire et recevant des notifications",
+        "description": "Vous pouvez gérer l'accès de l'équipe sur la page Réponses",
+        "enabled": "Notifications activées",
+        "disabled": "Notifications désactivées"
+      },
+      "success": {
+        "updateNotifications": "Vos modifications ont été enregistrées."
+      },
+      "error": {
+        "getNotifcations": "Un problème est survenu lors de l'obtention des paramètres de notification. Veuillez réessayer plus tard.",
+        "updateNotifications": "Un problème est survenu lors de la mise à jour des notifications. Veuillez réessayer plus tard."
+      }
+    }
+  },
+  "settingsDeleteButton": "Supprimer",
+  "settingsDeleteHint": "Une fois que vous supprimez un formulaire, il n'y a aucun moyen de le récupérer. Veuillez enregistrer une copie avant de supprimer votre formulaire.",
+  "settingsDeleteTitle": "Supprimer le formulaire",
+  "settingsInvalidEmailAlertDesc1": "Doit être une adresse courriel du gouvernement du Canada.",
+  "settingsInvalidEmailAlertDesc2": "pour enregistrer l'adresse courriel.",
+  "settingsInvalidEmailAlertTitle": "Adresse courriel du gouvernement",
+  "settingsNavHome": "Profil du formulaire",
+  "settingsResponseEmailTitle": "Adresse courriel",
+  "settingsResponseHint1": "Les réponses seront envoyées par courriel à cette boîte de réception. Il peut s'agir d'une boîte de réception partagée.",
+  "settingsPurposeAndUse": {
+    "title": "Usage prévu",
+    "description": "Nous utiliserons cette information pour déterminer comment traiter les réponses qui se trouvent dans Formulaires GC au-delà de 45 jours.",
+    "personalInfo": "Renseignements personnels servant à prendre une décision qui touche un individu",
+    "learnMore": "En savoir plus sur les fins administratives",
+    "learnMoreBox": {
+      "title": "En savoir plus sur les fins administratives",
+      "description": "La <a href='https://www.justice.gc.ca/fra/sjc-csj/lprp-pa/dd-dp/modern_3.html?wbdisable=true'>Loi sur la protection des renseignements personnels</a> définit les fins administrative comme étant « l’usage de renseignements personnels concernant un individu dans le cadre d’une décision le touchant directement ».",
+      "personalInfo": "Exemples d’usages administratifs :",
+      "personalInfoList": "<li>Utiliser le numéro d’assurance sociale d'une personne pour vérifier son identité.</li><li>Utiliser le revenu annuel d’une personne pour évaluer son admissibilité.</li><li>Utiliser l’âge d'une personne pour administrer une prestation.</li>",
+      "nonAdminInfo": "Exemples d’usages non administratifs :",
+      "nonAdminInfoList": "<li>Recueillir l’adresse courriel d’une personne pour l’inscrire à un événement.</li><li>Recueillir l’âge ou l’identité de genre d’une personne pour un sondage.</li><li>Recueillir le nom ou l’adresse d’une entreprise pour administrer une subvention ou une contribution (tant qu’il ne s’agit pas des renseignements personnels d’une personne).</li>",
+      "contactCoordinator": "Si vous doutez, nous vous recommandons de contacter votre <a href='https://www.tbs-sct.canada.ca/ap/atip-aiprp/coord-fra.asp'>coordinateur·rice de l’accès à l’information et de la protection de la vie privée.</a>"
+    },
+    "personalInfoDetails": "C’est-à-dire à des fins administratives, par exemple :",
+    "personalInfoDetailsVals": {
+      "1": "demandes ou candidatures",
+      "2": "vérification d’admissibilité",
+      "3": "validation d’identité"
+    },
+    "nonAdminInfo": "Renseignements ne servant pas à prendre une décision qui touche un individu",
+    "nonAdminInfoDetails": "C’est-à-dire à des fins non-administratives, par exemple :",
+    "nonAdminInfoDetailsVals": {
+      "1": "statistiques",
+      "2": "activités de recherche",
+      "3": "audits"
+    },
+    "purpose": {
+      "admin": "Fins administratives",
+      "nonAdmin": "Fins non-administratives",
+      "unset": "Pas défini"
+    },
+    "saveButton": "Enregistrer les modifications"
+  },
+  "settingsResponseDelivery": {
+    "selectClassification": "Classification des données",
+    "beforePublishMessage": "Ces paramètres ne peuvent être modifiés qu’avant la publication.",
+    "settingsMessage": "Pour modifier ces paramètres, sélectionnez la classification des données de vos réponses au formulaire.",
+    "title": "Option de livraison",
+    "vaultOption": "Télécharger les réponses de Formulaires GC",
+    "vaultOptionHint": {
+      "text1": " Les réponses soumises apparaîtront sur",
+      "text2": "la page Réponses",
+      "text3": " Formulaires GC conserve les données temporairement pour 30 jours."
+    },
+    "emailOption": "Recevoir les réponses par courriel",
+    "saveButton": "Enregistrer les modifications",
+    "savedSuccessMessage": "Vos modifications ont été enregistrées.",
+    "savedErrorMessage": "Une erreur s'est produite lors de l'enregistrement de vos modifications. Réessayez plus tard ou",
+    "emailSubjectEn": {
+      "title": "Ligne d'objet en anglais",
+      "hint": "Lorsque les réponses au formulaire sont soumises en anglais."
+    },
+    "emailSubjectFr": {
+      "title": "Ligne d'objet en français",
+      "hint": "Lorsque les réponses au formulaire sont soumises en français."
+    },
+    "emailDeliveryDeprecated": {
+      "title": "La livraison de données par courriel n’est plus disponible.",
+      "description": "Vous ne pourrez pas sélectionner cette option pour les formulaires à venir."
+    }
+  },
+  "loggedOutTab": {
+    "publish": {
+      "title": "Vous ne pouvez pas encore publier",
+      "text1": "Pour publier ce formulaire,"
+    },
+    "responses": {
+      "title": "Vous ne pouvez pas encore accéder aux réponses",
+      "text1": "Pour accéder aux réponses du formulaire,"
+    },
+    "settings": {
+      "title": "Vous ne pouvez pas encore modifier les paramètres",
+      "text1": "Pour modifier les paramètres de ce formulaire,"
+    },
+    "text2": "connectez-vous",
+    "text3": "Si vous n’avez pas de compte Formulaires GC, ",
+    "text4": "créez-en un maintenant",
+    "signinButton": "Se connecter",
+    "createButton": "Créer un compte"
+  },
+  "share": {
+    "copy": "Copier",
+    "email": "Partager par courriel",
+    "emailLabel": "Adresse courriel",
+    "enLink": "Lien en anglais",
+    "formUser": "Un·e utilisateur·rice de Formulaires GC",
+    "frLink": "Lien en français",
+    "link": "Obtenir le lien",
+    "message": "Les personnes avec qui vous partagez recevront un courriel avec un fichier JSON joint. Elles peuvent afficher le fichier JSON à l'aide de Formulaires GC, sans compte requis.",
+    "messageSent": "Le message a été envoyé.",
+    "messageError": "Le message n'a pas pu être envoyé. Veuillez essayer de partager à nouveau.",
+    "open": "Ouvrir",
+    "seePreview": "Voir un aperçu du message courriel",
+    "someone": "Quelqu'un",
+    "someoneHasShared": "{{name}} a partagé un formulaire avec vous sur Formulaires GC",
+    "startOver": "Recommencer",
+    "stepOne": "Étape 1 :",
+    "stepOneDetails": "Enregistrer le fichier JSON du formulaire ci-joint sur votre ordinateur",
+    "stepThree": "Étape 3 :",
+    "stepThreeDetails": "Sélectionnez « Ouvrir un formulaire ».",
+    "stepTwo": "Étape 2 :",
+    "stepTwoDetails": "Allez sur <a href=\"/\" target=\"_blank\">Formulaires GC</a>. Aucun compte n'est nécessaire.",
+    "stepTwoDetailsNoHTML": "Allez sur Formulaires GC (https://forms-formulaires.alpha.canada.ca/). Aucun compte n'est nécessaire.",
+    "title": "Partager",
+    "toPreview": "Pour prévisualiser ce formulaire :",
+    "unauthenticated": {
+      "copyInstructions": "Copier les instructions",
+      "description": "Vous ne pouvez pas partager un formulaire directement de Formulaires GC sans compte. <a href=\"/fr/auth/login\">Connectez-vous</a> ou <a href=\"/fr/auth/register\">créez un compte</a> pour accéder à cette fonctionalité et d'autres.",
+      "downloadFormFile": "Télécharger le fichier du formulaire",
+      "instructions": "Vous pouvez télécharger une copie de ce fichier de formulaire sur votre ordinateur et le partager par courriel.",
+      "step1": "Étape 1",
+      "step1Details": "Téléchargez une copie de votre formulaire en tant que fichier JSON sur votre ordinateur",
+      "step2": "Étape 2",
+      "step2Details": "Copiez et collez les instructions dans un courriel et joignez le fichier du formulaire"
+    },
+    "unpublished": "Lien n'est pas disponible pour les formulaires non publiés",
+    "missingName": {
+      "message1": "Veuillez",
+      "message2": "donner un nom à votre formulaire",
+      "message3": "avant de le partager.",
+      "message4": "Activez pour déplacer le focus sur le champ du titre du formulaire"
+    }
+  },
+  "shortAnswer": "Réponse courte",
+  "shortAnswerText": "Réponse courte",
+  "signInToTest": "<a href=\"/fr/auth/login\">Connectez-vous</a> pour tester comment vous pouvez soumettre et visualiser les réponses.",
+  "singleChoice": "Boutons radio",
+  "start": "Commencer",
+  "startErrorTemplateSize": "La taille du fichier de formulaire est trop importante",
+  "startErrorDuplicateQuestionId": "Les identifiants de questions doivent être uniques",
+  "startErrorInvalidCustomRegex": "Modèle regex personnalisé invalide ou non sécurisé",
+  "startErrorParse": "L’ouverture du fichier de formulaire a échoué",
+  "startFormIntro": "Ajoutez une description à votre formulaire pour aider à définir les attentes",
+  "startH2": "Créer un formulaire",
+  "startH3": "Ouvrir un formulaire",
+  "startP1": "Commencez à partir de zéro.",
+  "startP2": "Modifiez un formulaire qui a été créé et téléchargé à partir de Formulaires GC.",
+  "submit": "Soumettre",
+  "submittedResponsesText": "Les réponses soumises seront envoyées à {{email}}.",
+  "submittedResponsesTextVault": {
+    "text1": "En cliquant sur « Soumettre », vous pourrez tester la récupération des réponses :",
+    "text2": "Allez aux Réponses"
+  },
+  "support": {
+    "title": "Obtenir du soutien",
+    "experience": "Nous soutenons les fonctionnaires qui utilisent Formulaires GC. Nous ne pouvons pas conseiller le public au sujet des formulaires que nous hébergeons. Explorez nos ",
+    "guidanceLink": "guides de référence",
+    "useThisForm": " ou obtenez du soutien de notre équipe en remplissant ce formulaire.",
+    "gcFormsTeamPart1": "Pour toute autre demande, allez à la page ",
+    "gcFormsTeamLink": "Coordonnées du Gouvernement du Canada",
+    "gcFormsTeamPart2": "pour trouver le ministère ou l'organisme qui peut vous aider.",
+    "lookingForADemo": "Vous cherchez à en savoir plus sur Formulaires GC?",
+    "ifYouWouldLike": "Veuillez remplir le ",
+    "contactUs": "formulaire de contact",
+    "description": {
+      "title": "Dites-nous en plus",
+      "description": "Veuillez ne pas inclure de renseignements protégés ou personnels."
+    },
+    "name": "Votre nom",
+    "email": "Votre adresse courriel",
+    "request": {
+      "title": "Raison pour laquelle vous nous contactez",
+      "option1": "Poser une question",
+      "option2": "Obtenir de l'aide pour configurer ou utiliser Formulaires GC",
+      "apiOption": "Demander de l'assistance technique avec une intégration API",
+      "option3": "Signaler un problème avec un formulaire publié",
+      "option4": "Autre"
+    },
+    "errors": {
+      "submissionError": "Il y a eu une erreur. Veuillez réessayer plus tard."
+    }
+  },
+  "test": "Tester",
+  "textFormatting": "Mise en forme du texte ",
+  "title": "Titre",
+  "thereWasAnErrorPublishing": "Une erreur s'est produite lors de la publication de votre formulaire",
+  "tooltipFormatBold": "En gras (⌘B)",
+  "tooltipFormatBulletList": "Liste à puces",
+  "tooltipFormatH2": "En-tête niveau 2",
+  "tooltipFormatH3": "En-tête niveau 3",
+  "tooltipFormatItalic": "Italique (⌘I)",
+  "tooltipFormatNumberedList": "Liste numérotée",
+  "tooltipInsertLink": "Insérer un lien",
+  "tooltips": {
+    "departmentElement": {
+      "title": "D’où vient la liste d’organisations du GC?",
+      "body": "<p>Formulaires GC utilise une <a href=\"https://github.com/cds-snc/gc-organisations\" target=\"_blank\">liste de ministères et d’organismes</a> tenue à jour par le Service numérique canadien. Votre formulaire sera automatiquement mis à jour avec cette liste.</p>"
+    }
+  },
+  "translate": "Traductions",
+  "translateDescription": "Traduisez le contenu de votre formulaire côte à côte pour offrir une expérience bilingue aux personnes qui remplissent votre formulaire. ",
+  "translateTitle": "Traductions",
+  "unlockPublishing": "Déverrouiller la publication",
+  "unlockPublishingDescription": "Pour déverrouiller la publication, fournissez les coordonnées de la personne de qui vous relevez. ",
+  "unnamedForm": "Fichier sans nom",
+  "formName": "Nom du formulaire",
+  "responsesNavLabel": "Réponses",
+  "nagware": {
+    "restrictedDownloadAfter35Days": "Le téléchargement sera limité si les réponses non traitées ont plus de 35 jours de retard.",
+    "unsavedSubmissionsOver21DaysOld": {
+      "title": "Veuillez extraire les réponses",
+      "body1": "Il y a",
+      "body2": {
+        "moreThan20Responses": "nouvelles réponses ayant plus de 21 jours de retard. Téléchargez et approuvez la suppression de 20 nouvelles réponses en retard à la fois.",
+        "lessThan20Responses": "nouvelles réponses ayant plus de 21 jours de retard. Téléchargez et approuvez la suppression de toute nouvelle réponse."
+      }
+    },
+    "unconfirmedSubmissionsOver21DaysOld": {
+      "title": "Approuvez la suppression de réponses de Formulaires GC",
+      "body1": "Il y a",
+      "body2": "réponses téléchargées ayant plus de 21 jours de retard. Confirmez la réception de toute réponse en retard en approuvant leur suppression de Formulaires GC."
+    },
+    "unsavedSubmissionsOver35DaysOld": {
+      "title": "Le téléchargement est limité jusqu'à ce que les réponses soient extraites",
+      "body1": "Il y a",
+      "body2": {
+        "moreThan20Responses": "nouvelles réponses ayant plus de 35 jours de retard. Téléchargez et approuvez la suppression de 20 réponses en retard à la fois avant de continuer.",
+        "lessThan20Responses": "nouvelles réponses ayant plus de 35 jours de retard. Téléchargez et approuvez la suppression de toute réponse en retard avant de continuer."
+      }
+    },
+    "unconfirmedSubmissionsOver35DaysOld": {
+      "title": "Le téléchargement est limité aux réponses en retard jusqu'à ce qu'elles soient téléchargées et approuvées pour suppression",
+      "body1": "Il y a",
+      "body2": "réponses téléchargées avec 35 jours de retard ou plus. Approuvez la suppression de toute réponse téléchargée en retard avant d'en enregistrer de nouvelles."
+    }
+  },
+  "loading": "Chargement...",
+  "formSettingsModal": {
+    "title": "Configurer le formulaire",
+    "okay": "Enregistrer",
+    "cancel": "Annuler",
+    "classification": "Classification des données",
+    "branding": "Image de marque",
+    "responseDelivery": "Configurer la livraison des réponses au formulaire",
+    "emailOption": {
+      "label": "Recevoir les réponses par courriel",
+      "note": "Non disponible pour PROTÉGÉ B"
+    },
+    "apiOption": {
+      "label": "Intégrer avec l'API",
+      "note": "Les réponses soumises seront disponibles par l'intermédiaire d'un point de terminaison API.",
+      "startNote": "Commencez par créer une clé API."
+    },
+    "apiDocNotes": {
+      "title": "Configurez votre intégration API",
+      "text1": "Pour vous connecter à notre point de terminaison afin de récupérer des réponses, suivez la <a href='https://cds-snc.github.io/forms-api/fr' target='_blank'>Documentation API</a> pour développeurs."
+    },
+    "vaultNote": {
+      "text1": "Les réponses aux formulaires PROTÉGÉ B doivent être téléchargées de Formulaires GC",
+      "text2": "La livraison des réponses n'est pas disponible pour cette classification de données"
+    },
+    "saveNote": {
+      "text1": "Enregistrer les modifications apportées?",
+      "text2": "Enregistrer ou Annuler"
+    },
+    "more": "Plus"
+  },
+  "classificationSelect": {
+    "label": "Sélectionnez la classification des données des réponses de votre formulaire"
+  },
+  "brandingSelect": {
+    "label": "Sélectionnez l'image de marque de votre formulaire"
+  },
+  "closingDate": {
+    "title": "Accepter les soumissions de formulaire",
+    "description": "Une fois que vous avez publié un formulaire, il est ouvert aux soumissions. Vous pouvez fermer le formulaire pour empêcher les soumissions.",
+    "status": "État du formulaire",
+    "open": "Ouvert",
+    "closed": "Fermé",
+    "saveButton": "Enregistrer",
+    "savedSuccessMessage": "Vos modifications ont été enregistrées.",
+    "clearSuccessMessage": "La date de fermeture a été supprimée",
+    "formClosedSuccessMessage": {
+      "title": "Ce formulaire est maintenant fermé",
+      "body": "Il n'accepte plus de soumissions."
+    },
+    "savedErrorMessage": "Une erreur s'est produite lors de l'enregistrement de vos modifications. Réessayez plus tard ou contacter l'équipe de soutien.",
+    "message": {
+      "title": " Personnaliser le message du formulaire fermé",
+      "text1": "Indiquer aux personnes qui tentent d'accéder au formulaire quand et pourquoi il s'est fermé et où aller ensuite.",
+      "errors": {
+        "translation": "Veuillez fournir du contenu équivalent dans les deux langues officielles."
+      }
+    },
+    "banner": {
+      "text": "Le formulaire a été fermé le {{day}} {{month}} {{year}} à {{hour}} h {{minute}} HE"
+    },
+    "confirmDialog": {
+      "title": "Confirmer le changement d'état du formulaire",
+      "cancel": "Annuler",
+      "confirm": "Confirmer",
+      "messageOpen": "Êtes-vous sûr de vouloir ouvrir ce formulaire? Il commencera à accepter des réponses.",
+      "messageClosed": "Êtes-vous sûr de vouloir fermer ce formulaire? Il cessera d'accepter des réponses."
+    }
+  },
+  "errorSavingForm": {
+    "title": "Une erreur s'est produite lors de l'enregistrement du formulaire",
+    "description": "Veuillez télécharger une copie du formulaire et réessayer ou",
+    "supportLink": "contacter l'équipe de soutien",
+    "errorCode": "Code d'erreur : {{code}}",
+    "failedLink": "L'enregistrement a échoué - Contacter l'équipe de soutien"
+  },
+  "addConditionalRules": {
+    "modalTitle": "Ajouter une règle d'affichage",
+    "modalTitleEdit": "Modifier les règles d'affichage",
+    "modalDescription": "Permet de faire afficher une nouvelle question en réaction à une réponse précédemment choisie. Seules les questions à choix de réponses peuvent se faire appliquer une règle.",
+    "warning": "Des options et des questions doivent exister avant d'ajouter une règle d'affichage.",
+    "optionTitle": "Si l'option sélectionnée est :",
+    "questionTitle": "Afficher la question :",
+    "addCustomRules": "Ajouter une règle",
+    "editCustomRules": "Modifier la règle",
+    "addAnotherRule": "Ajouter une règle",
+    "removeRule": "Supprimer",
+    "addOther": "Ajouter l'option « Autre »",
+    "other": "Autre ",
+    "show": "Afficher :",
+    "selectQuestion": "Sélectionner une question"
+  },
+  "saved": "Enregistré",
+  "opensInNewTab": "ouvre un nouvel onglet",
+  "rightPanel": {
+    "title": "Panneau de configuration du formulaire",
+    "openPanel": "Configuration du formulaire",
+    "closePanel": "Fermer le panneau",
+    "pages": "Pages",
+    "logic": "Embranchements",
+    "translation": "Traductions",
+    "treeView": {
+      "addPage": "Nouvelle page"
+    },
+    "loadTab": "Éditeur de {{tabPanelLabel}}"
+  },
+  "logic": {
+    "heading": "Modifier les embranchements",
+    "description": "Ajouter de la logic aux pages du formulaire ayant des questions avec des boutons radio, des cases à cocher ou une liste déroulante.",
+    "clear": "Enlever",
+    "gotoPage": "Aller à la page",
+    "questionTitle": "Question :",
+    "pageTitle": "Page :",
+    "translateTitle": "Titre de la page",
+    "addRule": "Ajouter un embranchement",
+    "saveRule": "Enregistrer",
+    "saveNote": "Les embranchements désactivent l'enchaînement linéaire automatique entre les pages du formulaire.",
+    "resetRules": "Réinitialiser l'enchaînement linéaire",
+    "resetRulesHelp": "Aide pour la réinitialisation",
+    "resetRulesDescription": "Cette fonction réinitialisera la progression entre les pages en une séquence linéaire simple, remplaçant ainsi toute la logique d'embranchement qui s'applique.",
+    "resetRulesDialog": {
+      "title": "Réinitialiser l'enchaînement linéaire?",
+      "areYouSure": "Êtes-vous sûr de vouloir réinitialiser la séquence du formulaire? ",
+      "text": "Cela supprimera tous les embranchements qui ont été appliqués et ramènera le formulaire à une trajectoire linéaire simple. <strong>Cette action est irréversible.</strong>",
+      "reset": "Réinitialiser"
+    },
+    "toastSuccess": "Enchaînement linéaire appliqué",
+    "multiRulesWarning": {
+      "text1": "Cette page a des embranchements appliqués.",
+      "text2": "Enlever la logique d'embranchement",
+      "text3": "Pour relier ces pages, vous devez supprimer les branches."
+    },
+    "choiceSelect": {
+      "selectOption": "Sélectionner une option",
+      "catchAllOption": "Pour les valeurs restantes"
+    },
+    "groupSelect": {
+      "default": "Sélectionner une page",
+      "catchAllGroup": "Pour toute autre valeur"
+    },
+    "actionsSaved": "Actions enregistrées",
+    "legend": {
+      "page": "Pour modifier la façon dont les pages sont ordonnées et connectées.",
+      "option": "Pour faire emprunter un chemin précis en fonction d'une réponse choisie."
+    },
+    "endNode": {
+      "label": "Fin du formulaire",
+      "confirmContent": "Page de confirmation"
+    },
+    "endNodeWithReview": {
+      "label": "Fin (Page récapitulative et confirmation)",
+      "reviewContent": "Page récapitulative"
+    },
+    "exit": {
+      "convertText": "Convertir en :",
+      "checkboxLabel": "Page de sortie",
+      "nodeIconLabel": "Sortie",
+      "offboardNodeContent": {
+        "content": "Quitte le formulaire",
+        "exitButton": "Retourner au départ"
+      },
+      "exitPanel": {
+        "title1": "Page de sortie",
+        "title2": "Inadmissible de continuer à remplir le formulaire",
+        "description": "Les pages de sortie renvoient les personnes qui remplissent le formulaire au début du formulaire.",
+        "buttonLabel": "Supprimer"
+      }
+    },
+    "tryitout": {
+      "button": "Formulaire complexe? Considérez des embranchements +",
+      "text": "<p className='mb-4'>Utilisez les embranchements pour diriger les personnes qui remplissent le formulaire vers différentes pages en fonction de leurs réponses.</p> <p>Visualisez et configurez l'enchaînement du formulaire dans l’onglet Embranchements du panneau de configuration du formulaire.</p>",
+      "open": "Allez à Embranchements"
+    },
+    "exitBadge": "Sortie",
+    "exitButtonElement": {
+      "description": "Aidez les personnes qui quittent votre formulaires à avoir un moyen d'aller de l'avant.",
+      "list": {
+        "title": "Ce que vous pouvez inclure dans une page de sortie",
+        "item1": "Liens vers d'autres formulaires ou pages Web pertinents",
+        "item2": "Prochaines étapes du processus ou conseils sur les exigences du formulaire",
+        "item3": "Informations de contact pour un suivi ou pour en savoir plus sur le formulaire"
+      },
+      "buttonDescription": "Un bouton de sortie renvoie les personnes vers le site Web de l'organisation correspondant à l'image de marque du formulaire.",
+      "buttonLabel": "Personnalisez la destination du bouton en copiant-collant un lien plus pertinent ci-dessous :"
+    },
+    "exitUrl": {
+      "label": "Lien URL pour le bouton de sortie"
+    },
+    "noPages": {
+      "text1": "Ajoutez une <strong>Nouvelle page</strong> dans",
+      "text2": "l'onglet Pages",
+      "text3": "avant d'ajouter un embranchement."
+    },
+    "endPage": {
+      "description": "Sélectionnez une autre page. Vous ne pouvez pas ajouter de règles à fin du formulaire."
+    }
+  },
+  "groups": {
+    "newPage": "Nouvelle page",
+    "pageNameInput": "Nom de la page",
+    "addPage": "Ajouter une page",
+    "addNewPage": "Ajouter une nouvelle page",
+    "addBranch": "Ajouter un embranchement",
+    "treeAriaLabel": "Pages Formulaires GC",
+    "addPagePlaceholder": "Ajouter un nom à la page",
+    "addElement": {
+      "empty": {
+        "title": "Page vide",
+        "text1": "Aucun élément de formulaire n'a été ajouté."
+      }
+    },
+    "pageTitle": "Titre de la page",
+    "groupDeleted": "Page supprimée",
+    "groupSuccessfullyDeleted": "{{group}} a été supprimé",
+    "editPagesHeading": "Modifier la page",
+    "editTranslationsHeading": "Modifier les traductions",
+    "editPage": "Modifier la page {{name}}",
+    "editRules": "Modifier les embranchements de la page {{name}}",
+    "privacy": {
+      "beforeText": "<p>C’est votre responsabilité de bien connaître les exigences de votre ministère ou organisme en matière de renseignements personnels. Si vous ne savez pas comment procéder, nous vous recommandons de contacter votre <a href=\"https://www.tbs-sct.canada.ca/ap/atip-aiprp/coord-fra.asp\" target=\"_blank\">coordinateur·rice de l'accès à l'information et de la protection de la vie privée</a>.</p>",
+      "body": "<p class=\"mb-4\">Aidez les personnes qui remplissent le formulaire à comprendre comment vous traitez leurs renseignements personnels, comme énoncé à la section 4.2.10 de la <a href=\"https://www.tbs-sct.canada.ca/pol/doc-fra.aspx?id=18309\" target=\"_blank\">Directive sur les pratiques relatives à la protection de la vie privée</a>.</p><p><strong>Ce qu'il faut préciser dans un avis de confidentialité</strong></p><ul><li>Les renseignements personnels qui sont recueillis et les fins de la collecte.</li><li>Les autorisations légales ou de programmes dont vous disposez.</li><li>Les façons dont les reseignements seront utilisés, partagés, stockés et conservés.</li><li>Les droits d’accès ou de correction des renseignements personnels et les droits de déposer une plainte.</li></ul>",
+      "description": "Ce qu'il faut préciser dans une déclaration de confidentialité :",
+      "summary": "Ajouter un avis de confidentialité pour expliquer comment vous traitez les renseignements personnels"
+    },
+    "confirmation": {
+      "beforeText": "Le message de confirmation s’affichera sur une nouvelle page une fois le formulaire soumis.",
+      "body": "Voici quelques éléments utiles à présenter dans la confirmation :",
+      "description": "Ajouter un message de confirmation",
+      "summary": "Ajouter un message de confirmation"
+    },
+    "treeView": {
+      "emptyPageTextElement": "Élément de texte de page sans contenu",
+      "emptyFormElement": "Élément de question sans contenu",
+      "keyboardNav": {
+        "label": "Raccourcis clavier",
+        "body": "<p className=\"mb-4\">Naviguer les questions et les pages à l'aide des touches <kbd>fléchées</kbd>.</p><p><strong>Glisser-déposer :</strong></p>\n<ul><li><kbd>Contrôle</kbd> + <kbd>Maj</kbd> + <kbd>D</kbd> pour prendre un élément</li><li>Touches <kbd>fléchées</kbd> pour faire glisser l'élément</li><li>Appuyer <kbd>Entrée</kbd> pour déposer l'élément</li><li>Appuyer <kbd>Suppr</kbd> sur l'élément de page pour supprimer la page</li></ul>"
+      }
+    },
+    "confirmDeleteGroup": {
+      "title": "Supprimer cette page?",
+      "description": "<span className='inline-block mb-4'><strong>Le contenu de la page sera également supprimé</strong><br />Tous les éléments de cette page seront supprimés.</span><span className='inline-block mb-4'><strong>Vous pouvez déplacer le contenu avant de supprimer</strong><br />Déplacez tous les éléments de formulaire que vous souhaitez conserver vers une autre page.</span>",
+      "cancel": "Annuler",
+      "delete": "Supprimer la page et son contenu"
+    },
+    "confirmMoveGroup": {
+      "title": "Remplacer la logique d'embranchement?",
+      "description": " Il semble que des éléments déplacés comportent des règles d'affichage ou d'embranchement. Souhaitez-vous remplacer ces règles par un enchaînement linéaire automatique?",
+      "cancel": "Non, déplacer sans modifier les règles",
+      "confirm": "Oui, appliquer un enchaînement linéaire"
+    },
+    "cannotDeleteGroup": "Cette page ne peut pas être supprimée car cela briserait la logique du formulaire.",
+    "cannotSetNextAction": "Cette page ne peut pas aller à une page de sortie car cela briserait la logique du formulaire."
+  },
+  "confirmation": {
+    "title": "Votre formulaire a été soumis",
+    "pageTitle": "Page de confirmation"
+  },
+  "next": "Continuer",
+  "skipLink": {
+    "pages": "Passer à modifier la page",
+    "translate": "Passer à modifier les traductions",
+    "logic": "Passer à modifier les embranchements",
+    "pagesSetup": "Passer à la configuration des pages",
+    "translateSetup": "Passer à la configuration des traductions",
+    "logicSetup": "Passer à la configuration d'embranchements'"
+  },
+  "goBack": "Retourner",
+  "disabled": "désactivé",
+  "dynamicRow": {
+    "defaultRowTitle": "Entrée",
+    "rowTitleTextA11yEn": "Entrée",
+    "rowTitleTextA11yFr": "Entrée",
+    "defaultAddButtonText": "Ajouter",
+    "addButtonTextA11yEn": "Texte du bouton pour ajouter à l'ensemble en anglais",
+    "addButtonTextA11yFr": "Texte du bouton pour ajouter à l'ensemble en français",
+    "defaultRemoveButtonText": "Supprimer",
+    "removeButtonTextA11yEn": "Texte du bouton pour supprimer de l'ensemble en anglais",
+    "removeButtonTextA11yFr": "Texte du bouton pour supprimer de l'ensemble en français",
+    "translate": {
+      "rowTitleText": "Étiquette pour l'entrée",
+      "repeatingSet": "Ensemble récurrent",
+      "addButtonText": "Étiquette pour le bouton qui permet l'ajout à l'ensemble",
+      "removeButtonText": "Étiquette pour le bouton qui permet la suppression de l'ensemble"
+    },
+    "dialog": {
+      "customizeElement": "Adapter l'ensemble récurrent",
+      "title": "Adapter l'ensemble récurrent",
+      "english": "Anglais",
+      "french": "Français",
+      "cancel": "Annuler",
+      "save": "Enregistrer",
+      "error": {
+        "title": "L'ensemble récurrent ne fonctionnera pas sans texte.",
+        "message": "Assurez-vous de remplir tous les champs."
+      },
+      "rowTitle": {
+        "title": "Nom de l'entrée",
+        "description": "Créez un titre pour le groupe de questions récurrentes. Ces ensembles seront numérotés. Par exemple : « Adresse -1, Adresse 2 »"
+      },
+      "addButton": {
+        "title": "Bouton pour ajouter à l'ensemble",
+        "description": "Ajoutez une action pertinente spécifique pour aider les personnes à remplir le formulaire. Par exemple : « Ajouter une autre adresse »"
+      },
+      "removeButton": {
+        "title": "Bouton pour supprimer de l'ensemble",
+        "description": "Ajoutez une action pertinente spécifique pour aider les personnes à remplir le formulaire. Par exemple : « Supprimer l'adresse »"
+      }
+    }
+  },
+  "scheduleClosingPage": {
+    "linkText": "Programmer la fermeture du formulaire",
+    "changeOrRemove": "Modifier ou supprimer la date de fermeture",
+    "dialog": {
+      "title": "Programmer la fermeture du formulaire",
+      "text1": "Fixez la date de fermeture",
+      "text2": "Décidez la date à laquelle vous souhaitez fermer le formulaire",
+      "datePicker": {
+        "month": "Mois",
+        "day": "Jour",
+        "year": "Année"
+      },
+      "timePicker": {
+        "text1": "Fixez l'heure de fermeture",
+        "text2": "Indiquez l'heure en utilisant l'horloge de 24 heures avec le fuseau horaire de l'heure de l'Est.",
+        "text3": "Par exemple 21 h 00"
+      },
+      "error": {
+        "notFutureDate": "La date et l'heure doivent être à venir, dans le futur."
+      },
+      "save": "Enregistrer",
+      "cancel": "Annuler",
+      "removeClosingDate": "Supprimer la date de fermeture",
+      "removeConfirm": "Cliquer à nouveau pour confirmer"
+    }
+  },
+  "systemHealthCheck": {
+    "title": "Santé du système"
+  },
+  "saveAndResume": {
+    "savedErrorMessage": "Une erreur s'est produite lors de l'enregistrement de vos modifications.",
+    "savedSuccessMessage": "Vos modifications ont été enregistrées.",
+    "title": "Permettre la sauvegarde des réponses",
+    "toggleOn": "Activé",
+    "toggleOff": "Désactivé",
+    "toggleDescription": {
+      "text1": "Reprendre le remplissage d'un formulaire en cours",
+      "text2": "Cela permet aux utilisateur·rice·s de prendre une pause et de compléter le formulaire plus tard. Les personnes qui remplissent le formulaire peuvent également obtenir une copie de leurs réponses une fois le formulaire soumis."
+    },
+    "a11yDescription": "Sauvegarder les réponses en cours et reprendre le formulaire plus tard",
+    "saveButton": "Enregistrer"
+  },
+  "sortOptions": {
+    "label": "Ordonner la liste :",
+    "none": "telle que saisie",
+    "ascending": "alphabétique (A-Z)",
+    "descending": "alphabétique inversé (Z-A)"
+  },
+  "translations": {
+    "formDescription": "Description du formulaire"
+  },
+  "en": "English",
+  "fr": "Français",
+  "strictValue": {
+    "title": "Assurer la valeur du choix",
+    "label": "Valeur stricte",
+    "description": "valeur stricte"
+  },
+  "beta": {
+    "tag": "Nouveauté :",
+    "text": "Fonctionnalité à l'essai",
+    "loadingError": "Ce formulaire contient un composant « pilote » qui n'est pas encore disponible pour tous les utilisateurs. Pour en savoir plus sur cette fonctionnalité limitée, veuillez contacter l'équipe de soutien."
+  },
+  "pilot": {
+    "tag": "Pilote :",
+    "text": "Fonctionnalité à l'essai"
+  },
+  "fileUploadApiWarning": {
+    "text": "La méthode de livraison n'est pas configurée sur API. Générez une clé API pour permettre le téléchargement de fichiers et la récupération des données de réponse via l'API."
+  }
+}

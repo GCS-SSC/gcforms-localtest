@@ -1,0 +1,93 @@
+name: Linting Code
+on:
+  pull_request:
+    branches: [main, feature/*]
+
+jobs:
+  eslint_flow_merge:
+    name: eslint_merge
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - name: Node.JS Setup
+        uses: actions/setup-node@670825a89dc0abd596e7a3abd0f5e3f6e5faf37c # v4.6.0
+        with:
+          node-version-file: .nvmrc
+
+      - name: Yarn update to V4
+        run: corepack enable && yarn set version stable
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v4.5.0
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: linux-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            linux-yarn-
+
+      - name: "Install dependencies"
+        run: |
+          yarn workspaces focus gcforms
+        env:
+          CI: TRUE
+      - name: Test Code Linting on Merge
+        if: github.event_name == 'push'
+        run: yarn lint
+        # If there is an error stop here and fail the test
+  eslint_flow_pr:
+    name: eslint_pr
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@50fbc622fc4ef5163becd7fab6573eac35f8462e # v1.2.0
+      - name: Node.JS Setup
+        uses: actions/setup-node@670825a89dc0abd596e7a3abd0f5e3f6e5faf37c # v4.6.0
+        with:
+          node-version-file: .nvmrc
+
+      - name: Yarn update to V4
+        run: corepack enable && yarn set version stable
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v4.5.0
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: linux-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            linux-yarn-
+
+      - name: "Install dependencies"
+        run: |
+          yarn workspaces focus gcforms
+        env:
+          CI: TRUE
+      - name: Test Code Linting on Pull Request
+        run: yarn lint
+        continue-on-error: true
+      - name: Save Code Linting Report JSON
+        # npm script for ESLint
+        # eslint --output-file eslint_report.json --format json src
+        # See https://eslint.org/docs/user-guide/command-line-interface#options
+        run: yarn lint:report
+        # Continue to the next step even if this fails
+        continue-on-error: true
+      - name: Annotate Code Linting Results
+        uses: ataylorme/eslint-annotate-action@d57a1193d4c59cbfbf3f86c271f42612f9dbd9e9 # tag=3.0.0
+        with:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          report-json: "eslint_report.json"
+        continue-on-error: true
+      - name: Upload ESLint report
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: eslint_report.json
+          path: eslint_report.json

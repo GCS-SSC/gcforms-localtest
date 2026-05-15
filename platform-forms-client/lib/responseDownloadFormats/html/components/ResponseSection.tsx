@@ -1,0 +1,223 @@
+import React from "react";
+import { Submission } from "../../types";
+import { ColumnTable } from "./ColumnTable";
+import { RowTable } from "./RowTable";
+import { getProperty } from "@lib/i18nHelpers";
+import { FormRecord } from "@gcforms/types";
+import { TFunction } from "i18next";
+import { Language } from "@root/lib/types/form-builder-types";
+
+export interface ResponseSectionProps {
+  confirmReceiptCode: string;
+  lang: Language;
+  responseID: string;
+  submissionDate: number;
+  formResponse: Submission;
+  formRecord: FormRecord;
+  showCodes?: boolean;
+  t: TFunction<string | string[], undefined>;
+}
+
+export function capitalize(string: string) {
+  if (!string || typeof string !== "string") {
+    return "";
+  }
+
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+export const ResponseSection = ({
+  confirmReceiptCode,
+  lang,
+  responseID,
+  submissionDate,
+  formResponse,
+  formRecord,
+  showCodes = true,
+  t,
+}: ResponseSectionProps) => {
+  const capitalizedLang = capitalize(lang);
+
+  const CopyResponseToClipboardScript = React.createElement("script", {
+    dangerouslySetInnerHTML: {
+      __html: `
+        document.addEventListener("DOMContentLoaded", function() {
+          // Copy Row Response
+          var btnCopyResponse = document.getElementById("copyResponseButton${capitalizedLang}");
+          var outputCopyResponse = document.getElementById("copyResponseOutput${capitalizedLang}");
+          
+          // Select only deepest dd elements without any nested dl elements
+          var responseItems = Array.from(document.querySelectorAll("#responseTableRow${capitalizedLang} dd:not(:has(dl))"));
+          
+          // Format with tab separators for Excel copy+paste
+          var responseText = responseItems.map(item => {
+            var text = item.textContent.trim();
+            // Remove unnecessary newlines, tabs, and extra spaces
+            return text.replace(/[\\t|\\n]+/g, "").replace(/[ ]{2,}/g, " ");
+          }).join(String.fromCharCode(9));
+          
+          btnCopyResponse.dataset.clipboardText = responseText;
+          
+          var clipboardResponse = new ClipboardJS("#copyResponseButton${capitalizedLang}");
+          clipboardResponse.on('success', function (e) {
+            outputCopyResponse.classList.remove("hidden");
+            outputCopyResponse.textContent = "${t("responseTemplate.copiedToCipboard", {
+              lng: lang || "en",
+            })}";
+            e.clearSelection();
+          });
+          clipboardResponse.on('error', function () {
+            outputCopyResponse.classList.remove("hidden");
+            outputCopyResponse.classList.add("text-red-default");
+            outputCopyResponse.textContent = "${t("responseTemplate.errorrCopyingToClipboard", {
+              lng: lang || "en",
+            })}";
+          });
+        });
+      `,
+    },
+  });
+
+  const CopyCodeToClipboardScript = showCodes
+    ? React.createElement("script", {
+        dangerouslySetInnerHTML: {
+          __html: `
+        document.addEventListener("DOMContentLoaded", function() {
+          // Copy Code
+          var btnCopyCode = document.getElementById("copyCodeButton${capitalizedLang}");
+          var outputCopyCode = document.getElementById("copyCodeOutput${capitalizedLang}");
+          var clipboardCode = new ClipboardJS("#copyCodeButton${capitalizedLang}");
+          clipboardCode.on('success', function (e) {
+            outputCopyCode.classList.remove("hidden");
+            outputCopyCode.textContent = "${t("responseTemplate.copiedToCipboard", {
+              lng: lang || "en",
+            })}";
+            e.clearSelection();
+          });
+          clipboardCode.on('error', function () {
+            outputCopyCode.classList.remove("hidden");
+            outputCopyCode.classList.add("text-red-default");
+            outputCopyCode.textContent = "${t("responseTemplate.errorrCopyingToClipboard", {
+              lng: lang || "en",
+            })}";
+          });
+        });
+      `,
+        },
+      })
+    : null;
+
+  return (
+    <>
+      <nav
+        id={`navTitle${capitalizedLang}`}
+        tabIndex={-1}
+        className="flex items-center"
+        aria-labelledby={`navTitle${capitalizedLang}`}
+      >
+        <div
+          id={`navTitle${capitalizedLang}`}
+          className="mr-4 bg-gray-800 py-1 pr-4 pl-3 text-white"
+        >
+          {t("responseTemplate.jumpTo", { lng: lang })}
+        </div>
+        <ul className="flex list-none p-0">
+          <li className="mr-4">
+            <a href={`#columnTable${capitalizedLang}`}>
+              {t("responseTemplate.columnTable", { lng: lang })}
+            </a>
+          </li>
+          <li className="mr-4">
+            <a href={`#rowTable${capitalizedLang}`}>
+              {t("responseTemplate.rowTable", { lng: lang })}
+            </a>
+          </li>
+          {showCodes && (
+            <li className="mr-4">
+              <a href={`#confirmReceipt${capitalizedLang}`}>
+                {t("responseTemplate.confirmReceipt", { lng: lang })}
+              </a>
+            </li>
+          )}
+        </ul>
+      </nav>
+
+      <h2 className="gc-h1 mt-20">{String(formRecord.form[getProperty("title", lang)])}</h2>
+      <h3 id={`columnTable${capitalizedLang}`} className="gc-h2 mt-20" tabIndex={-1}>
+        {t("responseTemplate.columnTable", { lng: lang })}
+      </h3>
+      <ColumnTable
+        responseID={responseID}
+        submissionDate={submissionDate}
+        submission={formResponse}
+        lang={lang}
+        data-clipboard-text=""
+        formRecord={formRecord}
+      />
+
+      <h3 id={`rowTable${capitalizedLang}`} className="gc-h2 mt-20" tabIndex={-1}>
+        {t("responseTemplate.rowTable", { lng: lang })}
+      </h3>
+      <p className="mt-8">{t("responseTemplate.rowTableInfo", { lng: lang })}</p>
+      <div className="mt-4 mb-8">
+        <div>
+          <button
+            className="border-blue bg-blue-default text-white-default hover:border-blue-light hover:bg-blue-light hover:text-white-default focus:border-blue-active focus:bg-blue-focus focus:text-white-default focus:outline-blue-focus active:text-white-default active:outline-blue-focus disabled:bg-gray-light disabled:text-gray-dark inline-flex items-center rounded-md border-2 border-solid p-3 leading-[24px] font-medium transition-all duration-150 ease-in-out focus:outline focus:outline-[3px] focus:outline-offset-2 active:top-0.5 active:border-black active:bg-black active:outline-[3px] active:outline-offset-2 disabled:cursor-not-allowed disabled:!border-none"
+            id={`copyResponseButton${capitalizedLang}`}
+            aria-labelledby={`copyResponseLabel${capitalizedLang}`}
+            data-clipboard-text=""
+          >
+            {t("responseTemplate.copyResponse", { lng: lang })}
+          </button>
+        </div>
+        <div
+          id={`copyResponseOutput${capitalizedLang}`}
+          aria-live="polite"
+          className="text-green mt-4 hidden"
+        ></div>
+      </div>
+
+      <RowTable
+        responseID={responseID}
+        submissionDate={submissionDate}
+        submission={formResponse}
+        lang={lang}
+        formRecord={formRecord}
+      />
+      {showCodes && (
+        <>
+          <h3 id={`confirmReceipt${capitalizedLang}`} className="gc-h2 mt-20">
+            {t("responseTemplate.confirmReceiptResponse", { lng: lang })}
+          </h3>
+          <p className="mt-4" id={`confirmReceiptInfo${capitalizedLang}`}>
+            {t("responseTemplate.confirmReceiptInfo", { lng: lang })}
+          </p>
+          <div id={`confirmReceiptCodeText${capitalizedLang}`} className="mt-8 font-bold">
+            {confirmReceiptCode}
+          </div>
+
+          <div className="mt-4 mb-32">
+            <div>
+              <button
+                className="border-blue bg-blue-default text-white-default hover:border-blue-light hover:bg-blue-light hover:text-white-default focus:border-blue-active focus:bg-blue-focus focus:text-white-default focus:outline-blue-focus active:text-white-default active:outline-blue-focus disabled:bg-gray-light disabled:text-gray-dark inline-flex items-center rounded-md border-2 border-solid p-3 leading-[24px] font-medium transition-all duration-150 ease-in-out focus:outline focus:outline-[3px] focus:outline-offset-2 active:top-0.5 active:border-black active:bg-black active:outline-[3px] active:outline-offset-2 disabled:cursor-not-allowed disabled:!border-none"
+                id={`copyCodeButton${capitalizedLang}`}
+                aria-labelledby={`confirmReceiptInfo${capitalizedLang}`}
+                data-clipboard-text={confirmReceiptCode}
+              >
+                {t("responseTemplate.copyCode", { lng: lang })}
+              </button>
+            </div>
+            <div
+              id={`copyCodeOutput${capitalizedLang}`}
+              aria-live="polite"
+              className="text-green mt-4 hidden"
+            ></div>
+          </div>
+        </>
+      )}
+
+      {CopyResponseToClipboardScript}
+      {CopyCodeToClipboardScript}
+    </>
+  );
+};

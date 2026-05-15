@@ -1,0 +1,91 @@
+import { cn } from "@lib/utils";
+import React from "react";
+
+import { TreeItemProps } from "../types";
+
+import { useElementType } from "../hooks/useElementType";
+
+import { ItemContent } from "./ItemContent";
+import { ItemTitle } from "./ItemTitle";
+import { ExpandableIcon } from "./ExpandableIcon";
+import { DragHandle } from "./DragHandle";
+import { EditableInput } from "./EditableInput";
+import { DeleteIcon } from "@serverComponents/icons";
+import { lockedItems } from "../constants";
+
+export const TreeItem = ({ item, tree, onFocus, onBlur, handleDelete }: TreeItemProps) => {
+  const { isFormElement, isSectionElement, isRepeatingSet } = useElementType(item);
+
+  const canDragItem = !lockedItems.includes(item.getId());
+
+  const canDeleteItem =
+    item.isExpanded() &&
+    handleDelete &&
+    !isFormElement &&
+    !isRepeatingSet &&
+    !["start", "end"].includes(item.getId());
+
+  // Get interactive props only when not renaming
+  const getInteractiveProps = () => {
+    if (item.isRenaming()) {
+      return {};
+    }
+
+    const itemProps = item.getProps();
+
+    return {
+      ...itemProps,
+      onFocus: () => {
+        onFocus(item);
+      },
+      onBlur: (e: React.FocusEvent<HTMLDivElement>) => {
+        itemProps.onBlur?.(e);
+        onBlur?.();
+      },
+      onDoubleClick: (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        tree.getItemInstance(item.getId()).startRenaming();
+      },
+      onKeyDown: async (e: React.KeyboardEvent<HTMLDivElement>) => {
+        if (e.key === "Delete" || e.key === "Backspace") {
+          if (handleDelete) {
+            e.preventDefault();
+            handleDelete(e);
+          }
+        }
+      },
+    };
+  };
+
+  return (
+    <div
+      key={item.getId()}
+      id={item.getId()}
+      {...getInteractiveProps()}
+      className={cn(
+        "block max-w-full",
+        isFormElement && "outline-none",
+        isSectionElement && "outline-offset-[-4px] outline-indigo-700",
+        item.isDraggingOver() && item.isDragTarget() && "border-blue-focus border-1 border-dashed"
+      )}
+    >
+      <ItemContent item={item}>
+        <ExpandableIcon item={item} />
+
+        {item.isRenaming() ? <EditableInput item={item} tree={tree} /> : <ItemTitle item={item} />}
+
+        {!item.isRenaming() && <DragHandle canDragItem={canDragItem} />}
+
+        {canDeleteItem && (
+          <button
+            className="mr-2 flex cursor-pointer items-center justify-center"
+            onClick={handleDelete}
+          >
+            <DeleteIcon title="Delete group" className="scale-50" />
+          </button>
+        )}
+      </ItemContent>
+    </div>
+  );
+};

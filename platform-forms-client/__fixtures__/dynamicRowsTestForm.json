@@ -1,0 +1,154 @@
+{
+  "titleEn": "Copyright Board of Canada - Proposed Tariff Filing Form",
+  "titleFr": "[fr] Copyright Board of Canada - Proposed Tariff Filing Form",
+  "confirmation": {
+    "descriptionEn": "# Thank you for your tariff. \n\r The Proposed Tariff(s) has/have been successfully filed. The Board will inform you when this proposed tariff has/have been published on the Board’s website or if we require additional information. \n\r [Go Back](https://cb-cda.gc.ca/en)",
+    "descriptionFr": "# Merci pour votre entrée. \n\r The Proposed Tariff(s) has/have been successfully filed. The Board will inform you when this proposed tariff has/have been published on the Board’s website or if we require additional information. \n\r [Go Back](https://cb-cda.gc.ca/en)",
+    "referrerUrlEn": "",
+    "referrerUrlFr": ""
+  },
+  "privacyPolicy": {
+    "descriptionEn": "Privacy statement",
+    "descriptionFr": "Avis de confidentialité"
+  },
+  "layout": [1, 2, 3],
+  "elements": [
+    {
+      "id": 1,
+      "type": "richText",
+      "properties": {
+        "validation": {
+          "required": false
+        },
+        "descriptionEn": "Find out how the Copyright Board of Canada protects you [privacy](https://cb-cda.gc.ca/en/terms-and-conditions).",
+        "descriptionFr": "[FR] Find out how Copyright Board of Canada protects you [privacy](https://cb-cda.gc.ca/en/terms-and-conditions)."
+      }
+    },
+    {
+      "id": 2,
+      "type": "richText",
+      "properties": {
+        "validation": {
+          "required": false
+        },
+        "descriptionEn": "### Collective Society or Societies",
+        "descriptionFr": "### [FR] - Collective Society or Societies"
+      }
+    },
+    {
+      "id": 3,
+      "type": "dynamicRow",
+      "properties": {
+        "titleEn": "",
+        "titleFr": "",
+        "validation": {
+          "required": true
+        },
+        "subElements": [
+          {
+            "id": 301,
+            "type": "richText",
+            "properties": {
+              "validation": {
+                "required": false
+              },
+              "descriptionEn": "If you are filing a joint tariff, please add the other collective(s). You can add another collective society, up to ten, by clicking 'add row' below.",
+              "descriptionFr": "[FR] - If you are filing a joint tariff, please add the other collective(s). You can add another collective society, up to ten, by clicking 'add row' below."
+            }
+          },
+          {
+            "id": 302,
+            "type": "dropdown",
+            "properties": {
+              "choices": [
+                {
+                  "en": "Access Copyright",
+                  "fr": "Access Copyright"
+                },
+                {
+                  "en": "Artisti",
+                  "fr": "Artisti"
+                },
+                {
+                  "en": "Border Broadcasters Inc",
+                  "fr": "Border Broadcasters Inc"
+                },
+                {
+                  "en": "Canadian Broadcasters Rights Agency",
+                  "fr": "Agences des droits des radiodiffuseurs canadiens"
+                },
+                {
+                  "en": "Copyright Collective of Canada",
+                  "fr": "Société de perception de droit d’auteur du Canada"
+                },
+                {
+                  "en": "Canadian Musical Reproduction Rights Agency",
+                  "fr": "Agence canadienne des droits de reproduction musicaux"
+                },
+                {
+                  "en": "Connect Music Licensing",
+                  "fr": "Connect Music Licensing"
+                },
+                {
+                  "en": "Canadian Private Copying Collective",
+                  "fr": "Société canadienne de perception de la copie privée"
+                },
+                {
+                  "en": "Canadian Retransmission Collective",
+                  "fr": "Société collective de retransmission du Canada"
+                },
+                {
+                  "en": "Canadian Retransmission Right Association",
+                  "fr": "Association du droit de retransmission canadien"
+                },
+                {
+                  "en": "Direct Response Television Collective Inc.",
+                  "fr": "Société de gestion collective de publicité directe télévisuelle inc."
+                },
+                {
+                  "en": "FWS Joint Sports Claimants Inc",
+                  "fr": "FWS Joint Sports Claimants Inc"
+                },
+                {
+                  "en": "Major League Baseball Collective of Canada, Inc.",
+                  "fr": "Société de perception de la ligue de baseball majeure du Canada, inc."
+                },
+                {
+                  "en": "Re:Sound Music Licensing Company",
+                  "fr": "Ré:Sonne - Société de gestion de la musique"
+                },
+                {
+                  "en": "Society of Composers, Authors and Music Publishers of Canada",
+                  "fr": "Société canadienne des auteurs, compositeurs et éditeurs de musique"
+                },
+                {
+                  "en": "Société de gestion collective des droits des producteurs de phonogrammes et vidéogrammes du Québec",
+                  "fr": "Société de gestion collective des droits des producteurs de phonogrammes et vidéogrammes du Québec"
+                },
+                {
+                  "en": "Société québécoise de gestion collective des droits de reproduction",
+                  "fr": "Société québécoise de gestion collective des droits de reproduction"
+                }
+              ],
+              "titleEn": "On behalf of which Collective Society are you filing the proposed tariff(s)?",
+              "titleFr": "[fr] On behalf of which Collective Society are you filing the proposed tariff(s)?",
+              "validation": {
+                "required": true
+              },
+              "descriptionEn": "",
+              "descriptionFr": ""
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "brand": {
+    "name": "cb-cda",
+    "urlEn": "https://cb-cda.gc.ca/en/homepage",
+    "urlFr": "https://cb-cda.gc.ca/fr",
+    "logoEn": "/img/cb-cda.png",
+    "logoTitleEn": "Copyright Board of Canada",
+    "logoTitleFr": "Commission du droit d'auteur du Canada"
+  }
+}

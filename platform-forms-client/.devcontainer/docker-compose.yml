@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  dev:
+    build: 
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    command: sleep infinity
+    volumes: 
+      - ..:/src:cached
+    ports: 
+      - 3000:3000
+    expose: 
+      - 3000
+
+  db:
+    image: postgres:13.23@sha256:4689940c683801b4ab839ab3b0a0a3555a5fe425371422310944e89eca7d8068
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: chummy
+    ports:
+      - "5432:5432"
+    expose:
+      - 5432
+    command:
+      - "postgres"
+      - "-c"
+      - "listen_addresses=*"
+    restart: unless-stopped
+
+  redis:
+    restart: unless-stopped
+    image: redis:latest@sha256:0c341492924cad6f5483f9133e43bd6c51ecdecbcadfac5b51657393b6a7936c
+    ports:
+      - "6379:6379"
+    expose:
+      - 6379

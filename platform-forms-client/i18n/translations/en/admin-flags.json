@@ -1,0 +1,63 @@
+{
+  "title": "Feature flags",
+  "subTitle": "Feature flags allow you to control the various enabled features in the application",
+  "loading": "Loading feature flags",
+  "enabled": "On",
+  "disabled": "Off",
+  "enable": "Turn On",
+  "disable": "Turn Off",
+  "featureTitle": "Feature",
+  "featureStatus": "Status",
+  "featureSwitch": "On/Off",
+  "features": {
+    "zitadelAuth": {
+      "title": "Zitadel Auth",
+      "description": "Enable API authentication with Zitadel"
+    },
+    "addressComplete": {
+      "title": "Address Complete",
+      "description": "Enable CanadaPost address completion for forms"
+    },
+    "formTimer": {
+      "title": "formTimer",
+      "description": "Enable formTimer to delay a form submission and help prevent spam"
+    },
+    "hCaptcha": {
+      "title": "hCaptcha",
+      "description": "Enable hCaptcha spam prevention"
+    },
+    "topBanner": {
+      "title": "Banner",
+      "description": "Enable warning banner to be visible"
+    },
+    "responsesPilot": {
+      "title": "Responses Pilot",
+      "description": "Enable new flow for downloading form responses with API key in browser"
+    },
+    "userSideAuditLogs": {
+      "title": "Download form activity",
+      "description": "Enable the download of form key actions (in last 30 days) via Settings"
+    },
+    "zitadelLogin": {
+      "title": "Zitadel Login",
+      "description": "Enable Zitadel as a login method for users"
+    },
+    "lockedEditing": {
+      "title": "Locked collaborative editing",
+      "description": "Enable sharing a draft form with handoffs that allows users to lock and take over editing"
+    }
+  },
+  "addFlag": "Add user feature flag",
+  "flag": "Flag",
+  "actions": "Actions",
+  "no-flags-set": "No flags are set for this user.",
+  "manageUserFeatures": "Manage user feature flags",
+  "user": "User",
+  "select-features": "Select features",
+  "add": "Add",
+  "cancel": "Cancel",
+  "remove": "Remove",
+  "userFlagHeader": "User-specific feature flag control",
+  "userFlagSubHeader": "This setting overrides feature flag status, and will provide a specific user access to a feature.",
+  "noUserFlags": "No user feature flags are set."
+}

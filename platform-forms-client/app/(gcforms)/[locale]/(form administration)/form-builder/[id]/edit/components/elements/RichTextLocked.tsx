@@ -1,0 +1,98 @@
+"use client";
+import React from "react";
+import { useTemplateStore } from "@lib/store/useTemplateStore";
+import { RichTextEditor } from "./RichTextEditor";
+import { AddElementButton } from "./element-dialog/AddElementButton";
+import { LocalizedElementProperties } from "@lib/types/form-builder-types";
+import { EssentialBadge } from "@formBuilder/components/shared/EssentialBadge";
+import { useHandleAdd } from "@lib/hooks/form-builder/useHandleAdd";
+import { FormElementTypes } from "@lib/types";
+import { cn } from "@lib/utils";
+import Skeleton from "react-loading-skeleton";
+
+export const RichTextLocked = ({
+  id,
+  beforeContent = null,
+  summaryText,
+  detailsText,
+  addElement,
+  children,
+  schemaProperty,
+  ariaLabel,
+  className,
+  hydrated,
+  maxLength,
+}: {
+  id: string;
+  beforeContent?: React.ReactElement | null;
+  summaryText: string;
+  detailsText?: React.ReactElement;
+  addElement: boolean;
+  children?: React.ReactElement;
+  schemaProperty: "introduction" | "privacyPolicy" | "confirmation";
+  ariaLabel?: string;
+  className?: string;
+  hydrated?: boolean;
+  maxLength?: number;
+}) => {
+  const { localizeField, form, translationLanguagePriority, changeKey } = useTemplateStore((s) => ({
+    localizeField: s.localizeField,
+    form: s.form,
+    translationLanguagePriority: s.translationLanguagePriority,
+    changeKey: s.changeKey,
+  }));
+
+  const localizedField = localizeField(
+    LocalizedElementProperties.DESCRIPTION,
+    translationLanguagePriority
+  );
+
+  const content = form[schemaProperty]?.[localizedField] ?? "";
+
+  const path = `form.${schemaProperty}[${localizedField}]]`;
+
+  const { handleAddElement } = useHandleAdd();
+
+  return (
+    <div
+      className={cn("-mt-px h-auto max-w-[800px] border-1 border-slate-500 bg-white", className)}
+    >
+      <div className="mx-5 mb-7 mt-5">
+        <EssentialBadge />
+        {beforeContent && beforeContent}
+        <div className="flex">{children}</div>
+        <details id={id}>
+          <summary className="cursor-pointer text-sm font-bold underline">{summaryText}</summary>
+          {detailsText && detailsText}
+
+          {!hydrated && <Skeleton className="w-full" height={200} />}
+          {hydrated && (
+            <div key={translationLanguagePriority} className="mt-4 flex rounded border-2">
+              <RichTextEditor
+                key={`${path}:${translationLanguagePriority}:${changeKey}`}
+                path={path}
+                content={content}
+                lang={translationLanguagePriority}
+                ariaLabel={ariaLabel}
+                maxLength={maxLength}
+              />
+            </div>
+          )}
+        </details>
+      </div>
+
+      <div className="flex">
+        {addElement && (
+          <div className="bottom-0 z-10 mx-auto -mb-7">
+            <AddElementButton
+              handleAdd={(type?: FormElementTypes) => {
+                // Index is -1 because we want to add the element after the initial locked block and before the first element
+                handleAddElement(-1, type);
+              }}
+            />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};

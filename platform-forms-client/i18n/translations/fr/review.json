@@ -1,0 +1,19 @@
+{
+  "title": "Révision",
+  "reviewForm": "Révisez vos réponses avant de soumettre le formulaire.",
+  "edit": "Modifier ces réponses",
+  "goBack": "Retourner",
+  "submit": "Soumettre",
+  "unknown": "Adresse introuvable",
+  "addressComponents": {
+    "unitNumber": "Numéro de l’unité",
+    "civicNumber": "Numéro civique",
+    "streetName": "Nom de la rue",
+    "city": "Ville ou communauté",
+    "province": "Province ou territoire",
+    "postalCode": "Code postal",
+    "provinceOrState": "Province, territoire ou état",
+    "postalCodeOrZip": "Code postal ou zip",
+    "country": "Pays"
+  }
+}
