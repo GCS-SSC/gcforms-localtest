@@ -144,9 +144,11 @@ The generated private key is tied to the current Docker volume. If you remove
 the `gcforms-omnibus-data` volume and reseed the stack, print the credential
 again because the key may change.
 
-The seeded claims submissions contain these GCForms question IDs:
+The seeded claims submissions contain these GCForms question IDs. One seeded
+submission uses `AGR-0001`; the other seeded claim submissions use deliberately
+fake agreement numbers so downstream filtering can be tested.
 
-- `agreement_number`: `AGR-0001`
+- `agreement_number`: `AGR-0001`, `AGR-9001`, or `AGR-9002`
 - `fiscal_year`: `2025-2026`
 - `claim_period_start_month`: `April`
 - `claim_period_end_month`: `June`
